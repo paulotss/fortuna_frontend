@@ -2,7 +2,7 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from '../http';
 
-interface Values {
+interface LoginRequest {
   code: string;
   password: string;
 }
@@ -13,10 +13,10 @@ const LoginSchema = Yup.object({
 })
 
 function LoginPage () {
-  async function handleSubmit (values: Values) {
+  async function handleSubmit (values: LoginRequest) {
     try {
       const result = await axios.post('/seller/login', values);
-      console.log(result.data);
+      sessionStorage.setItem('auth', result.data);
     } catch (error) {
       console.log(error);
     }
