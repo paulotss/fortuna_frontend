@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
-import * as Yup from 'yup';
 import axios from '../http';
+import * as Yup from 'yup';
 
 interface LoginRequest {
   code: string;
@@ -13,10 +14,13 @@ const LoginSchema = Yup.object({
 })
 
 function LoginPage () {
+  const navigate = useNavigate();
+
   async function handleSubmit (values: LoginRequest) {
     try {
       const result = await axios.post('/seller/login', values);
       sessionStorage.setItem('auth', result.data);
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
