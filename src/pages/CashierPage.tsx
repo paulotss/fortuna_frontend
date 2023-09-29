@@ -3,14 +3,15 @@ import { Dialog, DialogContent } from "@mui/material";
 import Header from "../components/Header";
 import { IconButton } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 
 interface IProduct {
   id: number;
   title: string;
   price: number;
   amount: number;
+  amountInput: number;
   amountCheckout?: number;
-  isCheckout?: boolean;
 }
 
 const initialProducts: IProduct[] = [
@@ -18,46 +19,55 @@ const initialProducts: IProduct[] = [
     id: 1,
     title: 'Produto 1',
     price: 21,
-    amount: 10
+    amount: 10,
+    amountInput: 1,
   },
   {
     id: 2,
     title: 'Produto 2',
     price: 22,
-    amount: 10
+    amount: 10,
+    amountInput: 1,
   },
   {
     id: 3,
     title: 'Produto 3',
     price: 23,
-    amount: 10
+    amount: 10,
+    amountInput: 1,
   },
 ];
 
+
+
 function CashierPage() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [products, setProducts] = useState(initialProducts);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [products, setProducts] = useState<IProduct[]>(initialProducts);
 
   function handleClickProduct(id: number) {
     setProducts(products.map(product => {
       if (product.id === id) {
         return {
           ...product,
-          amountCheckout: product.amountCheckout || 1,
-          isCheckout: true,
+          amountCheckout: product.amountCheckout
+            ? product.amountInput + product.amountCheckout
+            : product.amountInput,
         }
       } else {
-        return product;
+        return {
+          ...product,
+          amountInput: 1,
+        };
       }
     }));
     setIsDialogOpen(false);
   }
 
-  function handleChangeAmountCheckout({ target }: ChangeEvent<HTMLInputElement>) {
+  function handleChangeAmountInput({ target }: ChangeEvent<HTMLInputElement>) {
     const id = Number(target.id);
     setProducts(products.map(product => {
       if (product.id === id) {
-        return { ...product, amountCheckout: Number(target.value) }
+        return { ...product, amountInput: Number(target.value) }
       } else {
         return product;
       }
@@ -90,21 +100,25 @@ function CashierPage() {
         </div>
         <div className="p-5 mb-5 border-b">
           {
-            products.map(product => {
-              if (product.isCheckout) {
-                return (
-                  <div
-                  key={product.id}
-                  className="flex justify-between mt-1 p-2 bg-yellow-200 rounded"
-                  >
-                    <div>{product.title}</div>
-                    <div>{product.amount}</div>
-                    <div>{product.price}</div>
-                    <div>{product.amountCheckout}</div>
-                  </div>
-                )
-              }
-            })
+            products.some((product) => product.amountCheckout)
+            ?  products.map(product => {
+                if (product.amountCheckout) {
+                  return (
+                    <div
+                    key={product.id}
+                    className="flex justify-between mt-1 p-2 bg-yellow-200 rounded items-center"
+                    >
+                      <div>{product.title}</div>
+                      <div>{product.price}</div>
+                      <div>{product.amountCheckout}</div>
+                      <IconButton>
+                        <DoDisturbOnIcon fontSize="small" />
+                      </IconButton>
+                    </div>
+                  )
+                }
+              })
+            : <p className="italic">Vazio</p>
           }
         </div>
         <div className="flex justify-between">
@@ -127,7 +141,7 @@ function CashierPage() {
               products.map((product) => (
                 <div
                   key={product.id}
-                  className="flex justify-between mt-1 p-2 bg-yellow-200 rounded"
+                  className="flex justify-between mt-1 p-2 bg-yellow-200 rounded items-center"
                 >
                   <div>{product.title}</div>
                   <div>{product.amount}</div>
@@ -139,8 +153,8 @@ function CashierPage() {
                       type="number"
                       className="w-24"
                       min="1"
-                      value={product.amountCheckout || 1}
-                      onChange={handleChangeAmountCheckout}
+                      value={product.amountInput}
+                      onChange={handleChangeAmountInput}
                     />
                   </div>
                   <IconButton
