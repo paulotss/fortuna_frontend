@@ -38,8 +38,6 @@ const initialProducts: IProduct[] = [
   },
 ];
 
-
-
 function CashierPage() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<IProduct[]>(initialProducts);
@@ -61,6 +59,19 @@ function CashierPage() {
       }
     }));
     setIsDialogOpen(false);
+  }
+
+  function handleClickRemoveProduct(id: number) {
+    setProducts(products.map((product) => {
+      if (product.id === id && product.amountCheckout) {
+        return {
+          ...product,
+          amountCheckout: product.amountCheckout - 1,
+        }
+      } else {
+        return product;
+      }
+    }))
   }
 
   function handleChangeAmountInput({ target }: ChangeEvent<HTMLInputElement>) {
@@ -111,7 +122,7 @@ function CashierPage() {
                       <div>{product.title}</div>
                       <div>{product.price}</div>
                       <div>{product.amountCheckout}</div>
-                      <IconButton>
+                      <IconButton onClick={() => {handleClickRemoveProduct(product.id)}}>
                         <DoDisturbOnIcon fontSize="small" />
                       </IconButton>
                     </div>
