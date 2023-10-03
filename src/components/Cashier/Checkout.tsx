@@ -1,30 +1,52 @@
-import { ChangeEvent, useState } from "react";
-import IProduct from "../../interfaces/IProduct";
+import { useEffect, useState } from "react";
+import IProductCheckout from "../../interfaces/IProductCheckout";
 import { Dialog, DialogContent } from "@mui/material";
 import { IconButton } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import ClientInfo from "./ClientInfo";
 import IClient from "../../interfaces/IClient";
+import axios from "../../http";
+import IProductResponse from "../../interfaces/IProductResponse";
+import { CheckCircle, RemoveCircle } from "@mui/icons-material";
 
 interface IProps {
-  products: IProduct[];
   client: IClient;
   removeClient(): void;
 }
 
 function Checkout(props: IProps) {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [products, setProducts] = useState<IProduct[]>(props.products);
+  const [products, setProducts] = useState<IProductCheckout[]>([]);
+
+  useEffect(() => {
+    async function getAllProducts () {
+      const { data } = await axios.get('/products');
+      const products: IProductCheckout[] = data.map((v: IProductResponse) => {
+        return {
+          id: v.id,
+          title: v.title,
+          price: v.price,
+          amount: v.amount,
+          amountInput: 1
+        }
+      })
+      setProducts(products)
+    }
+    getAllProducts()
+  }, [])
 
   function handleClickProduct(id: number) {
     setProducts(products.map(product => {
       if (product.id === id) {
+        const newAmountCheckout = product.amountCheckout
+          ? product.amountInput + product.amountCheckout
+          : product.amountInput
         return {
           ...product,
-          amountCheckout: product.amountCheckout
-            ? product.amountInput + product.amountCheckout
-            : product.amountInput,
+          amount: product.amount - product.amountInput,
+          amountCheckout: newAmountCheckout,
+          amountInput: 0
         }
       } else {
         return {
@@ -41,6 +63,7 @@ function Checkout(props: IProps) {
       if (product.id === id && product.amountCheckout) {
         return {
           ...product,
+          amount: product.amount + 1,
           amountCheckout: product.amountCheckout - 1,
         }
       } else {
@@ -49,11 +72,26 @@ function Checkout(props: IProps) {
     }))
   }
 
-  function handleChangeAmountInput({ target }: ChangeEvent<HTMLInputElement>) {
-    const id = Number(target.id);
+  function handleClickAddAmountInput(id: number) {
     setProducts(products.map(product => {
-      if (product.id === id) {
-        return { ...product, amountInput: Number(target.value) }
+      if (product.id === id && ((product.amountInput + 1) <= product.amount)) {
+        return { 
+          ...product,
+          amountInput: product.amountInput + 1
+          }
+      } else {
+        return product;
+      }
+    }));
+  }
+
+  function handleClickRemoveAmountInput(id: number) {
+    setProducts(products.map(product => {
+      if (product.id === id && (product.amountInput - 1) >= 0) {
+        return { 
+          ...product,
+          amountInput: product.amountInput - 1
+          }
       } else {
         return product;
       }
@@ -112,7 +150,7 @@ function Checkout(props: IProps) {
             <button
               type="button"
               className='p-2 bg-red-600 rounded mr-2'
-              onClick={() => { props.removeClient(); setProducts(props.products) }}
+              onClick={() => { props.removeClient(); }}
             >
               Cancelar
             </button>
@@ -147,21 +185,23 @@ function Checkout(props: IProps) {
                   <div>{product.amount}</div>
                   <div>{product.price}</div>
                   <div>
-                    <input
-                      id={product.id.toString()}
-                      name={`checkout-${product.id}`}
-                      type="number"
-                      className="w-24"
-                      min="1"
-                      value={product.amountInput}
-                      onChange={handleChangeAmountInput}
-                    />
+                    <span>
+                      { product.amountInput }
+                    </span>
                   </div>
-                  <IconButton
-                    onClick={() => {handleClickProduct(product.id)}}
-                  >
-                    <AddCircleIcon />
-                  </IconButton>
+                  <div>
+                    <IconButton onClick={() => handleClickRemoveAmountInput(product.id)}>
+                      <RemoveCircle />
+                    </IconButton>
+                    <IconButton onClick={() => handleClickAddAmountInput(product.id)}>
+                      <AddCircleIcon />
+                    </IconButton>
+                  </div>
+                  <div>
+                    <IconButton onClick={() => {handleClickProduct(product.id)}}>
+                      <CheckCircle />
+                    </IconButton>
+                  </div>
                 </div>
               ))
             }

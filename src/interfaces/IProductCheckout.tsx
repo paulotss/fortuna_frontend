@@ -1,4 +1,4 @@
-export default interface IProduct {
+export default interface IProductCheckout {
   id: number;
   title: string;
   price: number;

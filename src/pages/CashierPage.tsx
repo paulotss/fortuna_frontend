@@ -1,34 +1,9 @@
 import { useState } from "react";
-import IProduct from "../interfaces/IProduct";
 import IClient from "../interfaces/IClient";
 import Header from "../components/Header";
 import Checkout from "../components/Cashier/Checkout";
 import ClientSelect from "../components/Cashier/ClientSelect";
 import ICashier from "../interfaces/ICashier";
-
-const initialProducts: IProduct[] = [
-  {
-    id: 1,
-    title: 'Produto 1',
-    price: 21,
-    amount: 10,
-    amountInput: 1,
-  },
-  {
-    id: 2,
-    title: 'Produto 2',
-    price: 22,
-    amount: 10,
-    amountInput: 1,
-  },
-  {
-    id: 3,
-    title: 'Produto 3',
-    price: 23,
-    amount: 10,
-    amountInput: 1,
-  },
-];
 
 const initialClients: IClient[] = [
   {
@@ -88,7 +63,7 @@ function CashierPage() {
       <h1 className="text-center p-5 text-2xl font-bold text-yellow-700 border-b">{ cashier.title }</h1>
       {
         client
-          ? <Checkout products={initialProducts} client={client} removeClient={removeClient} />
+          ? <Checkout client={client} removeClient={removeClient} />
           : <ClientSelect clients={initialClients} handleClickSelectClient={handleClickSelectClient} />
       }
     </>
