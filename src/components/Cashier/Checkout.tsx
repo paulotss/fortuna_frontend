@@ -9,9 +9,12 @@ import IClient from "../../interfaces/IClient";
 import axios from "../../http";
 import IProductResponse from "../../interfaces/IProductResponse";
 import { CheckCircle, RemoveCircle } from "@mui/icons-material";
+import IInvoiceRequest from "../../interfaces/IInvoiceRequest";
+import ICashier from "../../interfaces/ICashier";
 
 interface IProps {
   client: IClient;
+  cashier: ICashier;
   removeClient(): void;
 }
 
@@ -98,6 +101,32 @@ function Checkout(props: IProps) {
     }));
   }
 
+  async function handleSubmit() {
+    try {
+      const token = sessionStorage.getItem('auth')
+      const { data: { payload } } = await axios.post('/seller/verify', { token })
+      const productsInCheckout = products.filter((product) => product.amountCheckout)
+      const invoiceRequest: IInvoiceRequest = {
+        value: getTotalPrice(),
+        saleDate: new Date(),
+        cashierId: props.cashier.id,
+        sellerId: payload.id,
+        clientId: props.client.id,
+        products: productsInCheckout.map((product) => {
+            return {
+              id: product.id,
+              value: product.price * (product.amountCheckout || 1),
+              amount: product.amountCheckout || 1
+            }
+        })
+      }
+      await axios.post('/invoice', invoiceRequest)
+      props.removeClient();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   function getTotalPrice() {
     const total = products.reduce((acc, product) => {
       if (product.amountCheckout) {
@@ -158,6 +187,7 @@ function Checkout(props: IProps) {
               type="button"
               className='p-2 bg-green-600 rounded disabled:bg-gray-400'
               disabled={getTotalPrice() > props.client.balance}
+              onClick={handleSubmit}
             >
               Finalizar
             </button>

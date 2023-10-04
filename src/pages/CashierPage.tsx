@@ -38,7 +38,7 @@ function CashierPage() {
       <h1 className="text-center p-5 text-2xl font-bold text-yellow-700 border-b">{ cashier.title }</h1>
       {
         client
-          ? <Checkout client={client} removeClient={removeClient} />
+          ? <Checkout client={client} cashier={cashier} removeClient={removeClient} />
           : <ClientSelect handleClickSelectClient={handleClickSelectClient} />
       }
     </>
