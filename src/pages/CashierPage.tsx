@@ -1,53 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import IClient from "../interfaces/IClient";
 import Header from "../components/Header";
 import Checkout from "../components/Cashier/Checkout";
 import ClientSelect from "../components/Cashier/ClientSelect";
 import ICashier from "../interfaces/ICashier";
-
-const initialClients: IClient[] = [
-  {
-    id: 1,
-    name: "Paulo de Tarso",
-    code: "001",
-    cellPhone: "61998585218",
-    email: "paulo.oinab@gmail.com",
-    branch: "Taguatinga",
-    type: "CC",
-    cpf: "01810755123",
-    balance: 50
-  },
-  {
-    id: 2,
-    name: "Raquel Álvares",
-    code: "002",
-    cellPhone: "61981285134",
-    email: "alvares.kel@gmail.com",
-    branch: "Taguatinga",
-    type: "DD",
-    cpf: "01234567891",
-    balance: 80
-  },
-  {
-    id: 3,
-    name: "Marco Aurélio",
-    code: "003",
-    cellPhone: "61912345678",
-    email: "marco.tf2@gmail.com",
-    branch: "Taguatinga",
-    type: "CC",
-    cpf: "09876543219",
-    balance: 140
-  }
-];
-
-const cashier: ICashier = {
-  id: 1,
-  title: "Café Sophia"
-}
+import axios from "../http"
 
 function CashierPage() {
   const [client, setClient] = useState<IClient | null>(null);
+  const [cashier, setCashier] = useState<ICashier>({ id: 1, title: '' })
+  const { id } = useParams()
 
   function handleClickSelectClient(client: IClient) {
     setClient(client);
@@ -57,6 +20,18 @@ function CashierPage() {
     setClient(null);
   }
 
+  useEffect(() => {
+    async function getCashier () {
+      try {
+        const { data } = await axios.get(`/cashier/${id}`)
+        setCashier(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getCashier()
+  }, [id])
+
   return (
     <>
       <Header/>
@@ -64,7 +39,7 @@ function CashierPage() {
       {
         client
           ? <Checkout client={client} removeClient={removeClient} />
-          : <ClientSelect clients={initialClients} handleClickSelectClient={handleClickSelectClient} />
+          : <ClientSelect handleClickSelectClient={handleClickSelectClient} />
       }
     </>
   )

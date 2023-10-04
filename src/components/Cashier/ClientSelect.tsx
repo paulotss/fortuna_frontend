@@ -1,12 +1,27 @@
+import { useEffect, useState } from "react";
+import axios from "../../http"
 import IClient from "../../interfaces/IClient";
 
 interface IProps {
-  clients: IClient[];
   handleClickSelectClient(client: IClient): void;
 }
 
 function ClientSelect(props: IProps) {
-  const { clients, handleClickSelectClient } = props;
+  const { handleClickSelectClient } = props;
+  const [clients, setClients] = useState<IClient[]>([])
+
+  useEffect(() => {
+    async function getClients() {
+      try {
+        const { data } = await axios.get('/clients')
+        setClients(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getClients()
+  }, [])
+
   return (
     <section className="p-5">
       <div className="p-1 flex flex-col justify-center items-center">

@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <LoginPage></LoginPage>
   },
   {
-    path: '/cashier',
+    path: '/cashier/:id',
     element: <CashierPage></CashierPage>
   }
 ]);

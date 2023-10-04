@@ -28,7 +28,7 @@ function Checkout(props: IProps) {
           title: v.title,
           price: v.price,
           amount: v.amount,
-          amountInput: 1
+          amountInput: 0
         }
       })
       setProducts(products)
@@ -51,7 +51,7 @@ function Checkout(props: IProps) {
       } else {
         return {
           ...product,
-          amountInput: 1,
+          amountInput: 0,
         };
       }
     }));
