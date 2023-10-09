@@ -6,6 +6,7 @@ import Checkout from "../components/Cashier/Checkout";
 import ClientSelect from "../components/Cashier/ClientSelect";
 import ICashier from "../interfaces/ICashier";
 import axios from "../http"
+import ReportCashier from "../components/Cashier/ReportCashier";
 
 function CashierPage() {
   const [client, setClient] = useState<IClient | null>(null);
@@ -39,7 +40,10 @@ function CashierPage() {
       {
         client
           ? <Checkout client={client} cashier={cashier} removeClient={removeClient} />
-          : <ClientSelect handleClickSelectClient={handleClickSelectClient} />
+          : <>
+              <ClientSelect handleClickSelectClient={handleClickSelectClient} />
+              <ReportCashier />
+            </>
       }
     </>
   )

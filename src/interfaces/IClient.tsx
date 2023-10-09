@@ -1,11 +1,6 @@
-export default interface IClient {
-  id: number;
-	name: string;
-	code: string;
-	cellPhone: string;
-	email: string;
-	branch: string;
-	type: string;
+import IUser from "./IUser";
+
+export default interface IClient extends IUser {
 	cpf: string;
 	balance: number;
 }

@@ -1,4 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import RouteGuard from './components/RouteGuard.tsx';
 import App from './App.tsx';
 import LoginPage from './pages/LoginPage';
@@ -12,11 +14,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <LoginPage></LoginPage>
+    element: <LoginPage/>
   },
   {
     path: '/cashier/:id',
-    element: <CashierPage></CashierPage>
+    element: <LocalizationProvider dateAdapter={AdapterDayjs}><CashierPage/></LocalizationProvider>
   }
 ]);
 
