@@ -61,6 +61,15 @@ function ReportCashier () {
           />
         </div>
       </div>
+      <div className='mt-5'>
+        Total:
+        <span className='font-bold text-xl'>
+          {' '}
+          {
+            invoices.reduce((acc, invoice) => acc + Number(invoice.value), 0)
+          }
+        </span>
+      </div>
       <div className="mt-5">
         {
           invoices.map((invoice) => (

@@ -5,6 +5,7 @@ import RouteGuard from './components/RouteGuard.tsx';
 import App from './App.tsx';
 import LoginPage from './pages/LoginPage';
 import CashierPage from './pages/CashierPage.tsx';
+import CashierListPage from './pages/CashierListPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,12 @@ const router = createBrowserRouter([
     element: <LoginPage/>
   },
   {
+    path: '/cashier',
+    element: <RouteGuard level={2}><CashierListPage/></RouteGuard>
+  },
+  {
     path: '/cashier/:id',
-    element: <LocalizationProvider dateAdapter={AdapterDayjs}><CashierPage/></LocalizationProvider>
+    element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><CashierPage/></LocalizationProvider></RouteGuard>
   }
 ]);
 
