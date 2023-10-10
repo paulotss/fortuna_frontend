@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import CashierPage from './pages/CashierPage.tsx';
 import CashierListPage from './pages/CashierListPage.tsx';
 import ReportPage from './pages/ReportPage.tsx';
+import InvoicePage from './pages/InvoicePage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: '/reports',
     element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ReportPage/></LocalizationProvider></RouteGuard>
+  },
+  {
+    path: '/invoice/:id',
+    element: <RouteGuard level={2}><InvoicePage/></RouteGuard>
   },
 ]);
 

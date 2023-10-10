@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import axios from "../http";
 import ICashier from "../interfaces/ICashier";
 import IInvoice from "../interfaces/IInvoice";
+import { Link } from "react-router-dom";
 
 interface IPeriod {
   startDate: Dayjs
@@ -109,14 +110,15 @@ function ReportPage() {
           <div className="mt-5">
             {
               invoices.map((invoice) => (
-                <div
+                <Link
+                  to={`/invoice/${invoice.id}`}
                   key={invoice.id}
                   className="flex justify-between mt-1 p-2 bg-yellow-200 rounded items-center"
                 >
                   <div>{invoice.cashier.title}</div>
                   <div>{invoice.value}</div>
                   <div>{invoice.saleDate}</div>
-                </div>
+                </Link>
               ))
             }
           </div>
