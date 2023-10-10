@@ -3,6 +3,8 @@ import axios from "../http";
 import Header from "../components/Header";
 import IClient from "../interfaces/IClient";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Link } from "react-router-dom";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function ClientsPage () {
   const [clients, setClients] = useState<IClient[]>()
@@ -23,25 +25,33 @@ function ClientsPage () {
     <>
       <Header/>
       <section className="p-5">
-        <h1 className="font-bold text-xl">Clientes</h1>
+        <article className="flex justify-between mb-3 items-center">
+          <h1 className="font-bold text-xl w-fit">Clientes</h1>
+          <button
+            type="button"
+            className="p-2 bg-green-600 text-white rounded"
+          >
+            <AddCircleIcon/> Novo
+          </button>
+        </article>
         <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Telefone</TableCell>
-                <TableCell>Créditos</TableCell>
+          <Table component='div'>
+            <TableHead component='div'>
+              <TableRow component='div'>
+                <TableCell component='div'>Nome</TableCell>
+                <TableCell component='div'>Email</TableCell>
+                <TableCell component='div'>Telefone</TableCell>
+                <TableCell component='div'>Créditos</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody component='div'>
                 {
                   clients?.map((client) => (
-                    <TableRow key={client.id}>
-                      <TableCell>{client.name}</TableCell>
-                      <TableCell>{client.email}</TableCell>
-                      <TableCell>{client.cellPhone}</TableCell>
-                      <TableCell>{client.balance}</TableCell>
+                    <TableRow component={Link} to={`/`} key={client.id} hover={true}>
+                      <TableCell component='div'>{client.name}</TableCell>
+                      <TableCell component='div'>{client.email}</TableCell>
+                      <TableCell component='div'>{client.cellPhone}</TableCell>
+                      <TableCell component='div'>{client.balance}</TableCell>
                     </TableRow>
                   ))
                 }
