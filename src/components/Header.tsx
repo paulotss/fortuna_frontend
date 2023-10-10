@@ -18,7 +18,7 @@ function Header() {
       </div>
       <nav className='p-2'>
         <Link to='/cashier' className='pb-1 mr-2 hover:border-b-2 border-black'>Caixa</Link>
-        <a href='#' className='pb-1 mr-2 hover:border-b-2 border-black'>Clientes</a>
+        <Link to='/clients' className='pb-1 mr-2 hover:border-b-2 border-black'>Clientes</Link>
         <a href='#' className='pb-1 mr-2 hover:border-b-2 border-black'>Produtos</a>
         <Link to='/reports' className='pb-1 mr-2 hover:border-b-2 border-black'>Relatórios</Link>
       </nav>
