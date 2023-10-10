@@ -6,6 +6,7 @@ import App from './App.tsx';
 import LoginPage from './pages/LoginPage';
 import CashierPage from './pages/CashierPage.tsx';
 import CashierListPage from './pages/CashierListPage.tsx';
+import ReportPage from './pages/ReportPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
   {
     path: '/cashier/:id',
     element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><CashierPage/></LocalizationProvider></RouteGuard>
-  }
+  },
+  {
+    path: '/reports',
+    element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ReportPage/></LocalizationProvider></RouteGuard>
+  },
 ]);
 
 export default router;
