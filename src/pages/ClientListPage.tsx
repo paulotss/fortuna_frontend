@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { Link } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-function ClientsPage () {
+function ClientListPage () {
   const [clients, setClients] = useState<IClient[]>()
 
   useEffect(() => {
@@ -47,7 +47,7 @@ function ClientsPage () {
             <TableBody component='div'>
                 {
                   clients?.map((client) => (
-                    <TableRow component={Link} to={`/`} key={client.id} hover={true}>
+                    <TableRow component={Link} to={`/client/${client.id}`} key={client.id} hover={true}>
                       <TableCell component='div'>{client.name}</TableCell>
                       <TableCell component='div'>{client.email}</TableCell>
                       <TableCell component='div'>{client.cellPhone}</TableCell>
@@ -63,4 +63,4 @@ function ClientsPage () {
   )
 }
 
-export default ClientsPage;
+export default ClientListPage;

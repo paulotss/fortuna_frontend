@@ -8,7 +8,8 @@ import CashierPage from './pages/CashierPage.tsx';
 import CashierListPage from './pages/CashierListPage.tsx';
 import ReportPage from './pages/ReportPage.tsx';
 import InvoicePage from './pages/InvoicePage.tsx';
-import ClientsPage from './pages/ClientsPage.tsx';
+import ClientListPage from './pages/ClientListPage.tsx';
+import ClientPage from './pages/ClientPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/clients',
-    element: <RouteGuard level={2}><ClientsPage/></RouteGuard>
+    element: <RouteGuard level={2}><ClientListPage/></RouteGuard>
+  },
+  {
+    path: '/client/:id',
+    element: <RouteGuard level={2}><ClientPage/></RouteGuard>
   },
 ]);
 
