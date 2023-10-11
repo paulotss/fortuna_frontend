@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../http"
 import Header from "../components/Header";
@@ -7,8 +7,48 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function ClientPage() {
-  const [client, setClient] = useState<IClient>()
+  const [inputBalance, setInputBalance] = useState<number>(0)
+  const [client, setClient] = useState<IClient>({
+    name: "",
+    code: "",
+    cellPhone: "",
+    email: "",
+    branch: "",
+    type: "",
+    cpf: "",
+    balance: 0
+  })
   const { id } = useParams()
+
+  function handleChangeBalanceInput(event: ChangeEvent<HTMLInputElement>) {
+    const { target } = event
+    const newInputBalance = Number(target.value)
+    setInputBalance(newInputBalance)
+  }
+
+  // function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  //   const { target } = event
+  //   setClient({
+  //     ...client,
+  //     [target.name]: target.value 
+  //   })
+  // }
+
+  async function handleClickSubmitBalance() {
+    try {
+      await axios.put('/client', {
+        clientId: Number(id),
+        input: 'balance',
+        value: Number(client.balance) + inputBalance
+      })
+      setClient({
+        ...client,
+        balance: Number(client.balance) + inputBalance
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     async function getClient() {
@@ -82,10 +122,16 @@ function ClientPage() {
                 {Number(client?.balance).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
               </p>
               <div className="border p-3 bg-gray-100">
-                <input type="text" className="border rounded mr-2 w-24 p-2" />
+                <input
+                  type="text"
+                  className="border rounded mr-2 w-24 p-2"
+                  value={inputBalance}
+                  onChange={handleChangeBalanceInput}
+                />
                 <button
                   type="button"
                   className="p-2 bg-green-600 rounded text-white"
+                  onClick={handleClickSubmitBalance}
                 >
                   Adicionar <span><CheckCircleIcon/></span>
                 </button>
