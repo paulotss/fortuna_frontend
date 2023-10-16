@@ -27,12 +27,12 @@ function ClientListPage () {
       <section className="p-5">
         <article className="flex justify-between mb-3 items-center">
           <h1 className="font-bold text-xl w-fit">Clientes</h1>
-          <button
-            type="button"
+          <Link
+            to="/client/new"
             className="p-2 bg-green-600 text-white rounded"
           >
             <AddCircleIcon/> Novo
-          </button>
+          </Link>
         </article>
         <TableContainer>
           <Table component='div'>

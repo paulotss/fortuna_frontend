@@ -10,6 +10,7 @@ import ReportPage from './pages/ReportPage.tsx';
 import InvoicePage from './pages/InvoicePage.tsx';
 import ClientListPage from './pages/ClientListPage.tsx';
 import ClientPage from './pages/ClientPage.tsx';
+import ClientNew from './pages/ClientNew.tsx';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: '/client/:id',
     element: <RouteGuard level={2}><ClientPage/></RouteGuard>
+  },
+  {
+    path: '/client/new',
+    element: <RouteGuard level={2}><ClientNew/></RouteGuard>
   },
 ]);
 
