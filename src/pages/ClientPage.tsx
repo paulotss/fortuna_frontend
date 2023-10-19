@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import IClient from "../interfaces/IClient";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InputEdit from "../components/InputEdit";
+import SelectBranchEdit from "../components/SelectBranchEdit";
 
 function ClientPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,10 +15,10 @@ function ClientPage() {
     code: "",
     cellPhone: "",
     email: "",
-    branch: "",
-    type: "",
     cpf: "",
-    balance: 0
+    balance: 0,
+    branch: { id: 1, title: "" },
+    level: { id: 1, title: "", acronym: "" }
   })
   const { id } = useParams()
 
@@ -88,18 +89,18 @@ function ClientPage() {
                   entity="cellPhone"
                   clientId={client.id}
                 />
-                <InputEdit
+                <SelectBranchEdit
                   title="Filial"
-                  valueInput={client.branch}
-                  entity="branch"
+                  payload={client.branch}
+                  entity="branchId"
                   clientId={client.id}
                 />
-                <InputEdit
+                {/* <InputEdit
                   title="Condição"
-                  valueInput={client.type}
-                  entity="type"
+                  valueInput={client.level}
+                  entity="levelId"
                   clientId={client.id}
-                />
+                /> */}
                 <InputEdit
                   title="CPF"
                   valueInput={client.cpf}

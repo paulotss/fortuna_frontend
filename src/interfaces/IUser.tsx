@@ -1,3 +1,6 @@
+import IBranch from "./IBranch";
+import ILevel from "./ILevel";
+
 export default interface IUser {
   id?: number;
 	name: string;
@@ -5,6 +8,6 @@ export default interface IUser {
 	password?: string;
 	cellPhone: string;
 	email: string;
-	branch: string;
-	type: string;
+	branch: IBranch;
+	level: ILevel;
 }
