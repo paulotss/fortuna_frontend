@@ -3,33 +3,35 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from '../http';
 import IBranch from '../interfaces/IBranch';
+import ILevel from '../interfaces/ILevel';
 
 interface IProps {
   title: string;
   entity: string;
   payload: { id: number; title: string };
   clientId?: number;
+  endPoint: string;
 }
 
-function SelectBranchEdit(props: IProps) {
-  const { title, entity, payload, clientId } = props;
+function SelectBranchLevelEdit(props: IProps) {
+  const { title, entity, payload, clientId, endPoint } = props;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(payload)
-  const [branch, setBranch] = useState<IBranch[]>([])
+  const [items, setItems] = useState<IBranch[] | ILevel[]>([])
 
   function handleChange({ target }: ChangeEvent<HTMLSelectElement>) {
     setEditValue({
       id: Number(target.value),
-      title: branch.find((b) => b.id === Number(target.value))?.title || "???"
+      title: items.find((b) => b.id === Number(target.value))?.title || "???"
     });
   }
 
   async function handleClickEditButton() {
     setIsEditing(true);
     try {
-      const {data}  = await axios.get('/branch')
-      setBranch(data)
+      const {data}  = await axios.get(endPoint)
+      setItems(data)
     } catch (error) {
       console.log(error)
     }
@@ -52,7 +54,7 @@ function SelectBranchEdit(props: IProps) {
         ? <form>
             <select onChange={handleChange} className="p-2" defaultValue={editValue.id}>
               {
-                branch.map((v) => (
+                items.map((v) => (
                   <option
                     key={v.id}
                     value={v.id}
@@ -80,4 +82,4 @@ function SelectBranchEdit(props: IProps) {
   )
 }
 
-export default SelectBranchEdit;
+export default SelectBranchLevelEdit;

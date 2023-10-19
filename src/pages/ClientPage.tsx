@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import IClient from "../interfaces/IClient";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InputEdit from "../components/InputEdit";
-import SelectBranchEdit from "../components/SelectBranchEdit";
+import SelectBranchLevelEdit from "../components/SelectBranchLevelEdit";
 
 function ClientPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -89,11 +89,19 @@ function ClientPage() {
                   entity="cellPhone"
                   clientId={client.id}
                 />
-                <SelectBranchEdit
+                <SelectBranchLevelEdit
                   title="Filial"
                   payload={client.branch}
                   entity="branchId"
                   clientId={client.id}
+                  endPoint="/branch"
+                />
+                <SelectBranchLevelEdit
+                  title="Nível"
+                  payload={client.level}
+                  entity="levelId"
+                  clientId={client.id}
+                  endPoint="/level"
                 />
                 {/* <InputEdit
                   title="Condição"
