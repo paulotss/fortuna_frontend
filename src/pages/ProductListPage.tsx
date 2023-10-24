@@ -1,33 +1,26 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "../http";
+import IProductResponse from "../interfaces/IProductResponse";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Header from "../components/Header";
 
-const products = [
-  {
-    id: 1,
-    title: "Heineiken",
-    price: 8,
-    amount: 50,
-    barCode: 123456789
-  },
-  {
-    id: 2,
-    title: "Original",
-    price: 7,
-    amount: 80,
-    barCode: 123456789
-  },
-  {
-    id: 3,
-    title: "Colorado",
-    price: 10,
-    amount: 30,
-    barCode: 123456789
-  },
-]
-
 function ProductListPage() {
+  const [products, setProducts] = useState<IProductResponse[]>([]);
+
+  useEffect(() => {
+    async function getProducts() {
+      try {
+        const { data } = await axios.get('/products');
+        setProducts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getProducts();
+  }, []);
+
   return (
     <>
       <Header/>
