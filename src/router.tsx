@@ -11,6 +11,7 @@ import InvoicePage from './pages/InvoicePage.tsx';
 import ClientListPage from './pages/ClientListPage.tsx';
 import ClientPage from './pages/ClientPage.tsx';
 import ClientNew from './pages/ClientNew.tsx';
+import ProductListPage from './pages/ProductListPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: '/client/new',
     element: <RouteGuard level={2}><ClientNew/></RouteGuard>
+  },
+  {
+    path: '/products',
+    element: <RouteGuard level={2}><ProductListPage/></RouteGuard>
   },
 ]);
 
