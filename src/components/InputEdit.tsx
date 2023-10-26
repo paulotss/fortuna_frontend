@@ -7,11 +7,13 @@ interface IProps {
   title: string;
   entity: string;
   valueInput: string | number;
-  clientId?: number
+  endPoint: string;
+  tstyle?: string;
+  itemId?: number
 }
 
 const InputEdit = (props: IProps) => {
-  const { title, entity, valueInput, clientId } = props;
+  const { title, entity, valueInput, endPoint, itemId, tstyle } = props;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(valueInput)
@@ -22,8 +24,8 @@ const InputEdit = (props: IProps) => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.put('/client', {
-      clientId,
+    await axios.put(endPoint, {
+      itemId,
       input: entity,
       value: editValue
     });
@@ -39,7 +41,7 @@ const InputEdit = (props: IProps) => {
               type="text"
               value={editValue}
               onChange={handleChange}
-              className="p-2 mr-2 border"
+              className={`p-2 mr-2 border ${ tstyle }`}
             />
             <button type="submit" onClick={handleSubmit}>
               <CheckCircleIcon fontSize="small" />
