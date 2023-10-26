@@ -19,7 +19,7 @@ function Header() {
       <nav className='p-2'>
         <Link to='/cashier' className='pb-1 mr-2 hover:border-b-2 border-black'>Caixa</Link>
         <Link to='/clients' className='pb-1 mr-2 hover:border-b-2 border-black'>Clientes</Link>
-        <a href='#' className='pb-1 mr-2 hover:border-b-2 border-black'>Produtos</a>
+        <Link to='/products' className='pb-1 mr-2 hover:border-b-2 border-black'>Produtos</Link>
         <Link to='/reports' className='pb-1 mr-2 hover:border-b-2 border-black'>Relatórios</Link>
       </nav>
       <IconButton aria-label='Logout' onClick={handleClickLogout}>

@@ -39,7 +39,7 @@ const InputEdit = (props: IProps) => {
               type="text"
               value={editValue}
               onChange={handleChange}
-              className="p-2 mr-2"
+              className="p-2 mr-2 border"
             />
             <button type="submit" onClick={handleSubmit}>
               <CheckCircleIcon fontSize="small" />
