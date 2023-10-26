@@ -21,7 +21,6 @@ function ProductPage() {
       setIsLoading(true);
       try {
         const { data } = await axios.get(`/product/${id}`);
-        console.log(data);
         setProduct(data);
       } catch (error) {
         console.log(error);
@@ -37,26 +36,31 @@ function ProductPage() {
       {
         isLoading
           ? <p>Loading...</p>
-          : <section>
-              <h1>Produto</h1>
+          : <section className="p-5">
+              <h1 className="mb-3 font-bold text-lg">Produto</h1>
               <article className="flex flex-wrap w-1/2">
                 <InputEdit
                   title="Nome"
                   entity="title"
                   valueInput={product.title}
-                  clientId={product.id}
+                  endPoint="/product"
+                  itemId={product.id}
                 />
                 <InputEdit
                   title="Valor"
                   entity="price"
                   valueInput={product.price}
-                  clientId={product.id}
+                  endPoint="/product"
+                  tstyle="w-20"
+                  itemId={product.id}
                 />
                 <InputEdit
                   title="Quantidade"
                   entity="amount"
                   valueInput={product.amount}
-                  clientId={product.id}
+                  endPoint="/product"
+                  tstyle="w-20"
+                  itemId={product.id}
                 />
               </article>
             </section>

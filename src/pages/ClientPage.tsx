@@ -75,19 +75,22 @@ function ClientPage() {
                   title="Nome"
                   valueInput={client.name}
                   entity="name"
-                  clientId={client.id}
+                  endPoint="/client"
+                  itemId={client.id}
                 />
                 <InputEdit
                   title="Email"
                   valueInput={client.email}
                   entity="email"
-                  clientId={client.id}
+                  endPoint="/client"
+                  itemId={client.id}
                 />
                 <InputEdit
                   title="Telefone"
                   valueInput={client.cellPhone}
                   entity="cellPhone"
-                  clientId={client.id}
+                  endPoint="/client"
+                  itemId={client.id}
                 />
                 <SelectBranchLevelEdit
                   title="Filial"
@@ -103,17 +106,12 @@ function ClientPage() {
                   clientId={client.id}
                   endPoint="/level"
                 />
-                {/* <InputEdit
-                  title="Condição"
-                  valueInput={client.level}
-                  entity="levelId"
-                  clientId={client.id}
-                /> */}
                 <InputEdit
                   title="CPF"
                   valueInput={client.cpf}
                   entity="cpf"
-                  clientId={client.id}
+                  endPoint="/client"
+                  itemId={client.id}
                 />
               </article>
               <article className="w-1/2">
