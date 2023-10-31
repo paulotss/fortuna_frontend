@@ -130,7 +130,7 @@ function Header() {
           anchorEl={anchorEl}
           onClose={handleMenuClose}
         >
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/products'}>Novo</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/product/new'}>Novo</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/products'}>Abrir</MenuItem>
         </Menu>
       </ThemeProvider>
