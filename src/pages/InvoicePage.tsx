@@ -34,15 +34,15 @@ function InvoicePage () {
           <p>CPF: <span className="font-bold">{ invoice?.client.cpf }</span></p>
           <p>Telefone: <span className="font-bold">{ invoice?.client.cellPhone }</span></p>
           <p>Email: <span className="font-bold">{ invoice?.client.email }</span></p>
-          <p>Filial: <span className="font-bold">{ invoice?.client.branch }</span></p>
-          <p>Condição: <span className="font-bold">{ invoice?.client.type }</span></p>
+          <p>Filial: <span className="font-bold">{ invoice?.client.branch.title }</span></p>
+          <p>Condição: <span className="font-bold">{ invoice?.client.level.title }</span></p>
         </article>
         <article className="p-3 border mt-5">
           <p>Vendedor: <span className="font-bold">{ invoice?.seller.name }</span></p>
           <p>Telefone: <span className="font-bold">{ invoice?.seller.cellPhone }</span></p>
           <p>Email: <span className="font-bold">{ invoice?.seller.email }</span></p>
-          <p>Filial: <span className="font-bold">{ invoice?.seller.branch }</span></p>
-          <p>Condição: <span className="font-bold">{ invoice?.seller.type }</span></p>
+          <p>Filial: <span className="font-bold">{ invoice?.seller.branch.title }</span></p>
+          <p>Condição: <span className="font-bold">{ invoice?.seller.level.title }</span></p>
         </article>
       </section>
     </>

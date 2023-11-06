@@ -6,6 +6,7 @@ import axios from "../http";
 import ICashier from "../interfaces/ICashier";
 import IInvoice from "../interfaces/IInvoice";
 import { Link } from "react-router-dom";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 interface IPeriod {
   startDate: Dayjs
@@ -64,10 +65,12 @@ function ReportPage() {
   return (
     <>
       <Header/>
-      <section className="p-5">
-        <div className="flex items-center">
-          <div className='flex items-center mr-5'>
-            <label className="mr-2">Caixa:</label>
+      <section className="p-5 flex">
+        <div className="flex flex-col min-w-48 flex-wrap border p-3">
+          <h1 className='mb-3 font-bold text-lg'>Filtros</h1>
+          <div className='mb-3'>
+            <label>Caixa</label>
+            <br/>
             <select className="p-2" onChange={handleChangeCashier} value={cashierInput}>
               <option value="0">Todos</option>
               {
@@ -82,23 +85,25 @@ function ReportPage() {
               }
             </select>
           </div>
-          <div className='flex items-center mr-5'>
-            <span className='mr-2'>Início:</span>
+          <div className='mb-3'>
+            <span className='mr-2'>Início</span>
+            <br/>
             <DatePicker
               value={period.startDate}
               onChange={(value) => handleChangePeriod(value, 'startDate')}
             />
           </div>
-          <div className='flex items-center'>
-            <span className='mr-2'>Fim: </span>
+          <div>
+            <span className='mr-2'>Fim</span>
+            <br/>
             <DatePicker
               value={period.endDate}
               onChange={(value) => handleChangePeriod(value, 'endDate')}
             />
           </div>
         </div>
-        <article>
-          <div className='mt-5'>
+        <article className='w-full p-3'>
+          <div>
             Total:
             <span className='font-bold text-xl'>
               {' '}
@@ -107,21 +112,28 @@ function ReportPage() {
               }
             </span>
           </div>
-          <div className="mt-5">
-            {
-              invoices.map((invoice) => (
-                <Link
-                  to={`/invoice/${invoice.id}`}
-                  key={invoice.id}
-                  className="flex justify-between mt-1 p-2 bg-yellow-200 rounded items-center"
-                >
-                  <div>{invoice.cashier.title}</div>
-                  <div>{invoice.value}</div>
-                  <div>{invoice.saleDate}</div>
-                </Link>
-              ))
-            }
-          </div>
+          <TableContainer>
+            <Table component='div'>
+              <TableHead component='div'>
+                <TableRow component='div'>
+                  <TableCell component='div'>Caixa</TableCell>
+                  <TableCell component='div'>Valor</TableCell>
+                  <TableCell component='div'>Data</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody component='div'>
+                  {
+                    invoices?.map((invoice) => (
+                      <TableRow component={Link} to={`/invoice/${invoice.id}`} key={invoice.id} hover={true}>
+                        <TableCell component='div'>{invoice.cashier.title}</TableCell>
+                        <TableCell component='div'>{invoice.value}</TableCell>
+                        <TableCell component='div'>{invoice.saleDate}</TableCell>
+                      </TableRow>
+                    ))
+                  }
+              </TableBody>
+            </Table>
+          </TableContainer>
         </article>
       </section>
     </>
