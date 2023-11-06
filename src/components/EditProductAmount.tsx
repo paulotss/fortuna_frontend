@@ -11,6 +11,16 @@ interface IProps {
   handleUpdateAmount(amount: number): void
 }
 
+interface ILossesForm {
+  amount: number;
+  description: string;
+}
+
+const lossesForm: ILossesForm = {
+  amount: 0,
+  description: ""
+}
+
 interface IExpensesForm {
   amount: number;
   value: number;
@@ -23,23 +33,50 @@ const expensesForm: IExpensesForm = {
 
 function EditProductAmount(props: IProps) {
   const {amount, productId, handleUpdateAmount} = props;
-  const [open, setOpen] = useState(false);
+  const [openExpense, setOpenExpense] = useState(false);
+  const [openLosses, setOpenLosses] = useState(false);
 
   async function handleSubmitExpenses(values: IExpensesForm) {
-    const newAmount = Number(amount) + Number(values.amount);
-    await axios.post('/expense', {
-      amount: Number(values.amount),
-      value: values.value,
-      launchDate: new Date(),
-      productId
-    });
-    await axios.put('/product', {
-      itemId: productId,
-      input: "amount",
-      value: newAmount
-    });
-    handleUpdateAmount(newAmount);
-    setOpen(false);
+    try {
+      const newAmount = Number(amount) + Number(values.amount);
+      await axios.post('/expense', {
+        amount: Number(values.amount),
+        value: values.value,
+        launchDate: new Date(),
+        productId
+      });
+      await axios.put('/product', {
+        itemId: productId,
+        input: "amount",
+        value: newAmount
+      });
+      handleUpdateAmount(newAmount);
+      setOpenExpense(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleSubmitLosses(values: ILossesForm) {
+    try {
+      const newAmount = Number(amount) - Number(values.amount);
+      const { data } = await axios.post('/loss', {
+        amount: Number(values.amount),
+        description: values.description,
+        createAt: new Date(),
+        productId: productId
+      });
+      await axios.put('/product', {
+        itemId: productId,
+        input: "amount",
+        value: newAmount
+      });
+      console.log(data);
+      handleUpdateAmount(newAmount);
+      setOpenLosses(false);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -51,19 +88,20 @@ function EditProductAmount(props: IProps) {
           <button
             type='button'
             className='text-green-600'
-            onClick={() => { setOpen(true) }}
+            onClick={() => { setOpenExpense(true) }}
           >
             <AddBoxIcon/>
           </button>
           <button
             type='button'
             className='text-red-500'
+            onClick={() => { setOpenLosses(true) }}
           >
             <IndeterminateCheckBoxIcon/>
           </button>
         </div>
       </div>
-      <Dialog open={open} onClose={() => { setOpen(false) }}>
+      <Dialog open={openExpense} onClose={() => { setOpenExpense(false) }}>
         <DialogContent>
           <h1 className='font-bold text-lg'>Adicionar</h1>
           <Formik
@@ -90,7 +128,7 @@ function EditProductAmount(props: IProps) {
                   <br/>
                   <input
                     id="amount"
-                    type="value"
+                    type="text"
                     className="border p-1 w-20"
                     {...formik.getFieldProps('value')}
                   />
@@ -103,6 +141,52 @@ function EditProductAmount(props: IProps) {
                   className="p-2 bg-green-600 rounded text-white mt-2"
                 >
                   Adicionar
+                </button>
+              </form>
+            )}
+          </Formik>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openLosses} onClose={() => { setOpenLosses(false) }}>
+        <DialogContent>
+          <h1 className='font-bold text-lg'>Descartar</h1>
+          <Formik
+            initialValues={lossesForm}
+            onSubmit={handleSubmitLosses}
+          >
+            {formik => (
+              <form onSubmit={formik.handleSubmit} className="w-96 flex">
+                <div className="mr-5">
+                  <label htmlFor="amount" className="text-sm">Quantidade</label>
+                  <br/>
+                  <input
+                    id="amount"
+                    type="text"
+                    className="border p-1 w-20"
+                    {...formik.getFieldProps('amount')}
+                  />
+                  {formik.touched.amount && formik.errors.amount ? (
+                    <div>{formik.errors.amount}</div>
+                  ) : null}
+                </div>
+                <div className="mr-5">
+                  <label htmlFor="description" className="text-sm">Descrição</label>
+                  <br/>
+                  <input
+                    id="description"
+                    type="text"
+                    className="border p-1 w-40"
+                    {...formik.getFieldProps('description')}
+                  />
+                  {formik.touched.description && formik.errors.description ? (
+                    <div>{formik.errors.description}</div>
+                  ) : null}
+                </div>
+                <button
+                  type="submit"
+                  className="p-2 bg-green-600 rounded text-white mt-2"
+                >
+                  Descartar
                 </button>
               </form>
             )}
