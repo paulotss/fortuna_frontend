@@ -23,7 +23,7 @@ function CashierListPage() {
   return (
     <>
       <Header/>
-      <section className='flex flex-wrap justify-center mt-4'>
+      <section className='flex flex-wrap ml-20 mt-4'>
         {
           cashiers?.map((cashier) => (
             <SectionLink

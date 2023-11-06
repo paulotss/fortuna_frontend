@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <Header/>
-      <section className='flex flex-wrap justify-center mt-4'>
+      <section className='flex flex-wrap justify-start ml-20 mt-4'>
         <SectionLink
           icon={<CurrencyExchangeIcon fontSize='large'/>}
           title="Caixa"

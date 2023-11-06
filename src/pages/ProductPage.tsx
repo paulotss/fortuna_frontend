@@ -4,6 +4,7 @@ import axios from "../http";
 import InputEdit from "../components/InputEdit";
 import IProductResponse from "../interfaces/IProductResponse";
 import Header from "../components/Header";
+import EditProductAmount from "../components/EditProductAmount";
 
 function ProductPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -15,6 +16,10 @@ function ProductPage() {
     barCode: ""
   })
   const { id } = useParams();
+
+  function handleUpdateAmount(newAmount: number): void {
+    setProduct({ ...product, amount: newAmount })
+  }
 
   useEffect(() => {
     async function getProduct() {
@@ -54,13 +59,10 @@ function ProductPage() {
                   tstyle="w-20"
                   itemId={product.id}
                 />
-                <InputEdit
-                  title="Quantidade"
-                  entity="amount"
-                  valueInput={product.amount}
-                  endPoint="/product"
-                  tstyle="w-20"
-                  itemId={product.id}
+                <EditProductAmount
+                  amount={product.amount}
+                  productId={product.id}
+                  handleUpdateAmount={handleUpdateAmount}
                 />
               </article>
             </section>

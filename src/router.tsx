@@ -13,6 +13,7 @@ import ClientPage from './pages/ClientPage.tsx';
 import ClientNew from './pages/ClientNew.tsx';
 import ProductListPage from './pages/ProductListPage.tsx';
 import ProductPage from './pages/ProductPage.tsx';
+import ProductNew from './pages/ProductNew.tsx';
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
     path: '/product/:id',
     element: <RouteGuard level={2}><ProductPage/></RouteGuard>
   },
+  {
+    path: '/product/new',
+    element: <RouteGuard level={2}><ProductNew /></RouteGuard>
+  }
 ]);
 
 export default router;

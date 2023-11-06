@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-amber-50;
+  }
+}
+
+@layer components {
+  .menuButtonInactive {
+    @apply p-2 mr-1 w-32 bg-neutral-400 text-neutral-900 rounded-tr-lg text-left
+  }
+
+  .menuButtonActive {
+    @apply p-2 mr-1 w-32 bg-neutral-900 text-amber-400 rounded-tr-lg text-left
+  }
+}
