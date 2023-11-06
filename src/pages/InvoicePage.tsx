@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "../http";
 import Header from "../components/Header";
 import IInvoice from "../interfaces/IInvoice";
+import dayjs from "dayjs";
 
 function InvoicePage () {
   const [invoice, setInvoice] = useState<IInvoice>()
@@ -22,12 +23,12 @@ function InvoicePage () {
         <h1
           className="mb-5 font-bold text-xl"
         >
-          Venda | { invoice?.saleDate }
+          Venda | { dayjs(invoice?.saleDate).format('DD/MM/YYYY H:mm') }
         </h1>
         <p>Caixa: <span className="font-bold">{ invoice?.cashier.title }</span></p>
         <article className="p-3 border mt-5">
-          <p>Valor: <span className="font-bold">{ invoice?.value }</span></p>
-          <p>Data da venda: <span className="font-bold">{ invoice?.saleDate }</span></p>
+          <p>Valor: <span className="font-bold text-green-700">{ Number(invoice?.value).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) }</span></p>
+          <p>Data da venda: <span className="font-bold">{ dayjs(invoice?.saleDate).format('DD/MM/YYYY H:mm') }</span></p>
         </article>
         <article className="p-3 border mt-5">
           <p>Cliente: <span className="font-bold">{ invoice?.client.name }</span></p>
