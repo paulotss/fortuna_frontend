@@ -31,7 +31,7 @@ function ClientPage() {
   async function handleClickSubmitBalance() {
     try {
       await axios.put('/client', {
-        clientId: Number(id),
+        itemId: Number(id),
         input: 'balance',
         value: Number(client.balance) + inputBalance
       })
