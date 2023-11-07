@@ -111,7 +111,7 @@ function Checkout(props: IProps) {
         saleDate: new Date(),
         cashierId: props.cashier.id,
         sellerId: payload.id,
-        clientId: props.client.id,
+        clientId: props.client.id || 0,
         products: productsInCheckout.map((product) => {
             return {
               id: product.id,

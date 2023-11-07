@@ -36,7 +36,7 @@ function CashierPage() {
   return (
     <>
       <Header/>
-      <h1 className="text-center p-5 text-2xl font-bold text-yellow-700 border-b">{ cashier.title }</h1>
+      <h1 className="text-center p-5 text-2xl font-bold text-amber-600 border-b">{ cashier.title }</h1>
       {
         client
           ? <Checkout client={client} cashier={cashier} removeClient={removeClient} />
