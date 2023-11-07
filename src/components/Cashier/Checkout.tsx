@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import IProductCheckout from "../../interfaces/IProductCheckout";
 import { Dialog, DialogContent } from "@mui/material";
 import { IconButton } from '@mui/material';
@@ -25,7 +25,7 @@ function Checkout(props: IProps) {
 
   useEffect(() => {
     async function getAllProducts () {
-      const { data } = await axios.get('/products');
+      const { data } = await axios.get('/product/recent/5');
       const products: IProductCheckout[] = data.map((v: IProductResponse) => {
         return {
           id: v.id,
@@ -128,6 +128,25 @@ function Checkout(props: IProps) {
     }
   }
 
+  async function handleChangeSearch(event: ChangeEvent<HTMLInputElement>) {
+    try {
+      const { target } = event;
+      const { data } = await axios.get(`/products/search?title=${target.value}`);
+      const products: IProductCheckout[] = data.map((v: IProductResponse) => {
+        return {
+          id: v.id,
+          title: v.title,
+          price: v.price,
+          amount: v.amount,
+          amountInput: 0
+        }
+      })
+      setProducts(products)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function getTotalPrice() {
     const total = products.reduce((acc, product) => {
       if (product.amountCheckout) {
@@ -213,6 +232,7 @@ function Checkout(props: IProps) {
               type='text'
               className='border p-1 w-full mb-2'
               placeholder='Buscar produto'
+              onChange={handleChangeSearch}
             />
             <h1 className='font-bold mb-2'>Recentes</h1>
             {
