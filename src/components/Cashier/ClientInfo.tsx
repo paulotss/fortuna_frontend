@@ -13,10 +13,24 @@ function ClientInfo(props: IProps) {
       <div>Cliente: <span className="font-bold text-lg">{ client.name }</span></div>
       <div className="flex">
         <div className="mr-5">
-          Crédito: <span className="font-bold text-lg text-green-600">{ client.balance }</span>
+          Crédito:
+          {' '}
+          <span className="font-bold text-lg text-green-600">
+            {
+              Number(client.balance)
+                .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+            }
+          </span>
         </div>
         <div>
-          Débito: <span className="font-bold text-lg text-red-600">{ client.balance - totalCheckout }</span>
+          Débito:
+          {' '}
+          <span className="font-bold text-lg text-red-600">
+            {
+              Number(client.balance - totalCheckout)
+                .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+            }
+          </span>
         </div>
       </div>
     </section>

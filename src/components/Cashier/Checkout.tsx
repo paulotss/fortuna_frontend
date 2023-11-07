@@ -8,9 +8,10 @@ import ClientInfo from "./ClientInfo";
 import IClient from "../../interfaces/IClient";
 import axios from "../../http";
 import IProductResponse from "../../interfaces/IProductResponse";
-import { CheckCircle, RemoveCircle } from "@mui/icons-material";
+import { RemoveCircle } from "@mui/icons-material";
 import IInvoiceRequest from "../../interfaces/IInvoiceRequest";
 import ICashier from "../../interfaces/ICashier";
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 
 interface IProps {
   client: IClient;
@@ -158,11 +159,16 @@ function Checkout(props: IProps) {
                   return (
                     <div
                     key={product.id}
-                    className="flex justify-between mt-1 p-2 bg-yellow-200 rounded items-center"
+                    className="flex justify-between mt-1 p-2 bg-amber-200 items-center"
                     >
                       <div>{product.title}</div>
-                      <div>{product.price}</div>
-                      <div>{product.amountCheckout}</div>
+                      <div className="font-bold">
+                        {
+                          Number(product.price)
+                            .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+                        }
+                      </div>
+                      <div>{product.amountCheckout}<span className="text-sm italic">und.</span></div>
                       <IconButton onClick={() => {handleClickRemoveProduct(product.id)}}>
                         <DoDisturbOnIcon fontSize="small" />
                       </IconButton>
@@ -174,7 +180,11 @@ function Checkout(props: IProps) {
           }
         </div>
         <div className="flex justify-between">
-          <div className="text-xl font-bold">Total: { getTotalPrice() }</div>
+          <div className="text-xl font-bold">
+            Total:
+            {' '}
+            { getTotalPrice().toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) }
+          </div>
           <div>
             <button
               type="button"
@@ -201,7 +211,7 @@ function Checkout(props: IProps) {
           <DialogContent>
             <input
               type='text'
-              className='border p-1 w-96 mb-2'
+              className='border p-1 w-full mb-2'
               placeholder='Buscar produto'
             />
             <h1 className='font-bold mb-2'>Recentes</h1>
@@ -209,28 +219,40 @@ function Checkout(props: IProps) {
               products.map((product) => (
                 <div
                   key={product.id}
-                  className="flex justify-between mt-1 p-2 bg-yellow-200 rounded items-center"
+                  className="grid grid-cols-7 gap-4 mt-1 p-2 bg-amber-200 min-w-96"
                 >
-                  <div>{product.title}</div>
-                  <div>{product.amount}</div>
-                  <div>{product.price}</div>
-                  <div>
+                  <div className="col-span-2">{product.title}</div>
+                  <div>{product.amount}<span className="text-sm italic">und.</span></div>
+                  <div>{Number(product.price).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</div>
+                  <div className="text-center font-bold">
                     <span>
                       { product.amountInput }
                     </span>
                   </div>
-                  <div>
-                    <IconButton onClick={() => handleClickRemoveAmountInput(product.id)}>
-                      <RemoveCircle />
-                    </IconButton>
-                    <IconButton onClick={() => handleClickAddAmountInput(product.id)}>
-                      <AddCircleIcon />
-                    </IconButton>
+                  <div className="flex">
+                    <button
+                      type="button"
+                      onClick={() => handleClickRemoveAmountInput(product.id)}
+                      className="text-gray-600"
+                    >
+                      <RemoveCircle fontSize="small" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleClickAddAmountInput(product.id)}
+                      className="text-blue-600"
+                    >
+                      <AddCircleIcon fontSize="small" />
+                    </button>
                   </div>
-                  <div>
-                    <IconButton onClick={() => {handleClickProduct(product.id)}}>
-                      <CheckCircle />
-                    </IconButton>
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      onClick={() => {handleClickProduct(product.id)}}
+                      className="text-green-700"
+                    >
+                      <LibraryAddCheckIcon fontSize="small" />
+                    </button>
                   </div>
                 </div>
               ))

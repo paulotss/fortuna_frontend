@@ -1,35 +1,20 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { DatePicker } from "@mui/x-date-pickers"
-import dayjs, { Dayjs } from "dayjs"
+import dayjs from "dayjs"
 import axios from "../../http"
 import IInvoice from "../../interfaces/IInvoice"
-
-interface IPeriod {
-  startDate: Dayjs
-  endDate: Dayjs
-}
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Link } from "react-router-dom"
 
 function ReportCashier () {
   const [invoices, setInvoices] = useState<IInvoice[]>([])
-  const [period, setPeriod] = useState<IPeriod>({
-    startDate: dayjs(),
-    endDate: dayjs()
-  })
   const { id } = useParams()
-
-  function handleChangePeriod (value: Dayjs | null, name: string) {
-    setPeriod({
-      ...period,
-      [name]: value
-    })
-  }
 
   useEffect(() => {
     async function getInvoices() {
       try {
-        const startDate = period.startDate.format('YYYY-MM-DD')
-        const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD')
+        const startDate = dayjs().format('YYYY-MM-DD')
+        const endDate = dayjs().date(dayjs().date() + 1).format('YYYY-MM-DD')
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
         const { data } = await axios
           .get(`/invoice/cashier/${id}?${requestQuery}`)
@@ -40,50 +25,50 @@ function ReportCashier () {
       }
     }
     getInvoices()
-  }, [id, period])
+  }, [id])
 
   return (
     <section className='p-5 border-t'>
-      <h1 className='text-center text-lg mb-5 font-bold'>Vendas</h1>
-      <div className='flex justify-center'>
-        <div className='flex items-center mr-5'>
-          <span className='mr-2'>Início:</span>
-          <DatePicker
-            value={period.startDate}
-            onChange={(value) => handleChangePeriod(value, 'startDate')}
-          />
-        </div>
-        <div className='flex items-center'>
-          <span className='mr-2'>Fim: </span>
-          <DatePicker
-            value={period.endDate}
-            onChange={(value) => handleChangePeriod(value, 'endDate')}
-          />
-        </div>
-      </div>
-      <div className='mt-5'>
-        Total:
-        <span className='font-bold text-xl'>
-          {' '}
-          {
-            invoices.reduce((acc, invoice) => acc + Number(invoice.value), 0)
-          }
-        </span>
-      </div>
-      <div className="mt-5">
-        {
-          invoices.map((invoice) => (
-            <div
-              key={invoice.id}
-              className="flex justify-between mt-1 p-2 bg-yellow-200 rounded items-center"
-            >
-              <div>{invoice.cashier.title}</div>
-              <div>{invoice.value}</div>
-              <div>{invoice.saleDate}</div>
-            </div>
-          ))
-        }
-      </div>
+      {
+        invoices.length > 0 ?
+        <>
+          <h1 className="font-bold text-center">Vendas Recentes</h1>
+          <TableContainer>
+            <Table component='div'>
+              <TableHead component='div'>
+                <TableRow component='div'>
+                  <TableCell component='div'><span className='text-sm font-bold'>Caixa</span></TableCell>
+                  <TableCell component='div'><span className='text-sm font-bold'>Valor</span></TableCell>
+                  <TableCell component='div'><span className='text-sm font-bold'>Data</span></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody component='div'>
+                  {
+                    invoices?.map((invoice) => (
+                      <TableRow component={Link} to={`/invoice/${invoice.id}`} key={invoice.id} hover={true}>
+                        <TableCell component='div'>{invoice.cashier.title}</TableCell>
+                        <TableCell component='div'>
+                          <span className='font-bold text-green-700'>
+                            {
+                              Number(invoice.value)
+                                .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+                            }
+                          </span>
+                        </TableCell>
+                        <TableCell component='div'>
+                          {
+                            dayjs(invoice.saleDate).format('DD/MM/YYYY H:mm')
+                          }
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  }
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+        : <p className="mt-5 text-center italic">Nada para este período</p>
+      }
     </section>
   )
 }
