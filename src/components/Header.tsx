@@ -132,7 +132,7 @@ function Header() {
         >
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports'}>Vendas</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/expenses'}>Compras</MenuItem>
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports'}>Perdas</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/losses'}>Perdas</MenuItem>
         </Menu>
       </ThemeProvider>
         <button

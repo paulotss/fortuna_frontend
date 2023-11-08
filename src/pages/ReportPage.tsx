@@ -88,17 +88,17 @@ function ReportPage() {
               </select>
             </div>
             <div className='mb-3'>
-              <span className='mr-2'>Início</span>
-              <br/>
               <DatePicker
+                label="Fim"
+                format="DD/MM/YYYY"
                 value={period.startDate}
                 onChange={(value) => handleChangePeriod(value, 'startDate')}
               />
             </div>
             <div>
-              <span className='mr-2'>Fim</span>
-              <br/>
               <DatePicker
+                label="Fim"
+                format="DD/MM/YYYY"
                 value={period.endDate}
                 onChange={(value) => handleChangePeriod(value, 'endDate')}
               />

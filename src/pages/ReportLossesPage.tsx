@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs"
-import axios from "../http"
-import IExpense from "../interfaces/IExpense";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import ILoss from "../interfaces/ILoss";
+import axios from "../http";
 
 interface IPeriod {
   startDate: Dayjs
   endDate: Dayjs
 }
 
-function ReportExpensesPage() {
-  const [expenses, setExpenses] = useState<IExpense[]>([]);
+function ReportLossesPage() {
+  const [losses, setLosses] = useState<ILoss[]>([])
   const [period, setPeriod] = useState<IPeriod>({
     startDate: dayjs(),
     endDate: dayjs()
@@ -26,32 +26,32 @@ function ReportExpensesPage() {
   }
 
   useEffect(() => {
-    async function getExpenses() {
+    async function getLosses() {
       try {
         const startDate = period.startDate.format('YYYY-MM-DD')
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD')
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
         const { data } = await axios
-          .get(`/expense/report?${requestQuery}`)
-        setExpenses(data)
+          .get(`/loss/report?${requestQuery}`)
+        setLosses(data)
       } catch (error) {
         console.log(error)
       }
     }
-    getExpenses()
+    getLosses()
   }, [period])
 
   return (
     <>
       <Header/>
       <section className='p-5'>
-        <h1 className='font-bold text-lg pb-2 mb-5 border-b'>Compras</h1>
+        <h1 className='font-bold text-lg pb-2 mb-5 border-b'>Perdas</h1>
         <div className='flex'>
           <div className="flex flex-col w-60 flex-wrap border p-3">
             <h1 className='mb-3 font-bold text-base'>Filtros</h1>
             <div className='mb-3'>
               <DatePicker
-                label="Fim"
+                label="Início"
                 format="DD/MM/YYYY"
                 value={period.startDate}
                 onChange={(value) => handleChangePeriod(value, 'startDate')}
@@ -67,45 +67,30 @@ function ReportExpensesPage() {
             </div>
           </div>
           {
-            expenses.length > 0
+            losses.length > 0
             ? <article className='w-full p-3'>
-                <div>
-                  Total:
-                  <span className='font-bold text-xl text-red-600'>
-                    {' '}
-                    {
-                      expenses.reduce((acc, expense) => acc + Number(expense.value), 0)
-                        .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
-                    }
-                  </span>
-                </div>
                 <TableContainer>
                   <Table component='div'>
                     <TableHead component='div'>
                       <TableRow component='div'>
                         <TableCell component='div'><span className='text-sm'>Produto</span></TableCell>
-                        <TableCell component='div'><span className='text-sm'>Valor</span></TableCell>
                         <TableCell component='div'><span className='text-sm'>Quantidade</span></TableCell>
+                        <TableCell component='div'><span className='text-sm'>Descrição</span></TableCell>
                         <TableCell component='div'><span className='text-sm'>Data</span></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody component='div'>
                         {
-                          expenses?.map((expense) => (
-                            <TableRow component='div' key={expense.id} hover={true}>
-                              <TableCell component='div'>{expense.product.title}</TableCell>
+                          losses?.map((loss) => (
+                            <TableRow component='div' key={loss.id} hover={true}>
+                              <TableCell component='div'>{loss.product.title}</TableCell>
                               <TableCell component='div'>
-                                <span className='font-bold text-red-600'>
-                                  {
-                                    Number(expense.value)
-                                      .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
-                                  }
-                                </span>
+                                <span className='text-red-600 font-bold'>{loss.amount}</span>
                               </TableCell>
-                              <TableCell component='div'>{expense.amount}</TableCell>
+                              <TableCell component='div'>{loss.description}</TableCell>
                               <TableCell component='div'>
                                 {
-                                  dayjs(expense.launchDate).format('DD/MM/YYYY H:mm')
+                                  dayjs(loss.createAt).format('DD/MM/YYYY H:mm')
                                 }
                               </TableCell>
                             </TableRow>
@@ -117,11 +102,10 @@ function ReportExpensesPage() {
               </article>
             : <p className='text-center italic w-full'>Nada para esse período</p>
           }
-          
         </div>
       </section>
     </>
   )
 }
 
-export default ReportExpensesPage;
+export default ReportLossesPage;
