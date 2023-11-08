@@ -18,17 +18,17 @@ function App() {
         <SectionLink
           icon={<AccountCircleIcon fontSize='large'/>}
           title="Clientes"
-          link="/"
+          link="/clients"
         />
         <SectionLink
           icon={<InventoryIcon fontSize='large'/>}
           title="Produtos"
-          link="/"
+          link="/products"
         />
         <SectionLink
           icon={<AutoGraphIcon fontSize='large'/>}
           title="Relatórios"
-          link="/"
+          link="/reports"
         />
       </section>
     </>

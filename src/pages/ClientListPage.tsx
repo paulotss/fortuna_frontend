@@ -52,7 +52,7 @@ function ClientListPage () {
                       <TableCell component='div'>{client.email}</TableCell>
                       <TableCell component='div'>{client.cellPhone}</TableCell>
                       <TableCell component='div'>
-                        <span className='font-bold'>
+                        <span className='font-bold text-green-600'>
                           {
                             Number(client.balance)
                               .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
