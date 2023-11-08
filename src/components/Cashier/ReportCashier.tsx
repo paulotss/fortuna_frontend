@@ -38,6 +38,7 @@ function ReportCashier () {
               <TableHead component='div'>
                 <TableRow component='div'>
                   <TableCell component='div'><span className='text-sm font-bold'>Caixa</span></TableCell>
+                  <TableCell component='div'><span className='text-sm font-bold'>Cliente</span></TableCell>
                   <TableCell component='div'><span className='text-sm font-bold'>Valor</span></TableCell>
                   <TableCell component='div'><span className='text-sm font-bold'>Data</span></TableCell>
                 </TableRow>
@@ -47,6 +48,7 @@ function ReportCashier () {
                     invoices?.map((invoice) => (
                       <TableRow component={Link} to={`/invoice/${invoice.id}`} key={invoice.id} hover={true}>
                         <TableCell component='div'>{invoice.cashier.title}</TableCell>
+                        <TableCell component='div'>{invoice.client.name}</TableCell>
                         <TableCell component='div'>
                           <span className='font-bold text-green-700'>
                             {

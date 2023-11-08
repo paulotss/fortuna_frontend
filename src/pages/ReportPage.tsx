@@ -118,6 +118,7 @@ function ReportPage() {
               <TableHead component='div'>
                 <TableRow component='div'>
                   <TableCell component='div'><span className='text-sm'>Caixa</span></TableCell>
+                  <TableCell component='div'><span className='text-sm'>Cliente</span></TableCell>
                   <TableCell component='div'><span className='text-sm'>Valor</span></TableCell>
                   <TableCell component='div'><span className='text-sm'>Data</span></TableCell>
                 </TableRow>
@@ -127,6 +128,7 @@ function ReportPage() {
                     invoices?.map((invoice) => (
                       <TableRow component={Link} to={`/invoice/${invoice.id}`} key={invoice.id} hover={true}>
                         <TableCell component='div'>{invoice.cashier.title}</TableCell>
+                        <TableCell component='div'>{invoice.client.name}</TableCell>
                         <TableCell component='div'>
                           <span className='font-bold text-green-700'>
                             {

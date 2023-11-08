@@ -132,16 +132,18 @@ function Checkout(props: IProps) {
     try {
       const { target } = event;
       const { data } = await axios.get(`/products/search?title=${target.value}`);
-      const products: IProductCheckout[] = data.map((v: IProductResponse) => {
+      const allProducts: IProductCheckout[] = data.map((v: IProductResponse) => {
         return {
           id: v.id,
           title: v.title,
           price: v.price,
           amount: v.amount,
-          amountInput: 0
+          amountInput: 0,
         }
-      })
-      setProducts(products)
+      });
+      const olderProducts = products.filter((p) => p.amountCheckout !== undefined)
+      const finalProducts = allProducts.filter((p) => !olderProducts.some((o) => o.id === p.id))
+      setProducts([...olderProducts, ...finalProducts])
     } catch (error) {
       console.log(error);
     }

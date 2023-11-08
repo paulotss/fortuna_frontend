@@ -49,7 +49,12 @@ function ProductListPage() {
                   products?.map((product) => (
                     <TableRow component={Link} to={`/product/${product.id}`} key={product.id} hover={true}>
                       <TableCell component='div'>{product.title}</TableCell>
-                      <TableCell component='div'>{product.price}</TableCell>
+                      <TableCell component='div'>
+                        {
+                          Number(product.price)
+                            .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+                        }
+                      </TableCell>
                       <TableCell component='div'>{product.amount}</TableCell>
                       <TableCell component='div'>{product.barCode}</TableCell>
                     </TableRow>
