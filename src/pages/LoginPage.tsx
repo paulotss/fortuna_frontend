@@ -28,8 +28,8 @@ function LoginPage () {
 
   return (
     <main className="flex items-center flex-col mt-5">
-      <h1 className="text-xl font-bold text-yellow-600">Login</h1>
-      <div className="p-5 w-96 mt-2 rounded bg-slate-100">
+      <h1 className="text-xl font-bold text-amber-600">Fortuna | Login</h1>
+      <div className="p-5 w-96 mt-2 border border-gray-900">
         <Formik
           initialValues={{
             code: "",
@@ -67,7 +67,7 @@ function LoginPage () {
               </div>
               <button
                 type="submit"
-                className="p-2 bg-yellow-600 rounded w-24"
+                className="p-2 bg-amber-600 rounded w-24"
               >
                 Entrar
               </button>
