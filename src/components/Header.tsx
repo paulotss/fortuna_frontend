@@ -99,13 +99,14 @@ function Header() {
         >
           Produtos
         </button>
-        <Link to='/reports'>
-          <div
-            className='menuButtonInactive hover:menuButtonActive'
-          >
-            Relatórios
-          </div>
-        </Link>
+        <button
+          type='button'
+          name='reports'
+          onClick={handleMenuClickItem}
+          className={open.reports ? 'menuButtonActive' : 'menuButtonInactive hover:menuButtonActive'}
+        >
+          Relatórios
+        </button>
       </nav>
       <ThemeProvider theme={theme}>
         <Menu
@@ -123,6 +124,15 @@ function Header() {
         >
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/product/new'}>Novo</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/products'}>Abrir</MenuItem>
+        </Menu>
+        <Menu
+          open={open.reports}
+          anchorEl={anchorEl}
+          onClose={handleMenuClose}
+        >
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports'}>Vendas</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/expenses'}>Compras</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports'}>Perdas</MenuItem>
         </Menu>
       </ThemeProvider>
         <button

@@ -18,7 +18,6 @@ function ReportCashier () {
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
         const { data } = await axios
           .get(`/invoice/cashier/${id}?${requestQuery}`)
-        console.log(data)
         setInvoices(data)
       } catch (error) {
         console.log(error)
