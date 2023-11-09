@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import IProductCheckout from "../../interfaces/IProductCheckout";
 import { Dialog, DialogContent } from "@mui/material";
-import { IconButton } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 import ClientInfo from "./ClientInfo";
@@ -180,19 +179,23 @@ function Checkout(props: IProps) {
                   return (
                     <div
                     key={product.id}
-                    className="flex justify-between mt-1 p-2 bg-amber-200 items-center"
+                    className="grid grid-cols-4 gap-4 mt-1 p-2 bg-amber-200"
                     >
                       <div>{product.title}</div>
-                      <div className="font-bold">
+                      <div className="font-bold text-center">
                         {
                           Number(product.price)
                             .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
                         }
                       </div>
-                      <div>{product.amountCheckout}<span className="text-sm italic">und.</span></div>
-                      <IconButton onClick={() => {handleClickRemoveProduct(product.id)}}>
+                      <div className="text-center">{product.amountCheckout}<span className="text-sm italic">und.</span></div>
+                      <button
+                        type="button"
+                        className="text-right"
+                        onClick={() => {handleClickRemoveProduct(product.id)}}
+                      >
                         <DoDisturbOnIcon fontSize="small" />
-                      </IconButton>
+                      </button>
                     </div>
                   )
                 }
