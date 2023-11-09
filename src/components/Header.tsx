@@ -114,16 +114,16 @@ function Header() {
           anchorEl={anchorEl}
           onClose={handleMenuClose}
         >
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/client/new'}>Novo</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/clients'}>Abrir</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/client/new'}>Novo</MenuItem>
         </Menu>
         <Menu
           open={open.products}
           anchorEl={anchorEl}
           onClose={handleMenuClose}
         >
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/product/new'}>Novo</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/products'}>Abrir</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/product/new'}>Novo</MenuItem>
         </Menu>
         <Menu
           open={open.reports}

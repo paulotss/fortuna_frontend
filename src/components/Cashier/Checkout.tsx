@@ -229,6 +229,7 @@ function Checkout(props: IProps) {
         </div>
 
         <Dialog
+          fullWidth={true}
           open={isDialogOpen}
           onClose={() => {setIsDialogOpen(false)}}
         >
@@ -239,7 +240,6 @@ function Checkout(props: IProps) {
               placeholder='Buscar produto'
               onChange={handleChangeSearch}
             />
-            <h1 className='font-bold mb-2'>Recentes</h1>
             {
               products.map((product) => (
                 <div
