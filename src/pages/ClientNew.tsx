@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import axios from "../http";
 import IBranch from "../interfaces/IBranch";
 import ILevel from "../interfaces/ILevel";
+import * as Yup from 'yup';
 
 interface IClientCreateRequest {
   name: string;
@@ -23,6 +24,13 @@ const initialValues: IClientCreateRequest = {
   branchId: "1",
   levelId: "1"
 }
+
+const clientSchema = Yup.object({
+  name: Yup.string().required("Obrigatório"),
+  email: Yup.string().email("Email inválido").required("Obrigatório"),
+  cellPhone: Yup.string().min(10, "Número com DDD").max(13, "Número com DDD").matches(/^[0-9]+$/, "Somente números").required("Obrigatório"),
+  cpf: Yup.string().max(11, "CPF inválido").matches(/(\d{3})(\d{3})(\d{3})(\d{2})/, "CPF inválido").required("Obrigatório")
+})
 
 function ClientNew () {
   const [branchs, setBranchs] = useState<IBranch[]>([]);
@@ -61,6 +69,7 @@ function ClientNew () {
         <h1 className="font-bold text-lg mb-5">Novo cliente</h1>
         <Formik
           initialValues={initialValues}
+          validationSchema={clientSchema}
           onSubmit={handleSubmit}
         >
           {formik => (
@@ -75,7 +84,7 @@ function ClientNew () {
                   {...formik.getFieldProps('name')}
                 />
                 {formik.touched.name && formik.errors.name ? (
-                  <div>{formik.errors.name}</div>
+                  <div className="text-xs text-red-600">{formik.errors.name}</div>
                 ) : null}
               </div>
               <div className="mb-2">
@@ -88,7 +97,7 @@ function ClientNew () {
                   {...formik.getFieldProps('email')}
                 />
                 {formik.touched.email && formik.errors.email ? (
-                  <div>{formik.errors.email}</div>
+                  <div className="text-xs text-red-600">{formik.errors.email}</div>
                 ) : null}
               </div>
               <div className="mb-2">
@@ -101,7 +110,7 @@ function ClientNew () {
                   {...formik.getFieldProps('cellPhone')}
                 />
                 {formik.touched.cellPhone && formik.errors.cellPhone ? (
-                  <div>{formik.errors.cellPhone}</div>
+                  <div className="text-xs text-red-600">{formik.errors.cellPhone}</div>
                 ) : null}
               </div>
               <div className="mb-2">
@@ -114,7 +123,7 @@ function ClientNew () {
                   {...formik.getFieldProps('cpf')}
                 />
                 {formik.touched.cpf && formik.errors.cpf ? (
-                  <div>{formik.errors.cpf}</div>
+                  <div className="text-xs text-red-600">{formik.errors.cpf}</div>
                 ) : null}
               </div>
               <div className="mb-2">

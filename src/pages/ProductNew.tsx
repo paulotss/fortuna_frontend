@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { Formik } from "formik";
 import axios from '../http';
+import * as Yup from 'yup';
 
 interface IProductCreateRequest {
   title: string;
@@ -16,6 +17,11 @@ const initialValues: IProductCreateRequest = {
   amount: 0,
   barCode: "123456789"
 }
+
+const ProductSchema = Yup.object({
+  title: Yup.string().required("Obrigatório"),
+  price: Yup.string().matches(/^[^0|\D]\d{0,9}(\.\d{1,2})?$/, "Somente números decimais com ponto: 00.00").required("Obrigatório"),
+})
 
 function ProductNew() {
   const navigate = useNavigate()
@@ -38,6 +44,7 @@ function ProductNew() {
         <h1 className="font-bold text-lg mb-5">Novo produto</h1>
         <Formik
           initialValues={initialValues}
+          validationSchema={ProductSchema}
           onSubmit={handleSubmit}
         >
           {formik => (
@@ -52,7 +59,7 @@ function ProductNew() {
                   {...formik.getFieldProps('title')}
                 />
                 {formik.touched.title && formik.errors.title ? (
-                  <div>{formik.errors.title}</div>
+                  <div className="text-xs text-red-600">{formik.errors.title}</div>
                 ) : null}
               </div>
               <div className="mb-2">
@@ -65,7 +72,7 @@ function ProductNew() {
                   {...formik.getFieldProps('price')}
                 />
                 {formik.touched.price && formik.errors.price ? (
-                  <div>{formik.errors.price}</div>
+                  <div className="text-xs text-red-600">{formik.errors.price}</div>
                 ) : null}
               </div>
               <button

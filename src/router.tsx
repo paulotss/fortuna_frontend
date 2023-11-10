@@ -14,6 +14,8 @@ import ClientNew from './pages/ClientNew.tsx';
 import ProductListPage from './pages/ProductListPage.tsx';
 import ProductPage from './pages/ProductPage.tsx';
 import ProductNew from './pages/ProductNew.tsx';
+import ReportExpensesPage from './pages/ReportExpensesPage.tsx';
+import ReportLossesPage from './pages/ReportLossesPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
   {
     path: '/reports',
     element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ReportPage/></LocalizationProvider></RouteGuard>
+  },
+  {
+    path: '/reports/expenses',
+    element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ReportExpensesPage/></LocalizationProvider></RouteGuard>
+  },
+  {
+    path: '/reports/losses',
+    element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ReportLossesPage/></LocalizationProvider></RouteGuard>
   },
   {
     path: '/invoice/:id',

@@ -48,7 +48,14 @@ const InputEdit = (props: IProps) => {
             </button>
           </form>
         : <div>
-            <span>{ editValue }</span>
+            <span>
+              {
+                entity !== 'price'
+                  ? editValue
+                  : Number(editValue)
+                      .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) 
+              }
+            </span>
             <button
               className="ml-2 cursor-pointer"
               onClick={() => { setIsEditing(true) }}

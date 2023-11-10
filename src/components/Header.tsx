@@ -76,14 +76,13 @@ function Header() {
         </Link>
       </div>
       <nav className='self-end w-full mt-5 flex'>
-        <button
-          type='button'
-          name='cashier'
-          onClick={handleMenuClickItem}
-          className={open.cashier ? 'menuButtonActive' : 'menuButtonInactive hover:menuButtonActive'}
-        >
-          Caixa
-        </button>
+        <Link to='/cashier'>
+          <div
+            className='menuButtonInactive hover:menuButtonActive'
+          >
+            Caixa
+          </div>
+        </Link>
         <button
           type='button'
           name='clients'
@@ -100,38 +99,40 @@ function Header() {
         >
           Produtos
         </button>
-        <Link to='/reports'>
-          <div
-            className='menuButtonInactive hover:menuButtonActive'
-          >
-            Relatórios
-          </div>
-        </Link>
+        <button
+          type='button'
+          name='reports'
+          onClick={handleMenuClickItem}
+          className={open.reports ? 'menuButtonActive' : 'menuButtonInactive hover:menuButtonActive'}
+        >
+          Relatórios
+        </button>
       </nav>
       <ThemeProvider theme={theme}>
-        <Menu
-          open={open.cashier}
-          anchorEl={anchorEl}
-          onClose={handleMenuClose}
-        >
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/cashier'}>Novo</MenuItem>
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/cashier'}>Abrir</MenuItem>
-        </Menu>
         <Menu
           open={open.clients}
           anchorEl={anchorEl}
           onClose={handleMenuClose}
         >
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/client/new'}>Novo</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/clients'}>Abrir</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/client/new'}>Novo</MenuItem>
         </Menu>
         <Menu
           open={open.products}
           anchorEl={anchorEl}
           onClose={handleMenuClose}
         >
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/product/new'}>Novo</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/products'}>Abrir</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/product/new'}>Novo</MenuItem>
+        </Menu>
+        <Menu
+          open={open.reports}
+          anchorEl={anchorEl}
+          onClose={handleMenuClose}
+        >
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports'}>Vendas</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/expenses'}>Compras</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/losses'}>Perdas</MenuItem>
         </Menu>
       </ThemeProvider>
         <button
