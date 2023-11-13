@@ -1,7 +1,9 @@
-import React, { useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from '../http';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 interface IProps {
   title: string;
@@ -10,43 +12,59 @@ interface IProps {
   endPoint: string;
   tstyle?: string;
   itemId?: number
+  validation: Yup.ObjectSchema<Yup.AnyObject>
+}
+
+interface IFormValues {
+  generic: string | number;
 }
 
 const InputEdit = (props: IProps) => {
-  const { title, entity, valueInput, endPoint, itemId, tstyle } = props;
+  const { title, entity, valueInput, endPoint, itemId, tstyle, validation } = props;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(valueInput)
+  const [editValue, setEditValue] = useState(valueInput);
 
-  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    setEditValue(target.value);
-  }
-
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    await axios.put(endPoint, {
-      itemId,
-      input: entity,
-      value: editValue
-    });
-    setIsEditing(false)
+  const handleSubmit = async (values: IFormValues) => {
+    try {
+      await axios.put(endPoint, {
+        itemId,
+        input: entity,
+        value: values.generic
+      });
+      setEditValue(values.generic);
+      setIsEditing(false);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
     <div className="min-w-[256px] p-2 rounded-lg border mr-2 mb-2">
       <p className="text-sm font-bold">{ title }</p>
       { isEditing
-        ? <form>
-            <input
-              type="text"
-              value={editValue}
-              onChange={handleChange}
-              className={`p-2 mr-2 border ${ tstyle }`}
-            />
-            <button type="submit" onClick={handleSubmit}>
-              <CheckCircleIcon fontSize="small" />
-            </button>
-          </form>
+        ? <Formik
+            initialValues={{ generic: editValue }}
+            validationSchema={validation}
+            onSubmit={handleSubmit}
+          >
+            {formik => (
+              <form onSubmit={formik.handleSubmit}>
+                <input
+                  id='generic'
+                  type="text"
+                  className={`p-2 mr-2 border ${ tstyle }`}
+                  {...formik.getFieldProps('generic')}
+                />
+                <button type="submit">
+                  <CheckCircleIcon fontSize="small" />
+                </button>
+                {formik.touched.generic && formik.errors.generic ? (
+                  <div className="text-xs text-red-600">{formik.errors.generic}</div>
+                ) : null}
+              </form>
+            )}
+          </Formik>
         : <div>
             <span>
               {
