@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../http"
 import Header from "../components/Header";
@@ -6,11 +6,11 @@ import IClient from "../interfaces/IClient";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InputEdit from "../components/InputEdit";
 import SelectBranchLevelEdit from "../components/SelectBranchLevelEdit";
+import { Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
 
 function ClientPage() {
   const [isLoading, setIsLoading] = useState(true);
-  const [inputBalance, setInputBalance] = useState<number>(0)
   const [client, setClient] = useState<IClient>({
     name: "",
     code: "",
@@ -23,24 +23,19 @@ function ClientPage() {
   })
   const { id } = useParams()
 
-  function handleChangeBalanceInput(event: ChangeEvent<HTMLInputElement>) {
-    const { target } = event
-    const newInputBalance = Number(target.value)
-    setInputBalance(newInputBalance)
-  }
-
-  async function handleClickSubmitBalance() {
+  async function handleSubmitBalance(values: {balance: string}, actions: FormikHelpers<{balance: string}>) {
     try {
+      const newBalance = Number(client.balance) + Number(values.balance)
       await axios.put('/client', {
         itemId: Number(id),
         input: 'balance',
-        value: Number(client.balance) + inputBalance
+        value: newBalance
       })
       setClient({
         ...client,
-        balance: Number(client.balance) + inputBalance
+        balance: newBalance
       })
-      setInputBalance(0)
+      actions.resetForm();
     } catch (error) {
       console.log(error)
     }
@@ -132,27 +127,48 @@ function ClientPage() {
                     <p className="text-2xl mb-3 text-green-600 font-bold">
                       {Number(client?.balance).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                     </p>
-                    <div className="border p-3 bg-gray-100">
-                      <input
-                        type="text"
-                        className="border rounded mr-2 w-24 p-2"
-                        value={inputBalance}
-                        onChange={handleChangeBalanceInput}
-                      />
-                      <button
-                        type="button"
-                        className="p-2 bg-green-600 rounded text-white"
-                        onClick={handleClickSubmitBalance}
-                      >
-                        Adicionar <span><CheckCircleIcon/></span>
-                      </button>
-                    </div>
-                    <p className="mt-3">Total:
-                      {` `}
-                      <span className="font-bold">
-                        { inputBalance.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }
-                      </span>
-                    </p>
+                    <Formik
+                      initialValues={{ balance: "0" }}
+                      validationSchema={Yup.object({
+                        balance: Yup.string()
+                          .matches(/^[^0|\D]\d{0,9}(\.\d{1,2})?$/, "Somente números decimais com ponto: 00.00")
+                          .required("Obrigatório")
+                      })}
+                      onSubmit={handleSubmitBalance}
+                      enableReinitialize
+                    >
+                      {formik => (
+                        <>
+                          <form
+                            onSubmit={formik.handleSubmit}
+                            className="border p-3 bg-gray-100"
+                          >
+                            <input
+                              id="balance"
+                              type="text"
+                              className="border rounded mr-2 w-24 p-2"
+                              {...formik.getFieldProps('balance')}
+                            />
+                            <button
+                              type="submit"
+                              className="p-2 bg-green-600 rounded text-white"
+                            >
+                              Adicionar <span><CheckCircleIcon/></span>
+                            </button>
+                            {formik.touched.balance && formik.errors.balance ? (
+                              <div className="text-xs text-red-600">{formik.errors.balance}</div>
+                            ) : null}
+                          </form>
+                          <p className="mt-3">Total:
+                            {` `}
+                            <span className="font-bold">
+                              { (Number(formik.values.balance) + Number(client.balance))
+                                  .toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
+                            </span>
+                          </p>
+                        </>
+                      )}
+                    </Formik>
                   </div>
                 </div>
               </article>
