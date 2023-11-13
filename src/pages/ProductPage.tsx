@@ -5,6 +5,7 @@ import InputEdit from "../components/InputEdit";
 import IProductResponse from "../interfaces/IProductResponse";
 import Header from "../components/Header";
 import EditProductAmount from "../components/EditProductAmount";
+import * as Yup from 'yup';
 
 function ProductPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,6 +51,7 @@ function ProductPage() {
                   valueInput={product.title}
                   endPoint="/product"
                   itemId={product.id}
+                  validation={Yup.object({ generic: Yup.string().required("Obrigatório") })}
                 />
                 <InputEdit
                   title="Valor"
@@ -58,6 +60,9 @@ function ProductPage() {
                   endPoint="/product"
                   tstyle="w-20"
                   itemId={product.id}
+                  validation={Yup.object({ generic: Yup.string()
+                    .matches(/^[^0|\D]\d{0,9}(\.\d{1,2})?$/, "Somente números decimais com ponto: 00.00")
+                    .required("Obrigatório") })}
                 />
                 <EditProductAmount
                   amount={product.amount}
