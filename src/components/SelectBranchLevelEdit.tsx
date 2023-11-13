@@ -9,12 +9,12 @@ interface IProps {
   title: string;
   entity: string;
   payload: { id: number; title: string };
-  clientId?: number;
+  itemId?: number;
   endPoint: string;
 }
 
 function SelectBranchLevelEdit(props: IProps) {
-  const { title, entity, payload, clientId, endPoint } = props;
+  const { title, entity, payload, itemId, endPoint } = props;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(payload)
@@ -39,12 +39,16 @@ function SelectBranchLevelEdit(props: IProps) {
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    await axios.put('/client', {
-      clientId,
-      input: entity,
-      value: editValue.id
-    });
-    setIsEditing(false)
+    try {
+      await axios.put('/client', {
+        itemId,
+        input: entity,
+        value: editValue.id
+      });
+      setIsEditing(false)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

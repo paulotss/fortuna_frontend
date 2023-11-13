@@ -6,6 +6,7 @@ import IClient from "../interfaces/IClient";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InputEdit from "../components/InputEdit";
 import SelectBranchLevelEdit from "../components/SelectBranchLevelEdit";
+import * as Yup from 'yup';
 
 function ClientPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -77,6 +78,7 @@ function ClientPage() {
                   entity="name"
                   endPoint="/client"
                   itemId={client.id}
+                  validation={Yup.object({ generic: Yup.string().required("Obrigatório") })}
                 />
                 <InputEdit
                   title="Email"
@@ -84,6 +86,9 @@ function ClientPage() {
                   entity="email"
                   endPoint="/client"
                   itemId={client.id}
+                  validation={Yup.object({
+                    generic: Yup.string().email("Email inválido").required("Obrigatório")
+                  })}
                 />
                 <InputEdit
                   title="Telefone"
@@ -91,19 +96,22 @@ function ClientPage() {
                   entity="cellPhone"
                   endPoint="/client"
                   itemId={client.id}
+                  validation={Yup.object({
+                    generic: Yup.string().min(10, "Número com DDD").max(13, "Número com DDD").matches(/^[0-9]+$/, "Somente números").required("Obrigatório")
+                  })}
                 />
                 <SelectBranchLevelEdit
                   title="Filial"
                   payload={client.branch}
                   entity="branchId"
-                  clientId={client.id}
+                  itemId={client.id}
                   endPoint="/branch"
                 />
                 <SelectBranchLevelEdit
                   title="Nível"
                   payload={client.level}
                   entity="levelId"
-                  clientId={client.id}
+                  itemId={client.id}
                   endPoint="/level"
                 />
                 <InputEdit
@@ -112,6 +120,9 @@ function ClientPage() {
                   entity="cpf"
                   endPoint="/client"
                   itemId={client.id}
+                  validation={Yup.object({
+                    generic: Yup.string().max(11, "CPF inválido").matches(/(\d{3})(\d{3})(\d{3})(\d{2})/, "CPF inválido").required("Obrigatório")
+                  })}
                 />
               </article>
               <article className="w-1/2">
