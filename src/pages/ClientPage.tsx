@@ -18,7 +18,7 @@ interface IAccess {
 
 function ClientPage() {
   const [isLoading, setIsLoading] = useState(true);
-  const [access, setAccess] = useState<IAccess>({ isManager: false, isSeller: true })
+  const [access, setAccess] = useState<IAccess>({ isManager: false, isSeller: false })
   const [openAlertAccess, setOpenAlertAccess] = useState(false)
   const [client, setClient] = useState<IClient>({
     name: "",
@@ -36,8 +36,23 @@ function ClientPage() {
     setAccess({
       ...access,
       message
-    })
-    setOpenAlertAccess(true)
+    });
+    setOpenAlertAccess(true);
+  }
+
+  async function handleSubmitAccess() {
+    try {
+      if(access.message === 'Vendedor') {
+        await axios.post('/seller', {userId: client.userId});
+        setAccess((prevState) => ({...prevState, isSeller: true}));
+      } else {
+        await axios.post('/manager', {userId: client.userId});
+        setAccess((prevState) => ({...prevState, isManager: true}));
+      }
+      setOpenAlertAccess(false);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function handleSubmitBalance(values: {balance: string}, actions: FormikHelpers<{balance: string}>) {
@@ -62,8 +77,12 @@ function ClientPage() {
     async function getClient() {
       setIsLoading(true);
       try {
-        const { data } = await axios.get(`/client/${id}`)
-        setClient(data)
+        const client = await axios.get(`/client/${id}`);
+        const seller = await axios.get(`/seller/${client.data.userId}`);
+        const manager = await axios.get(`/manager/${client.data.userId}`);
+        if (seller.data !== null) setAccess((prevState) => ({...prevState, isSeller: true}));
+        if (manager.data !== null) setAccess((prevState) => ({...prevState, isManager: true}));
+        setClient(client.data)
       } catch (error) {
         console.log(error)
       }
@@ -110,7 +129,7 @@ function ClientPage() {
                           </div>
                         : <button
                             type="button"
-                            onClick={() => { handleOpenAlert('Vendedor') }}
+                            onClick={() => { handleOpenAlert('Gerente') }}
                             className="mr-1 p-1 bg-gray-500 text-xs text-white rounded-full"
                           >
                             Gerente
@@ -236,7 +255,7 @@ function ClientPage() {
                   <div>
                     <button
                       type='button'
-                      onClick={() => setOpenAlertAccess(false)}
+                      onClick={handleSubmitAccess}
                       className='p-2 bg-green-600 mr-2'
                     >
                       Confirmar
