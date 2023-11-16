@@ -7,10 +7,11 @@ import ClientSelect from "../components/Cashier/ClientSelect";
 import ICashier from "../interfaces/ICashier";
 import axios from "../http"
 import ReportCashier from "../components/Cashier/ReportCashier";
+import CashierTitleEdit from "../components/CashierTitleEdit";
 
 function CashierPage() {
   const [client, setClient] = useState<IClient | null>(null);
-  const [cashier, setCashier] = useState<ICashier>({ id: 1, title: '' })
+  const [cashier, setCashier] = useState<ICashier>({ id: 1, title: '' });
   const { id } = useParams()
 
   function handleClickSelectClient(client: IClient) {
@@ -24,10 +25,10 @@ function CashierPage() {
   useEffect(() => {
     async function getCashier () {
       try {
-        const { data } = await axios.get(`/cashier/${id}`)
-        setCashier(data)
+        const { data } = await axios.get(`/cashier/${id}`);
+        setCashier(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     getCashier()
@@ -36,7 +37,7 @@ function CashierPage() {
   return (
     <>
       <Header/>
-      <h1 className="text-center p-5 text-2xl font-bold text-amber-600 border-b">{ cashier.title }</h1>
+      <CashierTitleEdit payload={cashier.title} cashierId={cashier.id} />
       {
         client
           ? <Checkout client={client} cashier={cashier} removeClient={removeClient} />
