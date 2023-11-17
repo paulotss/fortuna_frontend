@@ -76,13 +76,14 @@ function Header() {
         </Link>
       </div>
       <nav className='self-end w-full mt-5 flex'>
-        <Link to='/cashier'>
-          <div
-            className='menuButtonInactive hover:menuButtonActive'
-          >
-            Caixa
-          </div>
-        </Link>
+        <button
+          type='button'
+          name='cashier'
+          onClick={handleMenuClickItem}
+          className={open.cashier ? 'menuButtonActive' : 'menuButtonInactive hover:menuButtonActive'}
+        >
+          Caixa
+        </button>
         <button
           type='button'
           name='clients'
@@ -109,6 +110,14 @@ function Header() {
         </button>
       </nav>
       <ThemeProvider theme={theme}>
+        <Menu
+          open={open.cashier}
+          anchorEl={anchorEl}
+          onClose={handleMenuClose}
+        >
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/cashier'}>Abrir</MenuItem>
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/cashier/new'}>Novo</MenuItem>
+        </Menu>
         <Menu
           open={open.clients}
           anchorEl={anchorEl}

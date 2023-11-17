@@ -23,17 +23,20 @@ function CashierListPage() {
   return (
     <>
       <Header/>
-      <section className='flex flex-wrap ml-20 mt-4'>
-        {
-          cashiers?.map((cashier) => (
-            <SectionLink
-              key={cashier.id}
-              icon={<PointOfSaleIcon fontSize='large'/>}
-              title={ cashier.title }
-              link={`/cashier/${cashier.id}`}
-            />
-          ))
-        }
+      <section className='ml-20 mt-4'>
+        <h1 className='mb-2 text-lg font-bold'>Caixas</h1>
+        <div className='flex flex-wrap'>
+          {
+            cashiers?.map((cashier) => (
+              <SectionLink
+                key={cashier.id}
+                icon={<PointOfSaleIcon fontSize='large'/>}
+                title={ cashier.title }
+                link={`/cashier/${cashier.id}`}
+              />
+            ))
+          }
+        </div>
       </section>
     </>
   )

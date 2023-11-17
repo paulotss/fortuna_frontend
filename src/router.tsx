@@ -16,6 +16,7 @@ import ProductPage from './pages/ProductPage.tsx';
 import ProductNew from './pages/ProductNew.tsx';
 import ReportExpensesPage from './pages/ReportExpensesPage.tsx';
 import ReportLossesPage from './pages/ReportLossesPage.tsx';
+import CashierNew from './pages/CashierNew.tsx';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: '/cashier/:id',
     element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><CashierPage/></LocalizationProvider></RouteGuard>
+  },
+  {
+    path: '/cashier/new',
+    element: <RouteGuard level={2}><CashierNew/></RouteGuard>
   },
   {
     path: '/reports',

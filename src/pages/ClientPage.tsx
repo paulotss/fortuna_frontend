@@ -8,9 +8,18 @@ import InputEdit from "../components/InputEdit";
 import SelectBranchLevelEdit from "../components/SelectBranchLevelEdit";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
+import { Dialog } from "@mui/material";
+
+interface IAccess {
+  isSeller?: boolean;
+  isManager?: boolean;
+  message?: string;
+}
 
 function ClientPage() {
   const [isLoading, setIsLoading] = useState(true);
+  const [access, setAccess] = useState<IAccess>({ isManager: false, isSeller: false })
+  const [openAlertAccess, setOpenAlertAccess] = useState(false)
   const [client, setClient] = useState<IClient>({
     name: "",
     code: "",
@@ -22,6 +31,29 @@ function ClientPage() {
     level: { id: 1, title: "", acronym: "" }
   })
   const { id } = useParams()
+
+  function handleOpenAlert(message: string) {
+    setAccess({
+      ...access,
+      message
+    });
+    setOpenAlertAccess(true);
+  }
+
+  async function handleSubmitAccess() {
+    try {
+      if(access.message === 'Vendedor') {
+        await axios.post('/seller', {userId: client.userId});
+        setAccess((prevState) => ({...prevState, isSeller: true}));
+      } else {
+        await axios.post('/manager', {userId: client.userId});
+        setAccess((prevState) => ({...prevState, isManager: true}));
+      }
+      setOpenAlertAccess(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleSubmitBalance(values: {balance: string}, actions: FormikHelpers<{balance: string}>) {
     try {
@@ -45,8 +77,12 @@ function ClientPage() {
     async function getClient() {
       setIsLoading(true);
       try {
-        const { data } = await axios.get(`/client/${id}`)
-        setClient(data)
+        const client = await axios.get(`/client/${id}`);
+        const seller = await axios.get(`/seller/${client.data.userId}`);
+        const manager = await axios.get(`/manager/${client.data.userId}`);
+        if (seller.data !== null) setAccess((prevState) => ({...prevState, isSeller: true}));
+        if (manager.data !== null) setAccess((prevState) => ({...prevState, isManager: true}));
+        setClient(client.data)
       } catch (error) {
         console.log(error)
       }
@@ -63,9 +99,43 @@ function ClientPage() {
           ? <p>Loading...</p>
           : <section className="p-5 flex flex-wrap justify-between">
               <article className="flex flex-wrap w-1/2">
-                <div className="w-full p-3">
-                  <div className="text-md">Inscrição</div>
-                  <div className="font-bold ml-1 text-2xl">{client?.code}</div>
+                <div className="w-full p-3 flex">
+                  <div>
+                    <div className="text-md">Inscrição</div>
+                    <div className="font-bold ml-1 text-2xl">{client?.code}</div>
+                  </div>
+                  <div className="ml-5 flex h-fit">
+                    {
+                      access.isSeller
+                        ? <div
+                            className="mr-1 p-1 bg-green-600 text-xs text-white rounded-full"
+                          >
+                            Vendedor
+                          </div>
+                        : <button
+                            type="button"
+                            onClick={() => { handleOpenAlert('Vendedor') }}
+                            className="mr-1 p-1 bg-gray-500 text-xs text-white rounded-full"
+                          >
+                            Vendedor
+                          </button>
+                    }
+                    {
+                      access.isManager
+                        ? <div
+                            className="mr-1 p-1 bg-green-600 text-xs text-white rounded-full"
+                          >
+                            Gerente
+                          </div>
+                        : <button
+                            type="button"
+                            onClick={() => { handleOpenAlert('Gerente') }}
+                            className="mr-1 p-1 bg-gray-500 text-xs text-white rounded-full"
+                          >
+                            Gerente
+                          </button>
+                    }
+                  </div>
                 </div>
                 <InputEdit
                   title="Nome"
@@ -172,6 +242,34 @@ function ClientPage() {
                   </div>
                 </div>
               </article>
+              <Dialog
+                open={openAlertAccess}
+                onClose={() => {setOpenAlertAccess}}
+              >
+                <div className='p-5'>
+                  <p className='mb-5'>
+                    Tem certeza que quer dar acesso de
+                    <span className='font-bold'> {access.message}</span> para
+                    <span className='font-bold'> {client.name}</span>?
+                  </p>
+                  <div>
+                    <button
+                      type='button'
+                      onClick={handleSubmitAccess}
+                      className='p-2 bg-green-600 mr-2'
+                    >
+                      Confirmar
+                    </button>
+                    <button
+                      type='button'
+                      onClick={() => setOpenAlertAccess(false)}
+                      className='p-2 bg-red-600'
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </Dialog>
             </section>
       }
     </>
