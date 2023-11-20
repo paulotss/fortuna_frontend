@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import axios from '../http';
 import * as Yup from 'yup';
+import { CircularProgress } from '@mui/material';
 
 interface LoginRequest {
   code: string;
@@ -14,9 +16,11 @@ const LoginSchema = Yup.object({
 })
 
 function LoginPage () {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   async function handleSubmit (values: LoginRequest) {
+    setIsLoading(true);
     try {
       const result = await axios.post('/seller/login', values);
       sessionStorage.setItem('auth', result.data);
@@ -24,6 +28,7 @@ function LoginPage () {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   }
 
   return (
@@ -65,12 +70,24 @@ function LoginPage () {
                   <div className="text-xs">{errors.password}</div>
                 ) : null}
               </div>
-              <button
-                type="submit"
-                className="p-2 bg-amber-600 rounded w-24"
-              >
-                Entrar
-              </button>
+              {
+              isLoading
+                ? <button
+                    type='button'
+                    className="p-2 bg-amber-600 rounded w-24 flex justify-center"
+                  >
+                    <CircularProgress
+                      color='inherit'
+                      size={24}
+                    />
+                  </button>
+                : <button
+                    type="submit"
+                    className="p-2 bg-amber-600 rounded w-24"
+                  >
+                    Entrar
+                  </button>
+              }
             </Form>
           )}
         </Formik>
