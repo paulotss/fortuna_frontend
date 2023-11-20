@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import axios from '../http';
 import * as Yup from 'yup';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Snackbar, Alert } from '@mui/material';
 
 interface LoginRequest {
   code: string;
@@ -16,6 +16,7 @@ const LoginSchema = Yup.object({
 })
 
 function LoginPage () {
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ function LoginPage () {
       sessionStorage.setItem('auth', result.data);
       navigate('/');
     } catch (error) {
-      console.log(error);
+      setOpenAlert(true);
     }
     setIsLoading(false);
   }
@@ -92,6 +93,11 @@ function LoginPage () {
           )}
         </Formik>
       </div>
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={() => { setOpenAlert(false) }}>
+        <Alert onClose={() => { setOpenAlert(false) }} severity="error" sx={{ width: '100%' }}>
+          Verifique seus dados de login!
+        </Alert>
+      </Snackbar>
     </main>
   )
 }
