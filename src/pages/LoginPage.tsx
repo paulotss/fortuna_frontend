@@ -36,7 +36,7 @@ function LoginPage () {
   return (
     <main className="flex items-center flex-col mt-5">
       <img src={logo} className='mb-5' />
-      <div className="p-10 w-96 mt-2 border border-amber-300">
+      <div className="p-10 w-96 mt-2 border bg-[#171717]">
         <Formik
           initialValues={{
             code: "",
