@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { MenuItem, Menu } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material';
+import logo from '../assets/logo.png'
 
 const theme = createTheme({
   components: {
@@ -69,13 +70,16 @@ function Header() {
   }
 
   return (
-    <header className='w-full bg-amber-400 flex justify-start'>
-      <div className='font-bold w-20 ml-4 self-center'>
+    <header className='w-full bg-amber-400 flex justify-start mb-10'>
+      <div className='absolute'>
         <Link to='/'>
-          <div className='w-8 h-8 bg-neutral-900'></div>
+          <img 
+            src={logo}
+            className='w-20 mt-5 ml-5 mb-2'
+          />
         </Link>
       </div>
-      <nav className='self-end w-full mt-5 flex'>
+      <nav className='self-end w-full mt-8 ml-32 flex'>
         <button
           type='button'
           name='cashier'

@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import axios from '../http';
 import * as Yup from 'yup';
+import { CircularProgress, Snackbar, Alert } from '@mui/material';
+import logo from '../assets/logo.png'
 
 interface LoginRequest {
   code: string;
@@ -14,22 +17,26 @@ const LoginSchema = Yup.object({
 })
 
 function LoginPage () {
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   async function handleSubmit (values: LoginRequest) {
+    setIsLoading(true);
     try {
       const result = await axios.post('/seller/login', values);
       sessionStorage.setItem('auth', result.data);
       navigate('/');
     } catch (error) {
-      console.log(error);
+      setOpenAlert(true);
     }
+    setIsLoading(false);
   }
 
   return (
     <main className="flex items-center flex-col mt-5">
-      <h1 className="text-xl font-bold text-amber-600">Fortuna | Login</h1>
-      <div className="p-5 w-96 mt-2 border border-gray-900">
+      <img src={logo} className='mb-5' />
+      <div className="p-10 w-96 mt-2 border bg-[#171717]">
         <Formik
           initialValues={{
             code: "",
@@ -41,7 +48,7 @@ function LoginPage () {
           {({ errors, touched }) => (
             <Form>
               <div className="mb-3">
-                <label htmlFor="code">Inscrição</label>
+                <label htmlFor="code" className="text-amber-600 font-bold">Inscrição</label>
                 <br />
                 <Field
                   id="code"
@@ -49,11 +56,11 @@ function LoginPage () {
                   className="border w-full p-1"
                 />
                 {errors.code && touched.code ? (
-                  <div className="text-xs">{errors.code}</div>
+                  <div className="text-xs text-red-600">{errors.code}</div>
                 ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="password">Senha</label>
+                <label htmlFor="password" className="text-amber-600 font-bold">Senha</label>
                 <br />
                 <Field
                   id="password"
@@ -62,19 +69,36 @@ function LoginPage () {
                   className="border w-full p-1"
                 />
                 {errors.password && touched.password ? (
-                  <div className="text-xs">{errors.password}</div>
+                  <div className="text-xs text-red-600">{errors.password}</div>
                 ) : null}
               </div>
-              <button
-                type="submit"
-                className="p-2 bg-amber-600 rounded w-24"
-              >
-                Entrar
-              </button>
+              {
+              isLoading
+                ? <button
+                    type='button'
+                    className="p-2 bg-amber-600 rounded w-24 flex justify-center"
+                  >
+                    <CircularProgress
+                      color='inherit'
+                      size={24}
+                    />
+                  </button>
+                : <button
+                    type="submit"
+                    className="p-2 bg-amber-600 rounded w-24"
+                  >
+                    Entrar
+                  </button>
+              }
             </Form>
           )}
         </Formik>
       </div>
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={() => { setOpenAlert(false) }}>
+        <Alert onClose={() => { setOpenAlert(false) }} severity="error" sx={{ width: '100%' }}>
+          Verifique seus dados de login!
+        </Alert>
+      </Snackbar>
     </main>
   )
 }

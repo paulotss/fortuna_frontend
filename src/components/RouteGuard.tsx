@@ -1,6 +1,7 @@
 import { useEffect, useState, PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../http';
+import LoadingSkeleton from './LoadingSkeleton';
 
 type RouterGuardProps = {
   level: number
@@ -31,7 +32,7 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
     <>
       {
         isLoading
-          ? <p>Loading...</p>
+          ? <LoadingSkeleton />
           : children
       }
     </>
