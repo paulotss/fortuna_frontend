@@ -20,6 +20,7 @@ import SellerDashboard from './pages/SellerDashboard.tsx';
 import ClientDashboard from './pages/ClientDashboard.tsx';
 import ClientBalance from './pages/ClientArea/ClientBalance.tsx';
 import ClientExtract from './pages/ClientArea/ClientExtract.tsx';
+import ClientProfile from './pages/ClientArea/ClientProfile.tsx';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
     element: <LoginPage endpoint='/seller/login' title='Vendedor' color='#171717' url='/seller' />
   },
   {
-    path: '/client',
+    path: '/',
     element: <RouteGuard level={2}><ClientDashboard /></RouteGuard>
     
   },
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: '/client/extract',
     element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ClientExtract /></LocalizationProvider></RouteGuard>
+  },
+  {
+    path: '/client/profile',
+    element: <RouteGuard level={2}><ClientProfile /></RouteGuard>
   },
   {
     path: '/cashier',
