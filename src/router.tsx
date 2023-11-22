@@ -19,6 +19,7 @@ import CashierNew from './pages/CashierNew.tsx';
 import SellerDashboard from './pages/SellerDashboard.tsx';
 import ClientDashboard from './pages/ClientDashboard.tsx';
 import ClientBalance from './pages/ClientArea/ClientBalance.tsx';
+import ClientExtract from './pages/ClientArea/ClientExtract.tsx';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: '/client/balance',
     element: <RouteGuard level={2}><ClientBalance /></RouteGuard>
+  },
+  {
+    path: '/client/extract',
+    element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ClientExtract /></LocalizationProvider></RouteGuard>
   },
   {
     path: '/cashier',

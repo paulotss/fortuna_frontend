@@ -26,7 +26,7 @@ function ClientHeader() {
           Saldo
         </Link>
         <Link
-          to='/client/home'
+          to='/client/extract'
           className='menuButtonInactive hover:menuButtonActive'
         >
           Extrato
