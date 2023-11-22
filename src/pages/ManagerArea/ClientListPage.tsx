@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "../http";
-import Header from "../components/Header";
-import IClient from "../interfaces/IClient";
+import axios from "../../http";
+import IClient from "../../interfaces/IClient";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Link } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 
 function ClientListPage () {
   const [clients, setClients] = useState<IClient[]>()
@@ -23,7 +23,7 @@ function ClientListPage () {
 
   return (
     <>
-      <Header/>
+      <ManagerHeader/>
       <section className="p-5">
         <article className="flex justify-between mb-3 items-center">
           <h1 className="font-bold text-xl w-fit">Clientes</h1>

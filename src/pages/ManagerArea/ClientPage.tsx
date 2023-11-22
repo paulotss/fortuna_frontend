@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "../http"
-import Header from "../components/Header";
-import IClient from "../interfaces/IClient";
+import axios from "../../http"
+import IClient from "../../interfaces/IClient";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import InputEdit from "../components/InputEdit";
-import SelectBranchLevelEdit from "../components/SelectBranchLevelEdit";
+import InputEdit from "../../components/InputEdit";
+import SelectBranchLevelEdit from "../../components/SelectBranchLevelEdit";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
 import { Dialog } from "@mui/material";
+import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 
 interface IAccess {
   isSeller?: boolean;
@@ -93,7 +93,7 @@ function ClientPage() {
 
   return (
     <>
-      <Header/>
+      <ManagerHeader/>
       {
         isLoading
           ? <p>Loading...</p>

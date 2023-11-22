@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import IClient from "../interfaces/IClient";
-import Header from "../components/Header";
-import Checkout from "../components/Cashier/Checkout";
-import ClientSelect from "../components/Cashier/ClientSelect";
-import ICashier from "../interfaces/ICashier";
-import axios from "../http"
-import ReportCashier from "../components/Cashier/ReportCashier";
-import CashierTitleEdit from "../components/CashierTitleEdit";
+import IClient from "../../interfaces/IClient";
+import Checkout from "../../components/Cashier/Checkout";
+import ClientSelect from "../../components/Cashier/ClientSelect";
+import ICashier from "../../interfaces/ICashier";
+import axios from "../../http"
+import ReportCashier from "../../components/Cashier/ReportCashier";
+import CashierTitleEdit from "../../components/CashierTitleEdit";
+import SellerHeader from "../../components/SellerArea/SellerHeader";
 
 function CashierPage() {
   const [client, setClient] = useState<IClient | null>(null);
@@ -36,7 +36,7 @@ function CashierPage() {
 
   return (
     <>
-      <Header/>
+      <SellerHeader/>
       <CashierTitleEdit payload={cashier.title} cashierId={cashier.id} />
       {
         client

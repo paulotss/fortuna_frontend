@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import axios from '../http';
-import ICashier from '../interfaces/ICashier';
-import Header from '../components/Header';
-import SectionLink from '../components/SectionLink';
+import axios from '../../http';
+import ICashier from '../../interfaces/ICashier';
+import SectionLink from '../../components/SectionLink';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import SellerHeader from '../../components/SellerArea/SellerHeader';
 
 function CashierListPage() {
   const [cashiers, setCashiers] = useState<ICashier[]>()
@@ -22,7 +22,7 @@ function CashierListPage() {
 
   return (
     <>
-      <Header/>
+      <SellerHeader/>
       <section className='ml-20 mt-4'>
         <h1 className='mb-2 text-lg font-bold'>Caixas</h1>
         <div className='flex flex-wrap'>

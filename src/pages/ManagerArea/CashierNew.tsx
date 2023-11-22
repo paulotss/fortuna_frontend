@@ -1,8 +1,7 @@
-import Header from '../components/Header';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from '../http';
-import { useNavigate } from 'react-router-dom';
+import axios from '../../http';
+import ManagerHeader from '../../components/ManagerArea/ManagerHeader';
 
 interface IFormCashier {
   title: string
@@ -13,12 +12,9 @@ const initialValues: IFormCashier = {
 }
 
 function CashierNew() {
-  const navigate = useNavigate();
-
   async function handleSubmit(values: IFormCashier) {
     try {
       await axios.post('/cashier', values);
-      navigate('/cashier');
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +22,7 @@ function CashierNew() {
 
   return (
     <>
-      <Header/>
+      <ManagerHeader/>
       <section className='p-5'>
         <Formik
           initialValues={initialValues}
