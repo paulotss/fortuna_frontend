@@ -21,6 +21,7 @@ import ClientDashboard from './pages/ClientDashboard.tsx';
 import ClientBalance from './pages/ClientArea/ClientBalance.tsx';
 import ClientExtract from './pages/ClientArea/ClientExtract.tsx';
 import ClientProfile from './pages/ClientArea/ClientProfile.tsx';
+import ClientInvoice from './pages/ClientArea/ClientInvoice.tsx';
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login/client',
-    element: <LoginPage endpoint='/client/login' title='Cliente' color='#171717' url='/client' />
+    element: <LoginPage endpoint='/client/login' title='Cliente' color='#171717' url='/' />
   },
   {
     path: '/client/balance',
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: '/client/profile',
     element: <RouteGuard level={2}><ClientProfile /></RouteGuard>
+  },
+  {
+    path: '/client/invoice/:id',
+    element: <RouteGuard level={2}><ClientInvoice /></RouteGuard>
   },
   {
     path: '/cashier',

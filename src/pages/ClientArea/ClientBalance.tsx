@@ -63,7 +63,7 @@ function ClientBalance() {
               <TableBody component='div'>
                 {
                   invoices?.map((invoice) => (
-                    <TableRow component={Link} to={`/invoice/${invoice.id}`} key={invoice.id} hover={true}>
+                    <TableRow component={Link} to={`/client/invoice/${invoice.id}`} key={invoice.id} hover={true}>
                       <TableCell component='div'>{invoice.cashier.title}</TableCell>
                       <TableCell component='div'>{invoice.seller.name}</TableCell>
                       <TableCell component='div'>
