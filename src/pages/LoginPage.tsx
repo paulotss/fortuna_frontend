@@ -6,6 +6,13 @@ import * as Yup from 'yup';
 import { CircularProgress, Snackbar, Alert } from '@mui/material';
 import logo from '../assets/logo.png'
 
+interface IProps {
+  endpoint: string;
+  title: string;
+  color: string;
+  url: string;
+}
+
 interface LoginRequest {
   code: string;
   password: string;
@@ -16,7 +23,8 @@ const LoginSchema = Yup.object({
   password: Yup.string().required("Obrigatório")
 })
 
-function LoginPage () {
+function LoginPage (props: IProps) {
+  const { endpoint, title, color, url } = props
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -24,9 +32,9 @@ function LoginPage () {
   async function handleSubmit (values: LoginRequest) {
     setIsLoading(true);
     try {
-      const result = await axios.post('/seller/login', values);
+      const result = await axios.post(endpoint, values);
       sessionStorage.setItem('auth', result.data);
-      navigate('/');
+      navigate(url);
     } catch (error) {
       setOpenAlert(true);
     }
@@ -36,7 +44,8 @@ function LoginPage () {
   return (
     <main className="flex items-center flex-col mt-5">
       <img src={logo} className='mb-5' />
-      <div className="p-10 w-96 mt-2 border bg-[#171717]">
+      <h1 className={`font-bold text-${color}`}>{ title }</h1>
+      <div className={`p-10 w-96 mt-2 border bg-[${color}]`}>
         <Formik
           initialValues={{
             code: "",

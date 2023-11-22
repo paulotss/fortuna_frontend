@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { MenuItem, Menu } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material';
@@ -44,7 +43,6 @@ function Header() {
     products: false,
     reports: false,
   })
-  const navigate = useNavigate();
 
   function handleMenuClickItem(event: React.MouseEvent<HTMLButtonElement>) {
     setOpen({
@@ -65,8 +63,8 @@ function Header() {
   }
 
   function handleClickLogout() {
-    sessionStorage.removeItem('auth')
-    navigate('/login')
+    sessionStorage.removeItem('auth');
+    window.location.reload();
   }
 
   return (

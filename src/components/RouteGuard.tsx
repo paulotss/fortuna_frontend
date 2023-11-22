@@ -7,6 +7,12 @@ type RouterGuardProps = {
   level: number
 }
 
+enum Level {
+  Manager = 0,
+  Seller = 1,
+  Client = 2,
+}
+
 function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
   const { children, level } = props;
   const [isLoading, setIsLoading] = useState(false);
@@ -15,13 +21,19 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
   useEffect(() => {
     async function verifyAuth() {
       setIsLoading(true);
-      try {
-        const { data } = await axios.post('/seller/verify', {
-          token: sessionStorage.getItem('auth')
-        });
-        if (data.payload.accessLevel > level) navigate('/login');
-      } catch (error) {
-        navigate('/login');
+      switch (level) {
+        case Level.Seller:
+          try {
+            const { data } = await axios.post('/seller/verify', {
+              token: sessionStorage.getItem('auth')
+            });
+            if (data.payload.accessLevel > level) navigate('/seller/login');
+          } catch (error) {
+            navigate('/seller/login');
+          }
+          break;
+        default:
+          navigate('/seller/login');
       }
       setIsLoading(false);
     }
