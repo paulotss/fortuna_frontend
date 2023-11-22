@@ -11,7 +11,7 @@ function ClientHeader() {
   return (
     <header className='w-full bg-amber-400 flex justify-start mb-10'>
       <div className='absolute'>
-        <Link to='/'>
+        <Link to='/client'>
           <img 
             src={logo}
             className='w-20 mt-5 ml-5 mb-2'
@@ -20,7 +20,7 @@ function ClientHeader() {
       </div>
       <nav className='self-end w-full mt-8 ml-32 flex'>
         <Link
-          to='/client/home'
+          to='/client/balance'
           className='menuButtonInactive hover:menuButtonActive'
         >
           Saldo
