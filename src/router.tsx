@@ -17,6 +17,7 @@ import ReportExpensesPage from './pages/ReportExpensesPage.tsx';
 import ReportLossesPage from './pages/ReportLossesPage.tsx';
 import CashierNew from './pages/CashierNew.tsx';
 import SellerDashboard from './pages/SellerDashboard.tsx';
+import ClientDashboard from './pages/ClientDashboard.tsx';
 
 const router = createBrowserRouter([
   {
@@ -25,8 +26,17 @@ const router = createBrowserRouter([
     
   },
   {
-    path: '/seller/login',
+    path: '/login/seller',
     element: <LoginPage endpoint='/seller/login' title='Vendedor' color='#171717' url='/seller' />
+  },
+  {
+    path: '/client',
+    element: <RouteGuard level={2}><ClientDashboard /></RouteGuard>
+    
+  },
+  {
+    path: '/login/client',
+    element: <LoginPage endpoint='/client/login' title='Cliente' color='#171717' url='/client' />
   },
   {
     path: '/cashier',

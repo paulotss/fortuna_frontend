@@ -27,13 +27,23 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
             const { data } = await axios.post('/seller/verify', {
               token: sessionStorage.getItem('auth')
             });
-            if (data.payload.accessLevel > level) navigate('/seller/login');
+            if (data.payload.accessLevel > level) navigate('/login/seller');
           } catch (error) {
-            navigate('/seller/login');
+            navigate('/login/seller');
+          }
+          break;
+        case Level.Client:
+          try {
+            const { data } = await axios.post('/client/verify', {
+              token: sessionStorage.getItem('auth')
+            });
+            if (data.payload.accessLevel > level) navigate('/login/client');
+          } catch (error) {
+            navigate('/login/client');
           }
           break;
         default:
-          navigate('/seller/login');
+          navigate('/login/client');
       }
       setIsLoading(false);
     }
