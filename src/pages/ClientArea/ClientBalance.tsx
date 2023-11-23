@@ -50,41 +50,46 @@ function ClientBalance() {
           </div>
         </article>
         <article>
-          <TableContainer>
-            <Table component='div'>
-              <TableHead component='div'>
-                <TableRow component='div'>
-                  <TableCell component='div'><span className='text-sm'>Caixa</span></TableCell>
-                  <TableCell component='div'><span className='text-sm'>Vendedor</span></TableCell>
-                  <TableCell component='div'><span className='text-sm'>Valor</span></TableCell>
-                  <TableCell component='div'><span className='text-sm'>Data</span></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody component='div'>
-                {
-                  invoices?.map((invoice) => (
-                    <TableRow component={Link} to={`/client/invoice/${invoice.id}`} key={invoice.id} hover={true}>
-                      <TableCell component='div'>{invoice.cashier.title}</TableCell>
-                      <TableCell component='div'>{invoice.seller.name}</TableCell>
-                      <TableCell component='div'>
-                        <span className='font-bold text-green-700'>
-                          {
-                            Number(invoice.value)
-                              .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
-                          }
-                        </span>
-                      </TableCell>
-                      <TableCell component='div'>
-                        {
-                          dayjs(invoice.saleDate).format('DD/MM/YYYY H:mm')
-                        }
-                      </TableCell>
-                    </TableRow>
-                  ))
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <h1 className='font-bold text-lg mb-5 border-b pb-3'>Compras recentes</h1>
+          {
+            invoices.length > 0
+              ? <TableContainer>
+                  <Table component='div'>
+                    <TableHead component='div'>
+                      <TableRow component='div'>
+                        <TableCell component='div'><span className='text-sm'>Caixa</span></TableCell>
+                        <TableCell component='div'><span className='text-sm'>Vendedor</span></TableCell>
+                        <TableCell component='div'><span className='text-sm'>Valor</span></TableCell>
+                        <TableCell component='div'><span className='text-sm'>Data</span></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody component='div'>
+                      {
+                        invoices?.map((invoice) => (
+                          <TableRow component={Link} to={`/client/invoice/${invoice.id}`} key={invoice.id} hover={true}>
+                            <TableCell component='div'>{invoice.cashier.title}</TableCell>
+                            <TableCell component='div'>{invoice.seller.name}</TableCell>
+                            <TableCell component='div'>
+                              <span className='font-bold text-green-700'>
+                                {
+                                  Number(invoice.value)
+                                    .toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+                                }
+                              </span>
+                            </TableCell>
+                            <TableCell component='div'>
+                              {
+                                dayjs(invoice.saleDate).format('DD/MM/YYYY H:mm')
+                              }
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      }
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              : <p className='text-center italic'>Nada por aqui</p>
+          }
         </article>
       </section>
     </>
