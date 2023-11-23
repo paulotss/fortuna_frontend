@@ -1,7 +1,10 @@
+import { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from '../../http';
 import ManagerHeader from '../../components/ManagerArea/ManagerHeader';
+import ICashier from '../../interfaces/ICashier';
+import { Dialog } from '@mui/material';
 
 interface IFormCashier {
   title: string
@@ -12,13 +15,30 @@ const initialValues: IFormCashier = {
 }
 
 function CashierNew() {
+  const [cashiers, setCashiers] = useState<ICashier[]>([]);
+  const [openAlert, setOpenAlert] = useState<boolean>(false);
+
   async function handleSubmit(values: IFormCashier) {
     try {
-      await axios.post('/cashier', values);
+      const {data} = await axios.post('/cashier', values);
+      setCashiers([...cashiers, data]);
+      setOpenAlert(false);
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    async function getCashiers() {
+      try {
+        const { data } = await axios.get('/cashier');
+        setCashiers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCashiers();
+  }, [])
 
   return (
     <>
@@ -47,14 +67,51 @@ function CashierNew() {
                 ) : null}
               </div>
               <button
-                type="submit"
+                type="button"
                 className="p-2 bg-green-600 rounded text-white mt-2"
+                onClick={() => { setOpenAlert(true) }}
               >
                 Cadastrar
               </button>
+              <Dialog open={openAlert} onClose={() => { setOpenAlert(false) }}>
+                <div className='p-5'>
+                  <p className='mb-5'>
+                    Tem certeza que deseja criar o caixa
+                    {' '}
+                    <span className='font-bold'>{formik.values.title}</span>
+                  </p>
+                  <button
+                    type="button"
+                    className="p-2 bg-green-600 rounded text-white mr-2 w-24"
+                    onClick={() => formik.handleSubmit()}
+                  >
+                    Sim
+                  </button>
+                  <button
+                    type="button"
+                    className="p-2 bg-red-600 rounded text-white w-24"
+                    onClick={() => { setOpenAlert(false) }}
+                  >
+                    Não
+                  </button>
+                </div>
+              </Dialog>
             </form>
           )}
         </Formik>
+        <h1 className='mt-5 font-bold text-lg'>Caixas</h1>
+        <article className='mt-2 p-5 border flex flex-wrap'>
+          {
+            cashiers.map((cashier) => (
+              <p
+                key={cashier.id}
+                className='bg-amber-600 p-2 font-bold rounded w-fit m-1'
+              >
+                {cashier.title}
+              </p>
+            ))
+          }
+        </article>
       </section>
     </>
   )
