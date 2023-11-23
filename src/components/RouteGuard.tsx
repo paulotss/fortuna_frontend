@@ -7,6 +7,12 @@ type RouterGuardProps = {
   level: number
 }
 
+enum Level {
+  Manager = 0,
+  Seller = 1,
+  Client = 2,
+}
+
 function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
   const { children, level } = props;
   const [isLoading, setIsLoading] = useState(false);
@@ -15,13 +21,39 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
   useEffect(() => {
     async function verifyAuth() {
       setIsLoading(true);
-      try {
-        const { data } = await axios.post('/seller/verify', {
-          token: sessionStorage.getItem('auth')
-        });
-        if (data.payload.accessLevel > level) navigate('/login');
-      } catch (error) {
-        navigate('/login');
+      switch (level) {
+        case Level.Seller:
+          try {
+            const { data } = await axios.post('/seller/verify', {
+              token: sessionStorage.getItem('auth')
+            });
+            if (data.payload.accessLevel !== level) navigate('/login/seller');
+          } catch (error) {
+            navigate('/login/seller');
+          }
+          break;
+        case Level.Client:
+          try {
+            const { data } = await axios.post('/client/verify', {
+              token: sessionStorage.getItem('auth')
+            });
+            if (data.payload.accessLevel !== level) navigate('/login/client');
+          } catch (error) {
+            navigate('/login/client');
+          }
+          break;
+          case Level.Manager:
+            try {
+              const { data } = await axios.post('/manager/verify', {
+                token: sessionStorage.getItem('auth')
+              });
+              if (data.payload.accessLevel !== level) navigate('/login/manager');
+            } catch (error) {
+              navigate('/login/manager');
+            }
+            break;
+        default:
+          navigate('/login/client');
       }
       setIsLoading(false);
     }

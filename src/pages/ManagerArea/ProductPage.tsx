@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "../http";
-import InputEdit from "../components/InputEdit";
-import IProductResponse from "../interfaces/IProductResponse";
-import Header from "../components/Header";
-import EditProductAmount from "../components/EditProductAmount";
+import axios from "../../http";
+import InputEdit from "../../components/InputEdit";
+import IProductResponse from "../../interfaces/IProductResponse";
+import EditProductAmount from "../../components/EditProductAmount";
 import * as Yup from 'yup';
+import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 
 function ProductPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -38,7 +38,7 @@ function ProductPage() {
 
   return (
     <>
-      <Header/>
+      <ManagerHeader/>
       {
         isLoading
           ? <p>Loading...</p>

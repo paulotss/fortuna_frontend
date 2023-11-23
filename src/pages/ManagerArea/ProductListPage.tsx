@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "../http";
-import IProductResponse from "../interfaces/IProductResponse";
+import axios from "../../http";
+import IProductResponse from "../../interfaces/IProductResponse";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Header from "../components/Header";
+import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 
 function ProductListPage() {
   const [products, setProducts] = useState<IProductResponse[]>([]);
@@ -23,7 +23,7 @@ function ProductListPage() {
 
   return (
     <>
-      <Header/>
+      <ManagerHeader/>
       <section className="p-5">
         <article className="flex justify-between mb-3 items-center">
           <h1 className="font-bold text-xl w-fit">Produtos</h1>

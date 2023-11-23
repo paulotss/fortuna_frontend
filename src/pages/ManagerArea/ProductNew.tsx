@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
 import { Formik } from "formik";
-import axios from '../http';
+import axios from '../../http';
 import * as Yup from 'yup';
+import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 
 interface IProductCreateRequest {
   title: string;
@@ -39,7 +39,7 @@ function ProductNew() {
 
   return (
     <>
-      <Header/>
+      <ManagerHeader/>
       <section className="p-5">
         <h1 className="font-bold text-lg mb-5">Novo produto</h1>
         <Formik

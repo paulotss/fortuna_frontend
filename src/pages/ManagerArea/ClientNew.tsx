@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
-import Header from "../components/Header";
-import axios from "../http";
-import IBranch from "../interfaces/IBranch";
-import ILevel from "../interfaces/ILevel";
+import axios from "../../http";
+import IBranch from "../../interfaces/IBranch";
+import ILevel from "../../interfaces/ILevel";
 import * as Yup from 'yup';
+import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 
 interface IClientCreateRequest {
   name: string;
@@ -64,7 +64,7 @@ function ClientNew () {
 
   return (
     <>
-      <Header/>
+      <ManagerHeader/>
       <section className="p-5">
         <h1 className="font-bold text-lg mb-5">Novo cliente</h1>
         <Formik

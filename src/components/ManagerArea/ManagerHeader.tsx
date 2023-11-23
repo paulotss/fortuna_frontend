@@ -3,7 +3,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import { MenuItem, Menu } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material';
-import logo from '../assets/logo.png'
+import logo from '../../assets/logo.png'
 
 const theme = createTheme({
   components: {
@@ -29,16 +29,14 @@ const theme = createTheme({
 });
 
 interface IOpenMenu {
-  cashier: boolean;
   clients: boolean;
   products: boolean;
   reports: boolean;
 }
 
-function Header() {
+function ManagerHeader() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState<IOpenMenu>({
-    cashier: false,
     clients: false,
     products: false,
     reports: false,
@@ -54,7 +52,6 @@ function Header() {
 
   function handleMenuClose() {
     setOpen({
-      cashier: false,
       clients: false,
       products: false,
       reports: false,
@@ -70,7 +67,7 @@ function Header() {
   return (
     <header className='w-full bg-amber-400 flex justify-start mb-10'>
       <div className='absolute'>
-        <Link to='/'>
+        <Link to='/manager'>
           <img 
             src={logo}
             className='w-20 mt-5 ml-5 mb-2'
@@ -78,14 +75,12 @@ function Header() {
         </Link>
       </div>
       <nav className='self-end w-full mt-8 ml-32 flex'>
-        <button
-          type='button'
-          name='cashier'
-          onClick={handleMenuClickItem}
-          className={open.cashier ? 'menuButtonActive' : 'menuButtonInactive hover:menuButtonActive'}
+        <Link
+          to='/cashier/new'
+          className='menuButtonInactive hover:menuButtonActive'
         >
           Caixa
-        </button>
+        </Link>
         <button
           type='button'
           name='clients'
@@ -112,14 +107,6 @@ function Header() {
         </button>
       </nav>
       <ThemeProvider theme={theme}>
-        <Menu
-          open={open.cashier}
-          anchorEl={anchorEl}
-          onClose={handleMenuClose}
-        >
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/cashier'}>Abrir</MenuItem>
-          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/cashier/new'}>Novo</MenuItem>
-        </Menu>
         <Menu
           open={open.clients}
           anchorEl={anchorEl}
@@ -156,4 +143,4 @@ function Header() {
   )
 }
 
-export default Header;
+export default ManagerHeader;

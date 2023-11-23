@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "../http";
-import Header from "../components/Header";
-import IInvoice from "../interfaces/IInvoice";
+import axios from "../../http";
+import IInvoice from "../../interfaces/IInvoice";
 import dayjs from "dayjs";
+import ClientHeader from "../../components/ClientArea/ClientHeader";
 
-function InvoicePage () {
+function ClientInvoice() {
   const [invoice, setInvoice] = useState<IInvoice>()
   const { id } = useParams()
 
@@ -16,9 +16,10 @@ function InvoicePage () {
     }
     getInvoice()
   }, [id])
+  
   return (
     <>
-      <Header/>
+      <ClientHeader />
       <section className="p-5">
         <h1
           className="mb-5 font-bold text-xl"
@@ -50,4 +51,4 @@ function InvoicePage () {
   )
 }
 
-export default InvoicePage;
+export default ClientInvoice;
