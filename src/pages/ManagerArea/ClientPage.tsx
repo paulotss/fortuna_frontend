@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../http"
 import IClient from "../../interfaces/IClient";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InputEdit from "../../components/InputEdit";
 import SelectBranchLevelEdit from "../../components/SelectBranchLevelEdit";
-import { Formik, FormikHelpers } from "formik";
+import { FormikHelpers } from "formik";
 import * as Yup from 'yup';
 import { Dialog } from "@mui/material";
 import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
+import BalanceChange from "../../components/BalanceChange";
+import IBalanceChangeForm from "../../interfaces/IBalanceChangeForm";
 
 interface IAccess {
   isSeller?: boolean;
@@ -55,13 +56,23 @@ function ClientPage() {
     }
   }
 
-  async function handleSubmitBalance(values: {balance: string}, actions: FormikHelpers<{balance: string}>) {
+  async function handleSubmitBalance(values: IBalanceChangeForm, actions: FormikHelpers<IBalanceChangeForm>) {
     try {
-      const newBalance = Number(client.balance) + Number(values.balance)
+      let newBalance: number = 0;
+      if (values.action === "1") {
+        newBalance = Number(client.balance) - Number(values.balance);
+      } else {
+        newBalance = Number(client.balance) + Number(values.balance);
+      }
       await axios.put('/client', {
         itemId: Number(id),
         input: 'balance',
         value: newBalance
+      })
+      await axios.post('receipt', {
+        amount: values.action === "1" ? -Number(values.balance) : Number(values.balance),
+        clientId: Number(id),
+        methodId: Number(values.method)
       })
       setClient({
         ...client,
@@ -190,58 +201,7 @@ function ClientPage() {
                   })}
                 />
               </article>
-              <article className="w-1/2">
-                <div className="border rounded p-3 flex items-end m-3">
-                  <div className="mr-3">
-                    <p className="font-bold text-xl">Saldo</p>
-                    <p className="text-2xl mb-3 text-green-600 font-bold">
-                      {Number(client?.balance).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
-                    </p>
-                    <Formik
-                      initialValues={{ balance: "0" }}
-                      validationSchema={Yup.object({
-                        balance: Yup.string()
-                          .matches(/^[^0|\D]\d{0,9}(\.\d{1,2})?$/, "Somente números decimais com ponto: 00.00")
-                          .required("Obrigatório")
-                      })}
-                      onSubmit={handleSubmitBalance}
-                      enableReinitialize
-                    >
-                      {formik => (
-                        <>
-                          <form
-                            onSubmit={formik.handleSubmit}
-                            className="border p-3 bg-gray-100"
-                          >
-                            <input
-                              id="balance"
-                              type="text"
-                              className="border rounded mr-2 w-24 p-2"
-                              {...formik.getFieldProps('balance')}
-                            />
-                            <button
-                              type="submit"
-                              className="p-2 bg-green-600 rounded text-white"
-                            >
-                              Adicionar <span><CheckCircleIcon/></span>
-                            </button>
-                            {formik.touched.balance && formik.errors.balance ? (
-                              <div className="text-xs text-red-600">{formik.errors.balance}</div>
-                            ) : null}
-                          </form>
-                          <p className="mt-3">Total:
-                            {` `}
-                            <span className="font-bold">
-                              { (Number(formik.values.balance) + Number(client.balance))
-                                  .toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
-                            </span>
-                          </p>
-                        </>
-                      )}
-                    </Formik>
-                  </div>
-                </div>
-              </article>
+              <BalanceChange balance={client.balance} handleSubmitBalance={handleSubmitBalance} />
               <Dialog
                 open={openAlertAccess}
                 onClose={() => {setOpenAlertAccess}}
