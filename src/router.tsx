@@ -125,7 +125,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/product/:id',
-    element: <RouteGuard level={0}><ProductPage/></RouteGuard>
+    element: <RouteGuard level={0}><LocalizationProvider dateAdapter={AdapterDayjs}><ProductPage/></LocalizationProvider></RouteGuard>
   },
   {
     path: '/product/new',

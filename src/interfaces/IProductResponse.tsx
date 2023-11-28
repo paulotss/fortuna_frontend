@@ -4,4 +4,17 @@ export default interface IProductResponse {
   price: number
   amount: number
   barCode: string
+  invoices?: {
+    id: number;
+    value: number;
+    saleDate: string;
+    client: {
+      id: number;
+      name: string;
+      cellPhone: string;
+      email: string;
+      cpf: string;
+      balance: number;
+    }
+  }[]
 }
