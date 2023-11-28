@@ -10,6 +10,7 @@ import { Dialog } from "@mui/material";
 import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 import BalanceChange from "../../components/BalanceChange";
 import IBalanceChangeForm from "../../interfaces/IBalanceChangeForm";
+import ClientExtract from "../../components/ClientExtract";
 
 interface IAccess {
   isSeller?: boolean;
@@ -108,129 +109,132 @@ function ClientPage() {
       {
         isLoading
           ? <p>Loading...</p>
-          : <section className="p-5 flex flex-wrap justify-between">
-              <article className="flex flex-wrap w-1/2">
-                <div className="w-full p-3 flex">
-                  <div>
-                    <div className="text-md">Inscrição</div>
-                    <div className="font-bold ml-1 text-2xl">{client?.code}</div>
+          : <>
+              <section className="p-5 flex flex-wrap justify-between">
+                <article className="flex flex-wrap w-1/2">
+                  <div className="w-full p-3 flex">
+                    <div>
+                      <div className="text-md">Inscrição</div>
+                      <div className="font-bold ml-1 text-2xl">{client?.code}</div>
+                    </div>
+                    <div className="ml-5 flex h-fit">
+                      {
+                        access.isSeller
+                          ? <div
+                              className="mr-1 p-1 bg-green-600 text-xs text-white rounded-full"
+                            >
+                              Vendedor
+                            </div>
+                          : <button
+                              type="button"
+                              onClick={() => { handleOpenAlert('Vendedor') }}
+                              className="mr-1 p-1 bg-gray-500 text-xs text-white rounded-full"
+                            >
+                              Vendedor
+                            </button>
+                      }
+                      {
+                        access.isManager
+                          ? <div
+                              className="mr-1 p-1 bg-green-600 text-xs text-white rounded-full"
+                            >
+                              Gerente
+                            </div>
+                          : <button
+                              type="button"
+                              onClick={() => { handleOpenAlert('Gerente') }}
+                              className="mr-1 p-1 bg-gray-500 text-xs text-white rounded-full"
+                            >
+                              Gerente
+                            </button>
+                      }
+                    </div>
                   </div>
-                  <div className="ml-5 flex h-fit">
-                    {
-                      access.isSeller
-                        ? <div
-                            className="mr-1 p-1 bg-green-600 text-xs text-white rounded-full"
-                          >
-                            Vendedor
-                          </div>
-                        : <button
-                            type="button"
-                            onClick={() => { handleOpenAlert('Vendedor') }}
-                            className="mr-1 p-1 bg-gray-500 text-xs text-white rounded-full"
-                          >
-                            Vendedor
-                          </button>
-                    }
-                    {
-                      access.isManager
-                        ? <div
-                            className="mr-1 p-1 bg-green-600 text-xs text-white rounded-full"
-                          >
-                            Gerente
-                          </div>
-                        : <button
-                            type="button"
-                            onClick={() => { handleOpenAlert('Gerente') }}
-                            className="mr-1 p-1 bg-gray-500 text-xs text-white rounded-full"
-                          >
-                            Gerente
-                          </button>
-                    }
+                  <InputEdit
+                    title="Nome"
+                    valueInput={client.name}
+                    entity="name"
+                    endPoint="/client"
+                    itemId={client.id}
+                    validation={Yup.object({ generic: Yup.string().required("Obrigatório") })}
+                  />
+                  <InputEdit
+                    title="Email"
+                    valueInput={client.email}
+                    entity="email"
+                    endPoint="/client"
+                    itemId={client.id}
+                    validation={Yup.object({
+                      generic: Yup.string().email("Email inválido").required("Obrigatório")
+                    })}
+                  />
+                  <InputEdit
+                    title="Telefone"
+                    valueInput={client.cellPhone}
+                    entity="cellPhone"
+                    endPoint="/client"
+                    itemId={client.id}
+                    validation={Yup.object({
+                      generic: Yup.string().min(10, "Número com DDD").max(13, "Número com DDD").matches(/^[0-9]+$/, "Somente números").required("Obrigatório")
+                    })}
+                  />
+                  <SelectBranchLevelEdit
+                    title="Filial"
+                    payload={client.branch}
+                    entity="branchId"
+                    itemId={client.id}
+                    endPoint="/branch"
+                  />
+                  <SelectBranchLevelEdit
+                    title="Nível"
+                    payload={client.level}
+                    entity="levelId"
+                    itemId={client.id}
+                    endPoint="/level"
+                  />
+                  <InputEdit
+                    title="CPF"
+                    valueInput={client.cpf}
+                    entity="cpf"
+                    endPoint="/client"
+                    itemId={client.id}
+                    validation={Yup.object({
+                      generic: Yup.string().max(11, "CPF inválido").matches(/(\d{3})(\d{3})(\d{3})(\d{2})/, "CPF inválido").required("Obrigatório")
+                    })}
+                  />
+                </article>
+                <BalanceChange balance={client.balance} handleSubmitBalance={handleSubmitBalance} />
+                <Dialog
+                  open={openAlertAccess}
+                  onClose={() => {setOpenAlertAccess}}
+                >
+                  <div className='p-5'>
+                    <p className='mb-5'>
+                      Tem certeza que quer dar acesso de
+                      <span className='font-bold'> {access.message}</span> para
+                      <span className='font-bold'> {client.name}</span>?
+                    </p>
+                    <div>
+                      <button
+                        type='button'
+                        onClick={handleSubmitAccess}
+                        className='p-2 bg-green-600 mr-2'
+                      >
+                        Confirmar
+                      </button>
+                      <button
+                        type='button'
+                        onClick={() => setOpenAlertAccess(false)}
+                        className='p-2 bg-red-600'
+                      >
+                        Cancelar
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <InputEdit
-                  title="Nome"
-                  valueInput={client.name}
-                  entity="name"
-                  endPoint="/client"
-                  itemId={client.id}
-                  validation={Yup.object({ generic: Yup.string().required("Obrigatório") })}
-                />
-                <InputEdit
-                  title="Email"
-                  valueInput={client.email}
-                  entity="email"
-                  endPoint="/client"
-                  itemId={client.id}
-                  validation={Yup.object({
-                    generic: Yup.string().email("Email inválido").required("Obrigatório")
-                  })}
-                />
-                <InputEdit
-                  title="Telefone"
-                  valueInput={client.cellPhone}
-                  entity="cellPhone"
-                  endPoint="/client"
-                  itemId={client.id}
-                  validation={Yup.object({
-                    generic: Yup.string().min(10, "Número com DDD").max(13, "Número com DDD").matches(/^[0-9]+$/, "Somente números").required("Obrigatório")
-                  })}
-                />
-                <SelectBranchLevelEdit
-                  title="Filial"
-                  payload={client.branch}
-                  entity="branchId"
-                  itemId={client.id}
-                  endPoint="/branch"
-                />
-                <SelectBranchLevelEdit
-                  title="Nível"
-                  payload={client.level}
-                  entity="levelId"
-                  itemId={client.id}
-                  endPoint="/level"
-                />
-                <InputEdit
-                  title="CPF"
-                  valueInput={client.cpf}
-                  entity="cpf"
-                  endPoint="/client"
-                  itemId={client.id}
-                  validation={Yup.object({
-                    generic: Yup.string().max(11, "CPF inválido").matches(/(\d{3})(\d{3})(\d{3})(\d{2})/, "CPF inválido").required("Obrigatório")
-                  })}
-                />
-              </article>
-              <BalanceChange balance={client.balance} handleSubmitBalance={handleSubmitBalance} />
-              <Dialog
-                open={openAlertAccess}
-                onClose={() => {setOpenAlertAccess}}
-              >
-                <div className='p-5'>
-                  <p className='mb-5'>
-                    Tem certeza que quer dar acesso de
-                    <span className='font-bold'> {access.message}</span> para
-                    <span className='font-bold'> {client.name}</span>?
-                  </p>
-                  <div>
-                    <button
-                      type='button'
-                      onClick={handleSubmitAccess}
-                      className='p-2 bg-green-600 mr-2'
-                    >
-                      Confirmar
-                    </button>
-                    <button
-                      type='button'
-                      onClick={() => setOpenAlertAccess(false)}
-                      className='p-2 bg-red-600'
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </div>
-              </Dialog>
-            </section>
+                </Dialog>
+              </section>
+              <ClientExtract clientId={client.id} clientName={client.name} route='/manager/invoice/' />
+            </>
       }
     </>
   )

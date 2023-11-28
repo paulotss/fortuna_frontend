@@ -19,7 +19,7 @@ import CashierNew from './pages/ManagerArea/CashierNew.tsx';
 import SellerDashboard from './pages/SellerDashboard.tsx';
 import ClientDashboard from './pages/ClientDashboard.tsx';
 import ClientBalance from './pages/ClientArea/ClientBalance.tsx';
-import ClientExtract from './pages/ClientArea/ClientExtract.tsx';
+import ClientExtractPage from './pages/ClientArea/ClientExtractPage.tsx';
 import ClientProfile from './pages/ClientArea/ClientProfile.tsx';
 import ClientInvoice from './pages/ClientArea/ClientInvoice.tsx';
 import ManagerInvoicePage from './pages/ManagerArea/ManagerInvoicePage.tsx';
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/client/extract',
-    element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ClientExtract /></LocalizationProvider></RouteGuard>
+    element: <RouteGuard level={2}><LocalizationProvider dateAdapter={AdapterDayjs}><ClientExtractPage /></LocalizationProvider></RouteGuard>
   },
   {
     path: '/client/profile',
@@ -113,7 +113,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/client/:id',
-    element: <RouteGuard level={0}><ClientPage/></RouteGuard>
+    element: <RouteGuard level={0}><LocalizationProvider dateAdapter={AdapterDayjs}><ClientPage/></LocalizationProvider></RouteGuard>
   },
   {
     path: '/client/new',
