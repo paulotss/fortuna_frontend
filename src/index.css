@@ -16,12 +16,4 @@
   .menuButtonActive {
     @apply p-2 mr-1 w-32 bg-neutral-900 text-amber-400 rounded-tr-lg text-left
   }
-
-  .menuCashierInactive {
-    @apply p-2 m-1 bg-amber-600 text-neutral-900 font-bold rounded w-fit 
-  }
-
-  .menuCashierActive {
-    @apply p-2 m-1 bg-neutral-900 text-amber-600 font-bold rounded w-fit 
-  }
 }

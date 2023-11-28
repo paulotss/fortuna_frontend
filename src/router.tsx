@@ -24,6 +24,7 @@ import ClientProfile from './pages/ClientArea/ClientProfile.tsx';
 import ClientInvoice from './pages/ClientArea/ClientInvoice.tsx';
 import ManagerInvoicePage from './pages/ManagerArea/ManagerInvoicePage.tsx';
 import ManagerDashboard from './pages/ManagerDashboard.tsx';
+import ReportReceiptsPage from './pages/ManagerArea/ReportReceiptsPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -84,7 +85,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/cashier/new',
-    element: <RouteGuard level={0}><LocalizationProvider dateAdapter={AdapterDayjs}><CashierNew/></LocalizationProvider></RouteGuard>
+    element: <RouteGuard level={0}><CashierNew/></RouteGuard>
   },
   {
     path: '/reports',
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
   {
     path: '/reports/losses',
     element: <RouteGuard level={0}><LocalizationProvider dateAdapter={AdapterDayjs}><ReportLossesPage/></LocalizationProvider></RouteGuard>
+  },
+  {
+    path: '/reports/receipts',
+    element: <RouteGuard level={0}><LocalizationProvider dateAdapter={AdapterDayjs}><ReportReceiptsPage/></LocalizationProvider></RouteGuard>
   },
   {
     path: '/manager/invoice/:id',

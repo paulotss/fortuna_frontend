@@ -5,7 +5,6 @@ import axios from '../../http';
 import ManagerHeader from '../../components/ManagerArea/ManagerHeader';
 import ICashier from '../../interfaces/ICashier';
 import { Dialog } from '@mui/material';
-import ReceiptReport from '../../components/ReceiptsReport';
 
 interface IFormCashier {
   title: string
@@ -18,7 +17,6 @@ const initialValues: IFormCashier = {
 function CashierNew() {
   const [cashiers, setCashiers] = useState<ICashier[]>([]);
   const [openAlert, setOpenAlert] = useState<boolean>(false);
-  const [cashierId, setCashierId] = useState<number | null>(null);
 
   async function handleSubmit(values: IFormCashier) {
     try {
@@ -105,18 +103,15 @@ function CashierNew() {
         <article className='mt-2 p-5 border flex flex-wrap'>
           {
             cashiers.map((cashier) => (
-              <button
-                type='button'
+              <p
                 key={cashier.id}
-                className={cashier.id === cashierId ? `menuCashierActive` : `menuCashierInactive`}
-                onClick={() => { setCashierId(cashier.id) }}
+                className='p-2 m-1 bg-amber-600 text-neutral-900 font-bold rounded w-fit '
               >
                 {cashier.title}
-              </button>
+              </p>
             ))
           }
         </article>
-        {cashierId && <ReceiptReport cashierId={cashierId} />}
       </section>
     </>
   )
