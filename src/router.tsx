@@ -84,7 +84,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/cashier/new',
-    element: <RouteGuard level={0}><CashierNew/></RouteGuard>
+    element: <RouteGuard level={0}><LocalizationProvider dateAdapter={AdapterDayjs}><CashierNew/></LocalizationProvider></RouteGuard>
   },
   {
     path: '/reports',
@@ -125,7 +125,7 @@ const router = createBrowserRouter([
   {
     path: '/product/new',
     element: <RouteGuard level={0}><ProductNew /></RouteGuard>
-  }
+  },
 ]);
 
 export default router;

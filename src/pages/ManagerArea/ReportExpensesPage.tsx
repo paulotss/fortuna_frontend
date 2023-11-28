@@ -51,7 +51,7 @@ function ReportExpensesPage() {
             <h1 className='mb-3 font-bold text-base'>Filtros</h1>
             <div className='mb-3'>
               <DatePicker
-                label="Fim"
+                label="Início"
                 format="DD/MM/YYYY"
                 value={period.startDate}
                 onChange={(value) => handleChangePeriod(value, 'startDate')}

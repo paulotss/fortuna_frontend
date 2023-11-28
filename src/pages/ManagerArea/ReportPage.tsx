@@ -89,7 +89,7 @@ function ReportPage() {
             </div>
             <div className='mb-3'>
               <DatePicker
-                label="Fim"
+                label="Início"
                 format="DD/MM/YYYY"
                 value={period.startDate}
                 onChange={(value) => handleChangePeriod(value, 'startDate')}
