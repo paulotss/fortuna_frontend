@@ -4,10 +4,10 @@ import ILevel from "./ILevel";
 export default interface IUser {
   id?: number;
 	name: string;
-	code: string;
+	code?: string;
 	password?: string;
 	cellPhone: string;
 	email: string;
-	branch: IBranch;
-	level: ILevel;
+	branch?: IBranch;
+	level?: ILevel;
 }
