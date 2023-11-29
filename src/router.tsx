@@ -71,7 +71,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/invoice/:id',
-    element: <RouteGuard level={2}><InvoicePage/></RouteGuard>
+    element: <RouteGuard level={1}><InvoicePage/></RouteGuard>
   },
   {
     path: '/manager',

@@ -134,7 +134,7 @@ function ProductPage() {
                 {
                   invoices && invoices?.length > 0
                   ? <TableContainer>
-                      <Table component='div'>
+                      <Table stickyHeader component='div'>
                         <TableHead component='div'>
                           <TableRow component='div'>
                             <TableCell component='div'><span className='text-sm'>Cliente</span></TableCell>
@@ -173,7 +173,6 @@ function ProductPage() {
               </article>
             </section>
       }
-      
     </>
   )
 }
