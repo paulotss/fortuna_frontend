@@ -6,6 +6,9 @@ import IBranch from "../../interfaces/IBranch";
 import ILevel from "../../interfaces/ILevel";
 import * as Yup from 'yup';
 import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
+import { Dialog, Alert, Snackbar } from "@mui/material";
+import IClient from "../../interfaces/IClient";
+import { AxiosError } from "axios";
 
 interface IClientCreateRequest {
   name: string;
@@ -35,15 +38,25 @@ const clientSchema = Yup.object({
 function ClientNew () {
   const [branchs, setBranchs] = useState<IBranch[]>([]);
   const [levels, setLevels] = useState<ILevel[]>([]);
+  const [openAlert, setOpenAlert] = useState<boolean>(false);
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [client, setClient] = useState<IClient | null>(null);
   const navigate = useNavigate();
+
+  function handleClickContinue() {
+    setOpenAlert(false);
+    navigate('/clients');
+  }
 
   async function handleSubmit(values: IClientCreateRequest) {
     values.branchId = Number(values.branchId);
     values.levelId = Number(values.levelId);
     try {
-      await axios.post('/client', values);
-      navigate('/clients')
+      const { data } = await axios.post('/client', values);
+      setClient(data);
+      setOpenAlert(true);
     } catch (error) {
+      if ((error as AxiosError).response?.status === 409) setOpenError(true)
       console.log(error)
     }
   }
@@ -175,6 +188,27 @@ function ClientNew () {
             </form>
           )}
         </Formik>
+        <Dialog open={openAlert}>
+          <section className="p-5">
+              <h1 className="font-bold text-lg mb-2">Client cadastrado com sucesso!</h1>
+            <div className="mb-2">
+              <p><span className="italic">Inscrição:</span> <span className="font-bold">{client?.code}</span></p>
+              <p><span className="italic">Senha:</span> <span className="font-bold">{client?.password}</span></p>
+            </div>
+            <button
+              type="button"
+              className="p-2 bg-amber-400 rounded"
+              onClick={handleClickContinue}
+            >
+              Continuar
+            </button>
+          </section>
+        </Dialog>
+        <Snackbar open={openError} autoHideDuration={6000} onClose={() => { setOpenError(false) }}>
+          <Alert onClose={() => { setOpenError(false) }} severity="error" sx={{ width: '100%' }}>
+            CPF já cadastrado!
+          </Alert>
+        </Snackbar>
       </section>
     </>
   )

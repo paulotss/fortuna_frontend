@@ -25,6 +25,7 @@ import ClientInvoice from './pages/ClientArea/ClientInvoice.tsx';
 import ManagerInvoicePage from './pages/ManagerArea/ManagerInvoicePage.tsx';
 import ManagerDashboard from './pages/ManagerDashboard.tsx';
 import ReportReceiptsPage from './pages/ManagerArea/ReportReceiptsPage.tsx';
+import Error404 from './pages/Error404.tsx';
 
 const router = createBrowserRouter([
   {
@@ -45,13 +46,14 @@ const router = createBrowserRouter([
     element: <RouteGuard level={1}><LocalizationProvider dateAdapter={AdapterDayjs}><CashierPage/></LocalizationProvider></RouteGuard>
   },
   {
-    path: '/',
+    path: '/client',
     element: <RouteGuard level={2}><ClientDashboard /></RouteGuard>
     
   },
   {
-    path: '/login/client',
-    element: <LoginPage endpoint='/client/login' title='Cliente' url='/' />
+    path: '/',
+    element: <LoginPage endpoint='/client/login' title='Cliente' url='/client' />,
+    errorElement: <Error404 />
   },
   {
     path: '/client/balance',
