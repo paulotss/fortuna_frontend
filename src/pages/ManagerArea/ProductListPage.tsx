@@ -10,7 +10,7 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 function ProductListPage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const [products, setProducts] = useState<IProductResponse[]>([]);
 
   function handleChangePage(
