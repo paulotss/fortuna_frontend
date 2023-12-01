@@ -34,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login/seller',
-    element: <LoginPage endpoint='/seller/login' title='Vendedor' color='#171717' url='/seller' />
+    element: <LoginPage endpoint='/seller/login' title='Vendedor' url='/seller' />
   },
   {
     path: '/cashier',
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login/client',
-    element: <LoginPage endpoint='/client/login' title='Cliente' color='#171717' url='/' />
+    element: <LoginPage endpoint='/client/login' title='Cliente' url='/' />
   },
   {
     path: '/client/balance',
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login/manager',
-    element: <LoginPage endpoint='/manager/login' title='Gerente' color='#171717' url='/manager' />
+    element: <LoginPage endpoint='/manager/login' title='Gerente' url='/manager' />
     
   },
   {
