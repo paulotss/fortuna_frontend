@@ -5,6 +5,10 @@ import { DatePicker } from "@mui/x-date-pickers";
 import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 import IReceipt from "../../interfaces/IReceipt";
 import ReportReceiptCard from "../../components/ReportReceiptCard";
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import PixIcon from '@mui/icons-material/Pix';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 interface IPeriod {
   startDate: Dayjs
@@ -79,6 +83,7 @@ function ReportReceiptsPage() {
           <article className="flex flex-wrap p-5">
             <ReportReceiptCard
               title="Dinheiro"
+              icon={<LocalAtmIcon />}
               input={receipts?.rMoney.filter((receipt) => Number(receipt.amount) > 0)
                 .reduce((c, r) => (c + Number(r.amount)), 0)}
               output={receipts?.rMoney.filter((receipt) => Number(receipt.amount) < 0)
@@ -86,6 +91,7 @@ function ReportReceiptsPage() {
             />
             <ReportReceiptCard
               title="Débito"
+              icon={<AccountBalanceWalletIcon />}
               input={receipts?.rDebit.filter((receipt) => Number(receipt.amount) > 0)
                 .reduce((c, r) => (c + Number(r.amount)), 0)}
               output={receipts?.rDebit.filter((receipt) => Number(receipt.amount) < 0)
@@ -93,6 +99,7 @@ function ReportReceiptsPage() {
             />
             <ReportReceiptCard
               title="Crédito"
+              icon={<CreditCardIcon />}
               input={receipts?.rCredit.filter((receipt) => Number(receipt.amount) > 0)
                 .reduce((c, r) => (c + Number(r.amount)), 0)}
               output={receipts?.rCredit.filter((receipt) => Number(receipt.amount) < 0)
@@ -100,6 +107,7 @@ function ReportReceiptsPage() {
             />
             <ReportReceiptCard
               title="PIX"
+              icon={<PixIcon />}
               input={receipts?.rPix.filter((receipt) => Number(receipt.amount) > 0)
                 .reduce((c, r) => (c + Number(r.amount)), 0)}
               output={receipts?.rPix.filter((receipt) => Number(receipt.amount) < 0)

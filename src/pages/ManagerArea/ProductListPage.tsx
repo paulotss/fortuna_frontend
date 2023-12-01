@@ -33,7 +33,6 @@ function ProductListPage() {
 
   async function handleSubmitSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(search);
     try {
       const { data } = await axios.get(`/products/search?title=${search}`);
       setProducts(data);

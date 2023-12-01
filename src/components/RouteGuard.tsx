@@ -27,7 +27,6 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
             const { data } = await axios.post('/seller/verify', {
               token: sessionStorage.getItem('auth')
             });
-            console.log(level, data.payload.accessLevel)
             if (data.payload.accessLevel !== level) navigate('/login/seller');
           } catch (error) {
             navigate('/login/seller');
@@ -38,7 +37,6 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
             const { data } = await axios.post('/client/verify', {
               token: sessionStorage.getItem('auth')
             });
-            console.log(level, data.payload.accessLevel)
             if (data.payload.accessLevel !== level) navigate('/login/client');
           } catch (error) {
             navigate('/login/client');
@@ -49,7 +47,6 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
               const { data } = await axios.post('/manager/verify', {
                 token: sessionStorage.getItem('auth')
               });
-              console.log(level, data.payload.accessLevel)
               if (data.payload.accessLevel !== level) navigate('/login/manager');
             } catch (error) {
               navigate('/login/manager');

@@ -33,7 +33,6 @@ function ClientListPage () {
 
   async function handleSubmitSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(search);
     try {
       const { data } = await axios.get(`/clients/search?name=${search}`);
       setClients(data);
