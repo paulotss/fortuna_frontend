@@ -1,10 +1,10 @@
-import ClientHeader from "../../components/ClientArea/ClientHeader";
 import InvoiceDetails from "../../components/InvoiceDetails";
+import ManagerHeader from "../../components/ManagerArea/ManagerHeader";
 
 function ManagerInvoicePage () {
   return (
     <>
-      <ClientHeader />
+      <ManagerHeader />
       <InvoiceDetails />
     </>
   )

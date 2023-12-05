@@ -9,31 +9,33 @@ function ClientHeader() {
   }
 
   return (
-    <header className='w-full bg-amber-400 flex justify-start mb-10'>
-      <div className='absolute'>
+    <header className='w-full bg-amber-400 flex justify-between mb-10'>
+      <div className='m-2'>
         <Link to='/client'>
           <img 
             src={logo}
-            className='w-20 mt-5 ml-5 mb-2'
+            className='w-16'
           />
         </Link>
       </div>
-      <nav className='self-end w-full mt-8 ml-32 flex'>
+      <nav className='self-center flex hidden md:block'>
         <Link
           to='/client/balance'
-          className='menuButtonInactive hover:menuButtonActive'
+          className='menuDefault'
         >
           Saldo
         </Link>
         <Link
           to='/client/extract'
-          className='menuButtonInactive hover:menuButtonActive'
+          // className='menuButtonInactive hover:menuButtonActive'
+          className='menuDefault'
         >
           Extrato
         </Link>
         <Link
           to='/client/profile'
-          className='menuButtonInactive hover:menuButtonActive'
+          //className='menuButtonInactive hover:menuButtonActive'
+          className='menuDefault'
         >
           Meus dados
         </Link>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import ClientHeader from "../../components/ClientArea/ClientHeader";
+// import ClientHeader from "../../components/ClientArea/ClientHeader";
+import NewClientHeader from "../../components/ClientArea/NewClientHeader";
 import axios from "../../http"
 import IClient from "../../interfaces/IClient";
 import ClientExtract from "../../components/ClientExtract";
@@ -24,8 +25,11 @@ function ClientExtractPage() {
 
   return (
     <>
-      <ClientHeader />
-      <ClientExtract clientId={client?.id} clientName={client?.name} route="/client/invoice/" />
+      {/* <ClientHeader/> */}
+      <NewClientHeader/>
+      <div className='mt-24'>
+        <ClientExtract clientId={client?.id} clientName={client?.name} route="/client/invoice/" />
+      </div>
     </>
   )
 }

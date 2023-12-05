@@ -8,7 +8,7 @@ import ILevel from '../interfaces/ILevel';
 interface IProps {
   title: string;
   entity: string;
-  payload: { id: number; title: string };
+  payload?: { id: number; title: string };
   itemId?: number;
   endPoint: string;
 }
@@ -17,7 +17,7 @@ function SelectBranchLevelEdit(props: IProps) {
   const { title, entity, payload, itemId, endPoint } = props;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(payload)
+  const [editValue, setEditValue] = useState(payload || {id: 0, title: ""})
   const [items, setItems] = useState<IBranch[] | ILevel[]>([])
 
   function handleChange({ target }: ChangeEvent<HTMLSelectElement>) {

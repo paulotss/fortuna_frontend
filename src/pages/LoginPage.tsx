@@ -44,7 +44,7 @@ function LoginPage (props: IProps) {
     <main className="flex items-center flex-col mt-5">
       <img src={logo} className='mb-5' />
       <h1 className={`font-bold text-[#171717]`}>{ title }</h1>
-      <div className={`p-10 w-96 mt-2 border bg-[#171717]`}>
+      <div className={`p-10 max-w-96 mt-2 border bg-[#171717]`}>
         <Formik
           initialValues={{
             code: "",
