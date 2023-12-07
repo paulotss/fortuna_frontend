@@ -9,7 +9,6 @@ import logo from '../assets/logo.png'
 interface IProps {
   endpoint: string;
   title: string;
-  color: string;
   url: string;
 }
 
@@ -24,7 +23,7 @@ const LoginSchema = Yup.object({
 })
 
 function LoginPage (props: IProps) {
-  const { endpoint, title, color, url } = props
+  const { endpoint, title, url } = props
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -44,8 +43,8 @@ function LoginPage (props: IProps) {
   return (
     <main className="flex items-center flex-col mt-5">
       <img src={logo} className='mb-5' />
-      <h1 className={`font-bold text-[${color}]`}>{ title }</h1>
-      <div className={`p-10 w-96 mt-2 border bg-[${color}]`}>
+      <h1 className={`font-bold text-[#171717]`}>{ title }</h1>
+      <div className={`p-10 max-w-96 mt-2 border bg-[#171717]`}>
         <Formik
           initialValues={{
             code: "",

@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import ClientHeader from "../../components/ClientArea/ClientHeader";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
-import axios from "../../http"
-import IInvoice from "../../interfaces/IInvoice";
-import IClient from "../../interfaces/IClient";
+import axios from "../http"
+import IInvoice from "../interfaces/IInvoice";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Link } from "react-router-dom";
 
@@ -13,9 +11,16 @@ interface IPeriod {
   endDate: Dayjs
 }
 
-function ClientExtract() {
+interface IProps {
+  clientId: number | undefined;
+  clientName: string | undefined;
+  route: string;
+}
+
+function ClientExtract(props: IProps) {
+  const { clientId, clientName, route } = props;
+
   const [invoices, setInvoices] = useState<IInvoice[]>([]);
-  const [client, setClient] = useState<IClient>()
   const [period, setPeriod] = useState<IPeriod>({
     startDate: dayjs(),
     endDate: dayjs()
@@ -31,32 +36,27 @@ function ClientExtract() {
   useEffect(() => {
     async function getInvoices() {
       try {
-        const { data: { payload: { id } } } = await axios.post('/seller/verify', {
-          token: sessionStorage.getItem('auth')
-        });
-        const clientResult = await axios.get(`/client/${id}`);
-        setClient(clientResult.data);
+        const auth = sessionStorage.getItem('auth');
         const startDate = period.startDate.format('YYYY-MM-DD');
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD');
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`;
-        const invoiceResult = await axios.get(`/invoice/client/${id}?${requestQuery}`);
+        const invoiceResult = await axios.get(`/invoice/client/${clientId}?${requestQuery}`,
+        { headers: { 'authorization': auth } });
         setInvoices(invoiceResult.data);
       } catch (error) {
         console.log(error);
       }
     }
     getInvoices();
-  }, [period]);
+  }, [period, clientId]);
 
   return (
-    <>
-      <ClientHeader />
       <section className='p-5'>
-        <div className="text-center mb-5">
+        <div className="mb-5">
           <h1 className="text-lg font-bold">Extrato</h1>
-          <p>{ client?.name }</p>
+          <p>{ clientName }</p>
         </div>
-        <div className="flex justify-center mb-5">
+        <div className="flex mb-5">
           <div className='mr-3'>
             <DatePicker
               label="Início"
@@ -90,7 +90,7 @@ function ClientExtract() {
                     <TableBody component='div'>
                       {
                         invoices?.map((invoice) => (
-                          <TableRow component={Link} to={`/client/invoice/${invoice.id}`} key={invoice.id} hover={true}>
+                          <TableRow component={Link} to={route + invoice.id} key={invoice.id} hover={true}>
                             <TableCell component='div'>{invoice.cashier.title}</TableCell>
                             <TableCell component='div'>{invoice.seller.name}</TableCell>
                             <TableCell component='div'>
@@ -113,11 +113,10 @@ function ClientExtract() {
                   </Table>
                 </TableContainer>
               </div>
-            : <p className="text-center italic">Nada por aqui</p>
+            : <p className="italic">Nada por aqui</p>
         }
         
       </section>
-    </>
   )
 }
 

@@ -220,7 +220,7 @@ function Checkout(props: IProps) {
             <button
               type="button"
               className='p-2 bg-green-600 rounded disabled:bg-gray-400'
-              disabled={getTotalPrice() > props.client.balance}
+              disabled={getTotalPrice() > props.client.balance || getTotalPrice() === 0}
               onClick={handleSubmit}
             >
               Finalizar

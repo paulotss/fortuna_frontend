@@ -105,7 +105,7 @@ function CashierNew() {
             cashiers.map((cashier) => (
               <p
                 key={cashier.id}
-                className='bg-amber-600 p-2 font-bold rounded w-fit m-1'
+                className='p-2 m-1 bg-amber-600 text-neutral-900 font-bold rounded w-fit '
               >
                 {cashier.title}
               </p>

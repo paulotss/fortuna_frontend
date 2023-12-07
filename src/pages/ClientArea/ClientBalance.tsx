@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import axios from '../../http';
 import IInvoice from '../../interfaces/IInvoice';
-import ClientHeader from '../../components/ClientArea/ClientHeader';
+// import ClientHeader from '../../components/ClientArea/ClientHeader';
+import NewClientHeader from '../../components/ClientArea/NewClientHeader';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import IClient from '../../interfaces/IClient';
 import { Link } from 'react-router-dom';
@@ -33,8 +34,9 @@ function ClientBalance() {
 
   return (
     <>
-      <ClientHeader />
-      <section className='p-5'>
+      {/* <ClientHeader/> */}
+      <NewClientHeader/>
+      <section className='p-5 mt-24'>
         <article className='flex justify-between mb-5'>
           <div>
             <p className='text-xl font-bold'>{ client?.name }</p>

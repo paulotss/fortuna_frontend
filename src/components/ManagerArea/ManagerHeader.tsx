@@ -128,6 +128,7 @@ function ManagerHeader() {
           anchorEl={anchorEl}
           onClose={handleMenuClose}
         >
+          <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/receipts'}>Caixa</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports'}>Vendas</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/expenses'}>Compras</MenuItem>
           <MenuItem className='w-32' onClick={handleMenuClose} component={Link} to={'/reports/losses'}>Perdas</MenuItem>

@@ -37,9 +37,9 @@ function RouteGuard(props: PropsWithChildren<RouterGuardProps>) {
             const { data } = await axios.post('/client/verify', {
               token: sessionStorage.getItem('auth')
             });
-            if (data.payload.accessLevel !== level) navigate('/login/client');
+            if (data.payload.accessLevel !== level) navigate('/');
           } catch (error) {
-            navigate('/login/client');
+            navigate('/');
           }
           break;
           case Level.Manager:

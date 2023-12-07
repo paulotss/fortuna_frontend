@@ -27,11 +27,12 @@ const InputEdit = (props: IProps) => {
 
   const handleSubmit = async (values: IFormValues) => {
     try {
+      const auth = sessionStorage.getItem('auth');
       await axios.put(endPoint, {
         itemId,
         input: entity,
         value: values.generic
-      });
+      }, { headers: { 'authorization': auth } });
       setEditValue(values.generic);
       setIsEditing(false);
     } catch (error) {

@@ -10,10 +10,14 @@
 
 @layer components {
   .menuButtonInactive {
-    @apply p-2 mr-1 w-32 bg-neutral-400 text-neutral-900 rounded-tr-lg text-left
+    @apply p-2 mr-1 w-32 text-neutral-900 text-left bg-neutral-400 rounded-tr
   }
 
   .menuButtonActive {
-    @apply p-2 mr-1 w-32 bg-neutral-900 text-amber-400 rounded-tr-lg text-left
+    @apply p-2 mr-1 w-32 bg-neutral-900 text-amber-400 text-left rounded-tr
+  }
+
+  .menuDefault {
+    @apply p-2 mr-1 w-32 bg-neutral-900 text-amber-400 text-center text-xs rounded
   }
 }
