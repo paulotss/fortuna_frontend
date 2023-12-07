@@ -59,6 +59,7 @@ function ClientPage() {
 
   async function handleSubmitBalance(values: IBalanceChangeForm, actions: FormikHelpers<IBalanceChangeForm>) {
     try {
+      const auth = sessionStorage.getItem('auth');
       let newBalance: number = 0;
       if (values.action === "1") {
         newBalance = Number(client.balance) - Number(values.balance);
@@ -69,7 +70,7 @@ function ClientPage() {
         itemId: Number(id),
         input: 'balance',
         value: newBalance
-      })
+      }, { headers: { 'authorization': auth } });
       await axios.post('receipt', {
         amount: values.action === "1" ? -Number(values.balance) : Number(values.balance),
         clientId: Number(id),

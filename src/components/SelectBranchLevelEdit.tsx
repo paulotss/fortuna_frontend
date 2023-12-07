@@ -40,11 +40,12 @@ function SelectBranchLevelEdit(props: IProps) {
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     try {
+      const auth = sessionStorage.getItem('auth');
       await axios.put('/client', {
         itemId,
         input: entity,
         value: editValue.id
-      });
+      }, { headers: { 'authorization': auth } });
       setIsEditing(false)
     } catch (error) {
       console.log(error);
