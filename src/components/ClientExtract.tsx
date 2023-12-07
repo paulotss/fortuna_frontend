@@ -36,10 +36,12 @@ function ClientExtract(props: IProps) {
   useEffect(() => {
     async function getInvoices() {
       try {
+        const auth = sessionStorage.getItem('auth');
         const startDate = period.startDate.format('YYYY-MM-DD');
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD');
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`;
-        const invoiceResult = await axios.get(`/invoice/client/${clientId}?${requestQuery}`);
+        const invoiceResult = await axios.get(`/invoice/client/${clientId}?${requestQuery}`,
+        { headers: { 'authorization': auth } });
         setInvoices(invoiceResult.data);
       } catch (error) {
         console.log(error);

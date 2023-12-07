@@ -75,7 +75,7 @@ function ClientPage() {
         amount: values.action === "1" ? -Number(values.balance) : Number(values.balance),
         clientId: Number(id),
         methodId: Number(values.method)
-      })
+      }, { headers: { 'authorization': auth } })
       setClient({
         ...client,
         balance: newBalance
