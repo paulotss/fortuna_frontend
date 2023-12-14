@@ -149,6 +149,28 @@ function Checkout(props: IProps) {
     }
   }
 
+  async function handleSubmitBarcodeSearch(value: string) {
+    try {
+      const { data } = await axios.get(`/product/barcode/${value}`);
+      const resultProduct: IProductCheckout = {
+        id: data.id,
+        title: data.title,
+        price: data.price,
+        amount: data.amount,
+        amountInput: 0,
+      }
+      const verify = products.find((p) => p.id === data.id)
+      if (verify) {
+        verify.amountCheckout = verify.amountCheckout ? verify.amountCheckout + 1 : 1
+        setProducts([...products.filter((p) => p.id !== verify.id), verify])
+      } else {
+        setProducts([...products, resultProduct]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function getTotalPrice() {
     const total = products.reduce((acc, product) => {
       if (product.amountCheckout) {
@@ -162,7 +184,7 @@ function Checkout(props: IProps) {
   return (
       <section className='p-5'>
         <ClientInfo client={props.client} totalCheckout={getTotalPrice()} />
-        <BarCodeInput />
+        <BarCodeInput sendResult={handleSubmitBarcodeSearch} />
         <div className='flex justify-between border-b pb-3 mt-3'>
           <h1 className='w-fit text-lg'>Itens</h1>
           <button

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import NewClientHeader from "../../components/ClientArea/NewClientHeader";
 import IClient from "../../interfaces/IClient";
 import axios from "../../http";
+import ReactBarcode from "react-jsbarcode";
 
 function ClientProfile() {
   const [client, setClient] = useState<IClient>();
@@ -35,6 +36,9 @@ function ClientProfile() {
           <p>Filial: <span className="font-bold">{ client?.branch?.title }</span></p>
           <p>Condição: <span className="font-bold">{ client?.level?.title }</span></p>
         </article>
+        {
+          client && <ReactBarcode value={client.cpf} />
+        }
       </section>
     </>
   )
