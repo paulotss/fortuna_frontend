@@ -11,6 +11,7 @@ import { RemoveCircle } from "@mui/icons-material";
 import IInvoiceRequest from "../../interfaces/IInvoiceRequest";
 import ICashier from "../../interfaces/ICashier";
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import BarCodeInput from "./BarCodeInput";
 
 interface IProps {
   client: IClient;
@@ -161,8 +162,9 @@ function Checkout(props: IProps) {
   return (
       <section className='p-5'>
         <ClientInfo client={props.client} totalCheckout={getTotalPrice()} />
-        <div className='flex justify-between border-b pb-3'>
-          <h1 className='w-fit text-lg'>Items</h1>
+        <BarCodeInput />
+        <div className='flex justify-between border-b pb-3 mt-3'>
+          <h1 className='w-fit text-lg'>Itens</h1>
           <button
             type='button'
             className='p-2 bg-green-600 rounded'

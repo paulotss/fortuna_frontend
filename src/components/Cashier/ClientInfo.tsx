@@ -9,7 +9,7 @@ function ClientInfo(props: IProps) {
   const { client, totalCheckout } = props;
   
   return (
-    <section className="flex justify-between mb-5">
+    <section className="flex justify-between mb-3">
       <div>Cliente: <span className="font-bold text-lg">{ client.name }</span></div>
       <div className="flex">
         <div className="mr-5">
