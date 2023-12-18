@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "../../http"
 import IClient from "../../interfaces/IClient";
 
@@ -9,10 +9,22 @@ interface IProps {
 function ClientSelect(props: IProps) {
   const { handleClickSelectClient } = props;
   const [clients, setClients] = useState<IClient[]>([]);
+  const [search, setSearch] = useState<string>("")
+
+  async function handleSubmitSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      const { data } = await axios.get(`/client/search/cpf/${search}`);
+      handleClickSelectClient(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleChangeSearch(event: ChangeEvent<HTMLInputElement>) {
     try {
       const { target } = event;
+      setSearch(target.value);
       const { data } = await axios.get(`/clients/search/?name=${target.value}`);
       setClients(data);
     } catch (error) {
@@ -24,7 +36,15 @@ function ClientSelect(props: IProps) {
     <section className="p-5">
       <div className="p-1 flex flex-col justify-center items-center">
         <h1 className="font-bold text-lg">Selecione um cliente</h1>
-        <input type="text" className="p-1 border rounded w-96" onChange={handleChangeSearch} />
+        <form onSubmit={handleSubmitSearch}>
+          <input
+            type="text"
+            value={search}
+            className="p-1 border rounded w-96"
+            onChange={handleChangeSearch}
+            autoFocus
+          />
+        </form>
       </div>
       {
         clients.length > 0 &&
