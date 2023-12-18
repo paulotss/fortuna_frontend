@@ -22,6 +22,7 @@
     "immer": "^10.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-jsbarcode": "^0.4.2",
     "react-router-dom": "^6.16.0",
     "use-immer": "^0.9.0",
     "yup": "^1.2.0"
