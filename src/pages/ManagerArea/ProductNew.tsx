@@ -28,7 +28,8 @@ function ProductNew() {
 
   async function handleSubmit(values: IProductCreateRequest) {
     try {
-      const { data } = await axios.post('/product', values);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.post('/product', values, { headers: { 'authorization': auth } });
       console.log(data);
       navigate('/products');
     } catch (error) {

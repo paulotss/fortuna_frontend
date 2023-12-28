@@ -52,7 +52,8 @@ function ClientNew () {
     values.branchId = Number(values.branchId);
     values.levelId = Number(values.levelId);
     try {
-      const { data } = await axios.post('/client', values);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.post('/client', values, { headers: { 'authorization': auth } });
       setClient(data);
       setOpenAlert(true);
     } catch (error) {
@@ -64,9 +65,10 @@ function ClientNew () {
   useEffect(() => {
     async function getBranchsAndLevels() {
       try {
-        const branchsResult = await axios.get('/branch')
+        const auth = sessionStorage.getItem('auth');
+        const branchsResult = await axios.get('/branch', { headers: { 'authorization': auth } })
         setBranchs(branchsResult.data);
-        const levelsResult = await axios.get('/level')
+        const levelsResult = await axios.get('/level', { headers: { 'authorization': auth } })
         setLevels(levelsResult.data);
       } catch (error) {
         console.log(error);

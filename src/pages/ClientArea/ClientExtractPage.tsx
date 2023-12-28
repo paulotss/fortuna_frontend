@@ -14,7 +14,8 @@ function ClientExtractPage() {
         const { data: { payload: { id } } } = await axios.post('/seller/verify', {
           token: sessionStorage.getItem('auth')
         });
-        const clientResult = await axios.get(`/client/${id}`);
+        const auth = sessionStorage.getItem('auth');
+        const clientResult = await axios.get(`/client/${id}`, { headers: { 'authorization': auth } });
         setClient(clientResult.data);
       } catch (error) {
         console.log(error);

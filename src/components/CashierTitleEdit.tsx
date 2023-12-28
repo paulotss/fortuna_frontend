@@ -25,10 +25,11 @@ function CashierTitleEdit(props: IProps) {
 
   async function handleSubmit(values: IFormCashier) {
     try {
+      const auth = sessionStorage.getItem('auth');
       await axios.put('/cashier', {
         id: cashierId,
         title: values.title
-      });
+      }, { headers: { 'authorization': auth } });
       setEditValue(values.title);
       setIsEditing(false);
     } catch (error) {

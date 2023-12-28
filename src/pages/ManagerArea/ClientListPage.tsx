@@ -34,7 +34,8 @@ function ClientListPage () {
   async function handleSubmitSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      const { data } = await axios.get(`/clients/search?name=${search}`);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.get(`/clients/search?name=${search}`, { headers: { 'authorization': auth } });
       setClients(data);
     } catch (error) {
       console.log(error);
@@ -44,7 +45,8 @@ function ClientListPage () {
   useEffect(() => {
     async function getClients() {
       try {
-        const { data } = await axios.get('/clients')
+        const auth = sessionStorage.getItem('auth');
+        const { data } = await axios.get('/clients', { headers: { 'authorization': auth } })
         setClients(data)
       } catch (error) {
         console.log(error)

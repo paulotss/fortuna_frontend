@@ -14,7 +14,8 @@ function ClientSelect(props: IProps) {
   async function handleSubmitSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      const { data } = await axios.get(`/client/search/cpf/${search}`);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.get(`/client/search/cpf/${search}`, { headers: { 'authorization': auth } });
       handleClickSelectClient(data);
     } catch (error) {
       console.log(error);
@@ -25,7 +26,8 @@ function ClientSelect(props: IProps) {
     try {
       const { target } = event;
       setSearch(target.value);
-      const { data } = await axios.get(`/clients/search/?name=${target.value}`);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.get(`/clients/search/?name=${target.value}`, { headers: { 'authorization': auth } });
       setClients(data);
     } catch (error) {
       console.log(error);

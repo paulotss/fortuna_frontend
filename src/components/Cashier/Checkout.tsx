@@ -25,17 +25,22 @@ function Checkout(props: IProps) {
 
   useEffect(() => {
     async function getAllProducts () {
-      const { data } = await axios.get('/product/recent/5');
-      const products: IProductCheckout[] = data.map((v: IProductResponse) => {
-        return {
-          id: v.id,
-          title: v.title,
-          price: v.price,
-          amount: v.amount,
-          amountInput: 0
-        }
-      })
-      setProducts(products)
+      try {
+        const auth = sessionStorage.getItem('auth');
+        const { data } = await axios.get('/product/recent/5', { headers: { 'authorization': auth } });
+        const products: IProductCheckout[] = data.map((v: IProductResponse) => {
+          return {
+            id: v.id,
+            title: v.title,
+            price: v.price,
+            amount: v.amount,
+            amountInput: 0
+          }
+        })
+        setProducts(products)
+      } catch (error) {
+        console.log(error)
+      }
     }
     getAllProducts()
   }, [])
@@ -104,6 +109,7 @@ function Checkout(props: IProps) {
 
   async function handleSubmit() {
     try {
+      const auth = sessionStorage.getItem('auth');
       const token = sessionStorage.getItem('auth')
       const { data: { payload } } = await axios.post('/seller/verify', { token })
       const productsInCheckout = products.filter((product) => product.amountCheckout)
@@ -121,7 +127,7 @@ function Checkout(props: IProps) {
             }
         })
       }
-      await axios.post('/invoice', invoiceRequest)
+      await axios.post('/invoice', invoiceRequest, { headers: { 'authorization': auth } })
       props.removeClient();
     } catch (error) {
       console.log(error)
@@ -131,7 +137,8 @@ function Checkout(props: IProps) {
   async function handleChangeSearch(event: ChangeEvent<HTMLInputElement>) {
     try {
       const { target } = event;
-      const { data } = await axios.get(`/products/search?title=${target.value}`);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.get(`/products/search?title=${target.value}`, { headers: { 'authorization': auth } });
       const allProducts: IProductCheckout[] = data.map((v: IProductResponse) => {
         return {
           id: v.id,
@@ -151,7 +158,8 @@ function Checkout(props: IProps) {
 
   async function handleSubmitBarcodeSearch(value: string) {
     try {
-      const { data } = await axios.get(`/product/barcode/${value}`);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.get(`/product/barcode/${value}`, { headers: { 'authorization': auth } });
       const resultProduct: IProductCheckout = {
         id: data.id,
         title: data.title,

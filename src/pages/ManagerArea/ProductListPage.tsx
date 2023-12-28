@@ -34,7 +34,8 @@ function ProductListPage() {
   async function handleSubmitSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      const { data } = await axios.get(`/products/search?title=${search}`);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.get(`/products/search?title=${search}`, { headers: { 'authorization': auth } });
       setProducts(data);
     } catch (error) {
       console.log(error);
@@ -44,7 +45,8 @@ function ProductListPage() {
   useEffect(() => {
     async function getProducts() {
       try {
-        const { data } = await axios.get('/products');
+        const auth = sessionStorage.getItem('auth');
+        const { data } = await axios.get('/products', { headers: { 'authorization': auth } });
         setProducts(data);
       } catch (error) {
         console.log(error);

@@ -37,7 +37,8 @@ function ReportPage() {
   useEffect(() => {
     async function getCashier() {
       try {
-        const { data } = await axios.get('/cashier')
+        const auth = sessionStorage.getItem('auth');
+        const { data } = await axios.get('/cashier', { headers: { 'authorization': auth } })
         setCashiers(data)
       } catch (error) {
         console.log(error)
@@ -52,8 +53,9 @@ function ReportPage() {
         const startDate = period.startDate.format('YYYY-MM-DD')
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD')
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
+        const auth = sessionStorage.getItem('auth');
         const { data } = await axios
-          .get(`/invoice/cashier/${cashierInput}?${requestQuery}`)
+          .get(`/invoice/cashier/${cashierInput}?${requestQuery}`, { headers: { 'authorization': auth } })
         setInvoices(data)
       } catch (error) {
         console.log(error)

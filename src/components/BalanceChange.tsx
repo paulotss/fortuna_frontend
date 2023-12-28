@@ -19,7 +19,8 @@ function BalanceChange(props: IProps) {
   useEffect(() => {
     async function getMethods() {
       try {
-        const { data } = await axios.get('/method');
+        const auth = sessionStorage.getItem('auth');
+        const { data } = await axios.get('/method', { headers: { 'authorization': auth } });
         setMethods(data);
       } catch (error) {
         console.log(error);

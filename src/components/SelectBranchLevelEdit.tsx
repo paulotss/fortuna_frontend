@@ -30,7 +30,8 @@ function SelectBranchLevelEdit(props: IProps) {
   async function handleClickEditButton() {
     setIsEditing(true);
     try {
-      const {data}  = await axios.get(endPoint)
+      const auth = sessionStorage.getItem('auth');
+      const { data }  = await axios.get(endPoint, { headers: { 'authorization': auth } })
       setItems(data)
     } catch (error) {
       console.log(error)

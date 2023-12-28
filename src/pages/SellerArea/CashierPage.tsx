@@ -25,7 +25,8 @@ function CashierPage() {
   useEffect(() => {
     async function getCashier () {
       try {
-        const { data } = await axios.get(`/cashier/${id}`);
+        const auth = sessionStorage.getItem('auth');
+        const { data } = await axios.get(`/cashier/${id}`, { headers: { 'authorization': auth } });
         setCashier(data);
       } catch (error) {
         console.log(error);

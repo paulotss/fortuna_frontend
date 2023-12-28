@@ -28,11 +28,12 @@ function ReportExpensesPage() {
   useEffect(() => {
     async function getExpenses() {
       try {
+        const auth = sessionStorage.getItem('auth');
         const startDate = period.startDate.format('YYYY-MM-DD')
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD')
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
         const { data } = await axios
-          .get(`/expense/report?${requestQuery}`)
+          .get(`/expense/report?${requestQuery}`, { headers: { 'authorization': auth } })
         setExpenses(data)
       } catch (error) {
         console.log(error)

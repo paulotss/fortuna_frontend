@@ -44,11 +44,12 @@ function ClientPage() {
 
   async function handleSubmitAccess() {
     try {
+      const auth = sessionStorage.getItem('auth');
       if(access.message === 'Vendedor') {
-        await axios.post('/seller', {userId: client.userId});
+        await axios.post('/seller', {userId: client.userId}, { headers: { 'authorization': auth } });
         setAccess((prevState) => ({...prevState, isSeller: true}));
       } else {
-        await axios.post('/manager', {userId: client.userId});
+        await axios.post('/manager', {userId: client.userId}, { headers: { 'authorization': auth } });
         setAccess((prevState) => ({...prevState, isManager: true}));
       }
       setOpenAlertAccess(false);
@@ -90,9 +91,10 @@ function ClientPage() {
     async function getClient() {
       setIsLoading(true);
       try {
-        const client = await axios.get(`/client/${id}`);
-        const seller = await axios.get(`/seller/${client.data.userId}`);
-        const manager = await axios.get(`/manager/${client.data.userId}`);
+        const auth = sessionStorage.getItem('auth');
+        const client = await axios.get(`/client/${id}`, { headers: { 'authorization': auth } });
+        const seller = await axios.get(`/seller/${client.data.userId}`, { headers: { 'authorization': auth } });
+        const manager = await axios.get(`/manager/${client.data.userId}`, { headers: { 'authorization': auth } });
         if (seller.data !== null) setAccess((prevState) => ({...prevState, isSeller: true}));
         if (manager.data !== null) setAccess((prevState) => ({...prevState, isManager: true}));
         setClient(client.data)
