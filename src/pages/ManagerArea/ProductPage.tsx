@@ -48,11 +48,13 @@ function ProductPage() {
     async function getProduct() {
       setIsLoading(true);
       try {
+        const auth = sessionStorage.getItem('auth');
         const startDate = period.startDate.format('YYYY-MM-DD')
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD')
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
-        const invoicesResult = await axios.get(`/invoice/product/${id}?${requestQuery}`);
-        const productResult = await axios.get(`/product/${id}`)
+        const invoicesResult = await axios
+          .get(`/invoice/product/${id}?${requestQuery}`, { headers: { 'authorization': auth } });
+        const productResult = await axios.get(`/product/${id}`, { headers: { 'authorization': auth } })
         setInvoices(invoicesResult.data);
         setProduct(productResult.data)
       } catch (error) {

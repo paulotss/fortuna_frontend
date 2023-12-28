@@ -13,8 +13,9 @@ function InvoiceDetails() {
   useEffect(() => {
     async function getInvoice() {
       try {
-        const invoiceResult = await axios.get(`/invoice/${id}`);
-        const productResult = await axios.get(`/product/invoice/${id}`);
+        const auth = sessionStorage.getItem('auth');
+        const invoiceResult = await axios.get(`/invoice/${id}`, { headers: { 'authorization': auth } });
+        const productResult = await axios.get(`/product/invoice/${id}`, { headers: { 'authorization': auth } });
         setInvoice(invoiceResult.data);
         setProductsInvoices(productResult.data);
       } catch (error) {

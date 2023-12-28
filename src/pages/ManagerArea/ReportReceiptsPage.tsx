@@ -39,13 +39,14 @@ function ReportReceiptsPage() {
   useEffect(() => {
     async function getReceipts() {
       try {
+        const auth = sessionStorage.getItem('auth');
         const startDate = period.startDate.format('YYYY-MM-DD');
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD');
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`;
-        const rMoney = await axios.get(`/receipt/1?${requestQuery}`);
-        const rDebit = await axios.get(`/receipt/2?${requestQuery}`);
-        const rCredit = await axios.get(`/receipt/3?${requestQuery}`);
-        const rPix = await axios.get(`/receipt/4?${requestQuery}`);
+        const rMoney = await axios.get(`/receipt/1?${requestQuery}`, { headers: { 'authorization': auth } });
+        const rDebit = await axios.get(`/receipt/2?${requestQuery}`, { headers: { 'authorization': auth } });
+        const rCredit = await axios.get(`/receipt/3?${requestQuery}`, { headers: { 'authorization': auth } });
+        const rPix = await axios.get(`/receipt/4?${requestQuery}`, { headers: { 'authorization': auth } });
         const result = {rMoney: rMoney.data, rDebit: rDebit.data, rCredit: rCredit.data, rPix: rPix.data};
         setReceipts(result);
       } catch (error) {

@@ -40,17 +40,18 @@ function EditProductAmount(props: IProps) {
   async function handleSubmitExpenses(values: IExpensesForm) {
     try {
       const newAmount = Number(amount) + Number(values.amount);
+      const auth = sessionStorage.getItem('auth');
       await axios.post('/expense', {
         amount: Number(values.amount),
         value: Number(values.value),
         launchDate: new Date(),
         productId
-      });
+      }, { headers: { 'authorization': auth } });
       await axios.put('/product', {
         itemId: productId,
         input: "amount",
         value: newAmount
-      });
+      }, { headers: { 'authorization': auth } });
       handleUpdateAmount(newAmount);
       setOpenExpense(false);
     } catch (error) {
@@ -61,17 +62,18 @@ function EditProductAmount(props: IProps) {
   async function handleSubmitLosses(values: ILossesForm) {
     try {
       const newAmount = Number(amount) - Number(values.amount);
+      const auth = sessionStorage.getItem('auth');
       await axios.post('/loss', {
         amount: Number(values.amount),
         description: values.description,
         createAt: new Date(),
         productId: productId
-      });
+      }, { headers: { 'authorization': auth } });
       await axios.put('/product', {
         itemId: productId,
         input: "amount",
         value: newAmount
-      });
+      }, { headers: { 'authorization': auth } });
       handleUpdateAmount(newAmount);
       setOpenLosses(false);
     } catch (error) {

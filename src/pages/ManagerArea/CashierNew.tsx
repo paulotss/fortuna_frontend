@@ -20,7 +20,8 @@ function CashierNew() {
 
   async function handleSubmit(values: IFormCashier) {
     try {
-      const {data} = await axios.post('/cashier', values);
+      const auth = sessionStorage.getItem('auth');
+      const { data } = await axios.post('/cashier', values, { headers: { 'authorization': auth } });
       setCashiers([...cashiers, data]);
       setOpenAlert(false);
     } catch (error) {
@@ -31,7 +32,8 @@ function CashierNew() {
   useEffect(() => {
     async function getCashiers() {
       try {
-        const { data } = await axios.get('/cashier');
+        const auth = sessionStorage.getItem('auth');
+        const { data } = await axios.get('/cashier', { headers: { 'authorization': auth } });
         setCashiers(data);
       } catch (error) {
         console.log(error);

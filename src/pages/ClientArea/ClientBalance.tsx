@@ -15,15 +15,17 @@ function ClientBalance() {
   useEffect(() => {
     async function getInvoices() {
       try {
+        const auth = sessionStorage.getItem('auth');
         const { data: { payload: { id } } } = await axios.post('/seller/verify', {
-          token: sessionStorage.getItem('auth')
+          token: auth
         });
-        const clientResult = await axios.get(`/client/${id}`);
+        const clientResult = await axios.get(`/client/${id}`, { headers: { 'authorization': auth } });
         setClient(clientResult.data);
         const startDate = dayjs().format('YYYY-MM-DD');
         const endDate = dayjs().date(dayjs().date() + 1).format('YYYY-MM-DD');
         const requestQuery = `startDate=${startDate}&endDate=${endDate}&limit=5`;
-        const invoiceResult = await axios.get(`/invoice/client/${id}?${requestQuery}`);
+        const invoiceResult = await axios
+          .get(`/invoice/client/${id}?${requestQuery}`, { headers: { 'authorization': auth } });
         setInvoices(invoiceResult.data);
       } catch (error) {
         console.log(error);

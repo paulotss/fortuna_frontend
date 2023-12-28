@@ -31,8 +31,9 @@ function ReportLossesPage() {
         const startDate = period.startDate.format('YYYY-MM-DD')
         const endDate = period.endDate.date(period.endDate.date() + 1).format('YYYY-MM-DD')
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
+        const auth = sessionStorage.getItem('auth');
         const { data } = await axios
-          .get(`/loss/report?${requestQuery}`)
+          .get(`/loss/report?${requestQuery}`, { headers: { 'authorization': auth } })
         setLosses(data)
       } catch (error) {
         console.log(error)

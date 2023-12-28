@@ -16,8 +16,9 @@ function ReportCashier () {
         const startDate = dayjs().format('YYYY-MM-DD')
         const endDate = dayjs().date(dayjs().date() + 1).format('YYYY-MM-DD')
         const requestQuery = `startDate=${startDate}&endDate=${endDate}`
+        const auth = sessionStorage.getItem('auth');
         const { data } = await axios
-          .get(`/invoice/cashier/${id}?${requestQuery}`)
+          .get(`/invoice/cashier/${id}?${requestQuery}`, { headers: { 'authorization': auth } })
         setInvoices(data)
       } catch (error) {
         console.log(error)
