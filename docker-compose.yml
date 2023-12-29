@@ -1,0 +1,15 @@
+version: '3'
+services:
+  frontend:
+    image: node
+    build: .
+    container_name: fortuna_front
+    working_dir: /app
+    command: bash
+    restart: always
+    tty: true
+    stdin_open: true
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
